@@ -48,7 +48,7 @@ export default function CosmicLoadingAnimation({
     dot.style.animation = `bounce 0.8s ease-in-out infinite`;
 
     // Start animation
-    let startTime = Date.now();
+    const startTime = Date.now();
     const animate = () => {
       const elapsed = Date.now() - startTime;
 
