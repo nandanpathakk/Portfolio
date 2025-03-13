@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 interface CosmicLoadingProps {
   onComplete: () => void;
-  duration?: number; // Total duration in milliseconds
+  duration?: number; 
 }
 
 export default function CosmicLoadingAnimation({
@@ -27,7 +27,7 @@ export default function CosmicLoadingAnimation({
     const container = containerRef.current;
     if (!dot || !container || !glow || !ring || !starsContainer) return;
 
-    // Create subtle star background
+    // star background
     for (let i = 0; i < 40; i++) {
       const star = document.createElement('div');
       star.className = 'star';
@@ -40,12 +40,11 @@ export default function CosmicLoadingAnimation({
       starsContainer.appendChild(star);
     }
 
-    // Timeline - slightly slower
     const bounceDuration = 2300; // 2.3s bounce
     const expandDuration = 1800; // 1.8s expand
     const fadeDuration = 700; // 0.7s fade
 
-    // Initial bounce animation - slightly slower
+    // Initial bounce animation
     dot.style.animation = `bounce 0.8s ease-in-out infinite`;
 
     // Start animation
@@ -53,15 +52,13 @@ export default function CosmicLoadingAnimation({
     const animate = () => {
       const elapsed = Date.now() - startTime;
 
-      // Bounce phase (0-2.3s)
       if (elapsed < bounceDuration) {
-        // Just the bouncing dot
         ring.style.opacity = '0';
       }
       // Expand phase (2.3s-4.1s)
       else if (elapsed < bounceDuration + expandDuration) {
         const expandProgress = (elapsed - bounceDuration) / expandDuration;
-        const easeOutQuart = 1 - Math.pow(1 - expandProgress, 4); // Dramatic easing
+        const easeOutQuart = 1 - Math.pow(1 - expandProgress, 4); // 
         
         if (elapsed < bounceDuration + 50) {
           dot.style.animation = "none";
@@ -87,33 +84,27 @@ export default function CosmicLoadingAnimation({
           dot.style.opacity = `${1 - Math.min(1, fadeAmount)}`;
         }
       }
-      // Fade phase (4.1s-4.8s)
+      // Fade phase 
       else if (elapsed < duration) {
-        const fadeProgress = (elapsed - (bounceDuration + expandDuration)) / fadeDuration;
-        
-        // Apply easeInOut for smoother transition
+        const fadeProgress = (elapsed - (bounceDuration + expandDuration)) / fadeDuration;        
         const smoothFade = 0.5 - 0.5 * Math.cos(fadeProgress * Math.PI);
         
         container.style.opacity = `${1 - smoothFade}`;
         glow.style.opacity = `${1 - smoothFade}`;
         ring.style.opacity = `${1 - smoothFade}`;
         
-        // Apply a subtle transition
+
         container.style.transition = 'opacity 0.2s ease';
         glow.style.transition = 'opacity 0.2s ease';
         ring.style.transition = 'opacity 0.2s ease';
       }
-      // Complete
       else {
-        // Ensure opacity is fully 0 before completing
         container.style.opacity = '0';
         glow.style.opacity = '0';
         ring.style.opacity = '0';
         
-        // Use a small timeout to ensure the fade completes visually
         setTimeout(() => {
           setIsVisible(false);
-          // Call onComplete after the component has visually disappeared
           setTimeout(() => {
             onComplete();
           }, 50);
@@ -130,7 +121,6 @@ export default function CosmicLoadingAnimation({
     
     animationRef.current = requestAnimationFrame(animate);
 
-    // Cleanup
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
@@ -138,7 +128,6 @@ export default function CosmicLoadingAnimation({
     };
   }, [onComplete, duration]);
 
-  // Only render if visible
   if (!isVisible) return null;
 
   return (
