@@ -68,7 +68,7 @@
         }, 45); // Slightly faster typing speed
 
         return () => clearInterval(typeInterval);
-    }, [textIndex]);
+    }, [textIndex, sentences]);
 
     // Handle transition to next section
     useEffect(() => {

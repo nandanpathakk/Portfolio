@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
-interface ExplorerProps {
-  onComplete?: () => void; // Optional prop for future section transitions
-}
+// interface ExplorerProps {
+//   onComplete?: () => void; 
+// }
 
-export default function Explorer({ onComplete }: ExplorerProps = {}) {
+export default function Explorer() {
   const [showConstellation, setShowConstellation] = useState(false);
   const [activeNode, setActiveNode] = useState<number | null>(null);
   const [allVisited, setAllVisited] = useState(false);
@@ -15,9 +15,9 @@ export default function Explorer({ onComplete }: ExplorerProps = {}) {
 
   // Core information
   const coreInfo = {
-    name: "John Doe",
-    title: "Full Stack Developer & UI/UX Designer",
-    location: "San Francisco, CA",
+    name: "Nandan Patahk",
+    title: "Frontend Developer",
+    location: "India",
     brief:
       "I transform complex ideas into elegant, user-focused digital experiences. With expertise in React, TypeScript, and modern design systems, I build solutions that are both technically robust and aesthetically refined.",
   };
@@ -27,7 +27,7 @@ export default function Explorer({ onComplete }: ExplorerProps = {}) {
     {
       title: "Technical Skills",
       description:
-        "React, TypeScript, Next.js, Node.js, GraphQL, AWS, Tailwind CSS, Framer Motion, MongoDB, PostgreSQL. 5+ years of experience building responsive, accessible web applications.",
+        "React, TypeScript, Next.js, Node.js, GraphQL, AWS, Tailwind CSS, Framer Motion, MongoDB, PostgreSQL. 1+ years of experience building responsive, accessible web applications.",
     },
     {
       title: "Experience Highlights",
@@ -37,7 +37,7 @@ export default function Explorer({ onComplete }: ExplorerProps = {}) {
     {
       title: "Education & Learning",
       description:
-        "B.S. in Computer Science from Stanford University. Google UX Design Professional Certificate. Always expanding my knowledge through courses in emerging technologies and design methodologies.",
+        "B.Tech in Computer Science from ITM(SLS). Always expanding my knowledge through courses in emerging technologies and design methodologies.",
     },
     {
       title: "Approach & Philosophy",
@@ -47,11 +47,10 @@ export default function Explorer({ onComplete }: ExplorerProps = {}) {
     {
       title: "Beyond Code",
       description:
-        "When I'm not coding, you'll find me hiking the California trails, experimenting with film photography, contributing to open source projects, and mentoring aspiring developers in my community.",
+        "When I'm not coding, you'll find me playing badminto, experimenting with photography, contributing to open source projects, and watching movies.",
     },
   ];
 
-  // Sound effect (optional)
   const playNodeSound = () => {
     const audio = new Audio("/sounds/node-activate.mp3");
     audio.volume = 0.2;
