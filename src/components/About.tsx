@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import Image from "next/image";
 
 // interface ExplorerProps {
 //   onComplete?: () => void; 
@@ -13,14 +14,6 @@ export default function Explorer() {
   const [allVisited, setAllVisited] = useState(false);
   const [visitedNodes, setVisitedNodes] = useState<number[]>([]);
 
-  // Core information
-  const coreInfo = {
-    name: "Nandan Patahk",
-    title: "Frontend Developer",
-    location: "India",
-    brief:
-      "I transform complex ideas into elegant, user-focused digital experiences. With expertise in React, TypeScript, and modern design systems, I build solutions that are both technically robust and aesthetically refined.",
-  };
 
   // Detailed information nodes
   const infoNodes = [
@@ -102,10 +95,6 @@ export default function Explorer() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.2 } },
   };
 
-  const infoVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { duration: 0.8, delay: 0.4 } },
-  };
 
   const nodeVariants = {
     hidden: { scale: 0, opacity: 0 },
@@ -192,21 +181,97 @@ export default function Explorer() {
       </div>
 
       {/* Core information */}
-      <div className="w-full max-w-4xl px-4 sm:px-6 mb-8 relative z-10">
-        <motion.div variants={headerVariants} initial="hidden" animate="visible" className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-emerald-300 mb-1">{coreInfo.name}</h1>
-          <h2 className="text-xl md:text-2xl text-emerald-100 mb-2">{coreInfo.title}</h2>
-          <p className="text-emerald-200/80">{coreInfo.location}</p>
-        </motion.div>
+      <section className="h-[100dvh] w-full flex flex-col items-center justify-center bg-black text-emerald-100 relative overflow-hidden z-10 px-4 sm:px-6">
+        {/* Cosmic Background */}
+        <div className="absolute inset-0 z-0">
+          {Array.from({ length: 150 }).map((_, i) => (
+            <div
+              key={`star-${i}`}
+              className="absolute rounded-full bg-white"
+              style={{
+                width: `${Math.random() * 2 + 1}px`,
+                height: `${Math.random() * 2 + 1}px`,
+                top: `${Math.random() * 100}%`,
+                left: `${Math.random() * 100}%`,
+                opacity: Math.random() * 0.7 + 0.3,
+                animation: `twinkle ${Math.random() * 5 + 2}s infinite alternate`,
+              }}
+            />
+          ))}
+          <div
+            className="absolute inset-0 opacity-20"
+            style={{
+              background:
+                "radial-gradient(circle at 50% 20%, rgba(16, 185, 129, 0.5) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.4) 0%, transparent 40%)",
+              filter: "blur(20px)",
+            }}
+          />
+        </div>
+
+        {/* Photo */}
         <motion.div
-          variants={infoVariants}
-          initial="hidden"
-          animate="visible"
-          className="bg-black/60 backdrop-blur-sm border border-emerald-500/20 rounded-lg p-5 shadow-lg mb-10"
+          className="w-40 sm:w-56 sm:h-56 md:w-72 md:h-72 overflow-hidden border-4 border-emerald-400/20 shadow-lg shadow-emerald-900/50"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
         >
-          <p className="text-lg leading-relaxed">{coreInfo.brief}</p>
+          <Image
+            src={'/images/main1.jpg'}
+            alt="Nandan Pathak"
+            className="w-full h-full object-cover filter grayscale"
+            width={500}  // Specify the width and height for better optimization
+            height={500} // Adjust based on your image dimensions
+            priority     // For faster loading if this is above the fold
+          />
         </motion.div>
-      </div>
+
+        {/* Core Information */}
+        <div className="relative z-10 text-center mt-48 sm:mt-56 md:mt-64">
+          <motion.h1
+            className="text-4xl sm:text-5xl md:text-6xl font-bold text-emerald-300 tracking-wide"
+            variants={headerVariants}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.8, delay: 1 }}
+          >
+            Nandan Pathak
+          </motion.h1>
+          <motion.h2
+            className="text-xl sm:text-2xl md:text-3xl text-emerald-200 mt-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.4 }}
+          >
+            Frontend Developer
+          </motion.h2>
+          <motion.p
+            className="text-sm sm:text-base md:text-lg text-emerald-100/80 mt-4 max-w-md mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.8 }}
+          >
+            Welcome to my world—a realm where code weaves stories, and design shapes destinies. I craft digital experiences that blend precision with wonder, inviting you to explore the unknown.
+          </motion.p>
+          <motion.p
+            className="text-xs sm:text-sm text-emerald-200/60 mt-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 2.2 }}
+          >
+            India
+          </motion.p>
+        </div>
+
+        {/* Subtle Entry Text */}
+        <motion.p
+          className="absolute bottom-16 text-sm sm:text-base text-emerald-300/70 italic"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 2.6 }}
+        >
+          Step into the story...
+        </motion.p>
+      </section>
 
       {/* Chapter title */}
       <motion.h2
@@ -271,8 +336,8 @@ export default function Explorer() {
                   activeNode === i
                     ? "active"
                     : visitedNodes.includes(i)
-                    ? "visited"
-                    : "visible"
+                      ? "visited"
+                      : "visible"
                 }
                 custom={i}
                 onClick={() => handleNodeClick(i)}
