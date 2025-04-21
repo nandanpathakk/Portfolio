@@ -1,18 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Github, Linkedin, Twitter } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 
 export default function Explorer() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
-
-  // Play a subtle sound effect
-  const playSelectSound = () => {
-    const audio = new Audio("/sounds/node-activate.mp3");
-    audio.volume = 0.2;
-    audio.play().catch((e) => console.log("Audio play failed:", e));
-  };
 
   // Scroll to next section
   const scrollToNextSection = () => {
@@ -70,7 +63,7 @@ export default function Explorer() {
             </div>
 
             <h1 className="text-4xl md:text-5xl font-light italic text-white tracking-tight mb-2">
-              Hello, I'm Nandan
+              Hello, I&apos;m Nandan
             </h1>
             {/* <p className="text-sm md:text-base text-white/70">
               — developer
@@ -85,7 +78,7 @@ export default function Explorer() {
             transition={{ duration: 0.7, delay: 0.3 }}
           >
             <p>
-              I'm a <span className="font-medium">frontend-focused full-stack developer</span> passionate about building interactive and performant web experiences.
+              I&apos;m a <span className="font-medium">frontend-focused full-stack developer</span> passionate about building interactive and performant web experiences.
             </p>
 
             <p>
@@ -93,7 +86,7 @@ export default function Explorer() {
             </p>
 
             <p>
-              Currently, I'm deepening my expertise in <span className="font-medium">React, TypeScript, and backend integrations</span> while contributing to personal projects and open source.
+              Currently, I&apos;m deepening my expertise in <span className="font-medium">React, TypeScript, and backend integrations</span> while contributing to personal projects and open source.
             </p>
 
             <p>
@@ -130,9 +123,9 @@ export default function Explorer() {
                   className="overflow-hidden"
                 >
                   <div className="mt-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-left">
-                    <h3 className="text-lg font-medium text-white mb-4">Let's connect</h3>
+                    <h3 className="text-lg font-medium text-white mb-4">Let&apos;s connect</h3>
                     <p className="text-white/80 mb-6">
-                      I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+                      I&apos;m always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
                     </p>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="bg-white/10 rounded-lg p-4">
