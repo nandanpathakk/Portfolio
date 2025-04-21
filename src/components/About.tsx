@@ -1,161 +1,36 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Github, Linkedin, Twitter } from "lucide-react";
 import Image from "next/image";
 
-// interface ExplorerProps {
-//   onComplete?: () => void; 
-// }
-
 export default function Explorer() {
-  const [showConstellation, setShowConstellation] = useState(false);
-  const [activeNode, setActiveNode] = useState<number | null>(null);
-  const [allVisited, setAllVisited] = useState(false);
-  const [visitedNodes, setVisitedNodes] = useState<number[]>([]);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
 
-
-  // Detailed information nodes
-  const infoNodes = [
-    {
-      title: "Technical Skills",
-      description:
-        "React, TypeScript, Next.js, Node.js, GraphQL, AWS, Tailwind CSS, Framer Motion, MongoDB, PostgreSQL. 1+ years of experience building responsive, accessible web applications.",
-    },
-    {
-      title: "Experience Highlights",
-      description:
-        "Lead developer at TechFusion (2022-Present). Senior frontend engineer at WebCraft Solutions (2020-2022). UI Designer at Creative Digital (2018-2020). Contributed to projects for clients including Fortune 500 companies and innovative startups.",
-    },
-    {
-      title: "Education & Learning",
-      description:
-        "B.Tech in Computer Science from ITM(SLS). Always expanding my knowledge through courses in emerging technologies and design methodologies.",
-    },
-    {
-      title: "Approach & Philosophy",
-      description:
-        "I believe great digital products arise from the intersection of technical excellence, design thinking, and empathy for users. I approach each project with curiosity and a commitment to finding the optimal solution.",
-    },
-    {
-      title: "Beyond Code",
-      description:
-        "When I'm not coding, you'll find me playing badminto, experimenting with photography, contributing to open source projects, and watching movies.",
-    },
-  ];
-
-  const playNodeSound = () => {
+  // Play a subtle sound effect
+  const playSelectSound = () => {
     const audio = new Audio("/sounds/node-activate.mp3");
     audio.volume = 0.2;
     audio.play().catch((e) => console.log("Audio play failed:", e));
   };
 
-  // Show constellation after delay
-  useEffect(() => {
-    const timer = setTimeout(() => setShowConstellation(true), 800);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Check if all nodes are visited
-  useEffect(() => {
-    if (visitedNodes.length === infoNodes.length && !allVisited) {
-      setAllVisited(true);
-    }
-  }, [visitedNodes, infoNodes.length, allVisited]);
-
-  // Handle node click
-  const handleNodeClick = (index: number) => {
-    playNodeSound();
-    setActiveNode(index === activeNode ? null : index); // Toggle off if clicked again
-    if (!visitedNodes.includes(index)) {
-      setVisitedNodes((prev) => [...prev, index]);
-    }
-  };
-
   // Scroll to next section
   const scrollToNextSection = () => {
-    const nextSection = document.getElementById("next-section"); // Replace with actual ID
+    const nextSection = document.getElementById("projects");
     if (nextSection) {
       nextSection.scrollIntoView({ behavior: "smooth" });
     }
   };
 
-  // Realistic constellation coordinates (adjusted for mobile and desktop)
-  const nodePositions = [
-    { x: 25, y: 15 }, // Top-left star
-    { x: 65, y: 25 }, // Top-right star
-    { x: 40, y: 45 }, // Middle-left star
-    { x: 75, y: 60 }, // Middle-right star
-    { x: 50, y: 80 }, // Bottom star (central anchor)
-  ];
-
-  // Animation variants
-  const headerVariants = {
-    hidden: { opacity: 0, y: -20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, delay: 0.2 } },
+  // Toggle interactive element
+  const toggleSection = (id: string) => {
+    setActiveSection(activeSection === id ? null : id);
+    // playSelectSound();
   };
-
-
-  const nodeVariants = {
-    hidden: { scale: 0, opacity: 0 },
-    visible: (i: number) => ({
-      scale: 1,
-      opacity: 1,
-      transition: { duration: 0.6, delay: 0.8 + i * 0.15, ease: "easeOut" },
-    }),
-    active: {
-      scale: 1.5,
-      opacity: 1,
-      boxShadow: "0 0 15px rgba(52, 211, 153, 0.8)",
-      transition: { duration: 0.3 },
-    },
-    visited: {
-      scale: 1.2,
-      backgroundColor: "rgb(16, 185, 129)",
-      boxShadow: "0 0 10px rgba(16, 185, 129, 0.7)",
-      transition: { duration: 0.3 },
-    },
-  };
-
-  const lineVariants = {
-    hidden: { pathLength: 0, opacity: 0 },
-    visible: (i: number) => ({
-      pathLength: 1,
-      opacity: 0.6,
-      transition: { duration: 1, delay: 1 + i * 0.15, ease: "easeInOut" },
-    }),
-  };
-
-  const infoCardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-    exit: { opacity: 0, scale: 0.95, transition: { duration: 0.3 } },
-  };
-
-  const scrollIndicatorVariants = {
-    hidden: { opacity: 0, y: -10 },
-    visible: {
-      opacity: [0, 1, 0.5],
-      y: [0, 10, 0],
-      transition: { duration: 2, repeat: Infinity, repeatType: "reverse" as const },
-    },
-  };
-
-  // Constellation connections (more natural pattern)
-  const constellationLines = [
-    { start: 0, end: 2 }, // Top-left to middle-left
-    { start: 1, end: 3 }, // Top-right to middle-right
-    { start: 2, end: 4 }, // Middle-left to bottom
-    { start: 3, end: 4 }, // Middle-right to bottom
-    { start: 0, end: 1 }, // Top-left to top-right (cross-connection)
-  ];
 
   return (
-    <section
-      id="explorer"
-      className="min-h-[100dvh] pt-12 pb-16 flex flex-col items-center justify-start bg-black text-emerald-100 relative overflow-hidden"
-    >
-      {/* Cosmic background */}
+    <section className="min-h-screen w-full bg-black text-white font-sans relative overflow-hidden flex items-center justify-center">
+      {/* Subtle star background */}
       <div className="absolute inset-0 z-0">
         {Array.from({ length: 100 }).map((_, i) => (
           <div
@@ -166,254 +41,170 @@ export default function Explorer() {
               height: `${Math.random() * 2 + 1}px`,
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
-              opacity: Math.random() * 0.7 + 0.3,
+              opacity: Math.random() * 0.5 + 0.2,
               animation: `twinkle ${Math.random() * 5 + 2}s infinite alternate`,
             }}
           />
         ))}
-        <div
-          className="absolute w-full h-full opacity-10"
-          style={{
-            background:
-              "radial-gradient(circle at 70% 30%, rgba(16, 185, 129, 0.4) 0%, transparent 40%), radial-gradient(circle at 20% 70%, rgba(6, 182, 212, 0.3) 0%, transparent 30%)",
-          }}
-        />
       </div>
 
-      {/* Core information */}
-      <section className="h-[100dvh] w-full flex flex-col items-center justify-center bg-black text-emerald-100 relative overflow-hidden z-10 px-4 sm:px-6">
-        {/* Cosmic Background */}
-        <div className="absolute inset-0 z-0">
-          {Array.from({ length: 150 }).map((_, i) => (
-            <div
-              key={`star-${i}`}
-              className="absolute rounded-full bg-white"
-              style={{
-                width: `${Math.random() * 2 + 1}px`,
-                height: `${Math.random() * 2 + 1}px`,
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                opacity: Math.random() * 0.7 + 0.3,
-                animation: `twinkle ${Math.random() * 5 + 2}s infinite alternate`,
-              }}
-            />
-          ))}
-          <div
-            className="absolute inset-0 opacity-20"
-            style={{
-              background:
-                "radial-gradient(circle at 50% 20%, rgba(16, 185, 129, 0.5) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.4) 0%, transparent 40%)",
-              filter: "blur(20px)",
-            }}
-          />
-        </div>
-
-        {/* Photo */}
-        <motion.div
-          className="w-40 sm:w-56 sm:h-56 md:w-72 md:h-72 overflow-hidden border-4 border-emerald-400/20 shadow-lg shadow-emerald-900/50"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, delay: 0.5, ease: "easeOut" }}
-        >
-          <Image
-            src={'/images/main1.jpg'}
-            alt="Nandan Pathak"
-            className="w-full h-full object-cover filter grayscale"
-            width={500}  // Specify the width and height for better optimization
-            height={500} // Adjust based on your image dimensions
-            priority     // For faster loading if this is above the fold
-          />
-        </motion.div>
-
-        {/* Core Information */}
-        <div className="relative z-10 text-center mt-48 sm:mt-56 md:mt-64">
-          <motion.h1
-            className="text-4xl sm:text-5xl md:text-6xl font-bold text-emerald-300 tracking-wide"
-            variants={headerVariants}
-            initial="hidden"
-            animate="visible"
-            transition={{ duration: 0.8, delay: 1 }}
-          >
-            Nandan Pathak
-          </motion.h1>
-          <motion.h2
-            className="text-xl sm:text-2xl md:text-3xl text-emerald-200 mt-2"
-            initial={{ opacity: 0, y: 20 }}
+      {/* Main container */}
+      <div className="max-w-5xl w-full mx-auto px-6 py-16 relative z-10 flex flex-col items-center">
+        <div className="flex flex-col items-center text-center max-w-2xl">
+          {/* Profile image and name section */}
+          <motion.div
+            className="mb-8 flex flex-col items-center"
+            initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.4 }}
+            transition={{ duration: 0.6 }}
           >
-            Frontend Developer
-          </motion.h2>
-          <motion.p
-            className="text-sm sm:text-base md:text-lg text-emerald-100/80 mt-4 max-w-md mx-auto leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.8 }}
-          >
-            Welcome to my world—a realm where code weaves stories, and design shapes destinies. I craft digital experiences that blend precision with wonder, inviting you to explore the unknown.
-          </motion.p>
-          <motion.p
-            className="text-xs sm:text-sm text-emerald-200/60 mt-2"
+            <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-white/10 mb-6">
+              <Image
+                src="/images/main1.jpg"
+                alt="Nandan"
+                className="w-full h-full object-cover"
+                width={128}
+                height={128}
+                priority
+              />
+            </div>
+
+            <h1 className="text-4xl md:text-5xl font-light italic text-white tracking-tight mb-2">
+              Hello, I'm Nandan
+            </h1>
+            {/* <p className="text-sm md:text-base text-white/70">
+              — developer
+            </p> */}
+          </motion.div>
+
+          {/* Introduction text */}
+          <motion.div
+            className="mb-12 text-base md:text-lg text-white/90 space-y-4 text-left"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 2.2 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
           >
-            India
-          </motion.p>
+            <p>
+              I'm a <span className="font-medium">frontend-focused full-stack developer</span> passionate about building interactive and performant web experiences.
+            </p>
+
+            <p>
+              I enjoy working with <span className="font-medium">modern web technologies</span> and exploring <span className="font-medium">best practices</span> in frontend development.
+            </p>
+
+            <p>
+              Currently, I'm deepening my expertise in <span className="font-medium">React, TypeScript, and backend integrations</span> while contributing to personal projects and open source.
+            </p>
+
+            <p>
+              This space is where I share my learnings and thoughts as I grow as a developer.
+            </p>
+          </motion.div>
+
+
+          {/* Interactive discovery element */}
+          <motion.div
+            className="w-full max-w-md"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
+            <button
+              onClick={() => toggleSection("discover")}
+              className={`w-full py-4 px-6 rounded-xl text-center transition-all ${activeSection === "discover"
+                  ? "bg-white/15 text-white shadow-lg shadow-white/5"
+                  : "bg-white/5 text-white/80 hover:bg-white/10"
+                }`}
+            >
+              <span className="text-base font-medium">Discover More</span>
+            </button>
+
+            {/* Expandable content */}
+            <AnimatePresence>
+              {activeSection === "discover" && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="overflow-hidden"
+                >
+                  <div className="mt-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-left">
+                    <h3 className="text-lg font-medium text-white mb-4">Let's connect</h3>
+                    <p className="text-white/80 mb-6">
+                      I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+                    </p>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="bg-white/10 rounded-lg p-4">
+                        <h4 className="font-medium mb-2">Current Focus</h4>
+                        <p className="text-sm text-white/70">Building web3 applications and exploring AI integrations</p>
+                      </div>
+                      <div className="bg-white/10 rounded-lg p-4">
+                        <h4 className="font-medium mb-2">Looking For</h4>
+                        <p className="text-sm text-white/70">Collaborative projects and innovative challenges</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+
+          {/* Social links */}
+          {/* <motion.div
+            className="mt-10 bg-white/5 backdrop-blur-sm rounded-full p-2 inline-flex items-center space-x-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.9 }}
+          >
+            <a href="#" className="p-2 text-white/70 hover:text-white transition-colors" aria-label="Home">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+            </a>
+            <a href="#" className="p-2 text-white/70 hover:text-white transition-colors" aria-label="Resume">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+            </a>
+            <a href="#" className="p-2 text-white/70 hover:text-white transition-colors" aria-label="GitHub">
+              <Github size={20} />
+            </a>
+            <a href="#" className="p-2 text-white/70 hover:text-white transition-colors" aria-label="LinkedIn">
+              <Linkedin size={20} />
+            </a>
+            <a href="#" className="p-2 text-white/70 hover:text-white transition-colors" aria-label="Twitter">
+              <Twitter size={20} />
+            </a>
+          </motion.div> */}
         </div>
 
-        {/* Subtle Entry Text */}
-        <motion.p
-          className="absolute bottom-16 text-sm sm:text-base text-emerald-300/70 italic"
+        {/* Scroll indicator */}
+        <motion.div
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center cursor-pointer"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 2.6 }}
+          animate={{
+            opacity: [0, 1, 0.5],
+            y: [0, 10, 0],
+          }}
+          transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
+          onClick={scrollToNextSection}
         >
-          Step into the story...
-        </motion.p>
-      </section>
-
-      {/* Chapter title */}
-      <motion.h2
-        className="text-2xl sm:text-3xl font-bold text-emerald-400 mb-6 relative z-10"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.6 }}
-      >
-        Chapter I: The Explorer
-      </motion.h2>
-
-      {/* Instruction text */}
-      <motion.p
-        className="text-base sm:text-lg text-center mb-8 px-4 max-w-xl relative z-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.7 }}
-      >
-        Navigate the constellation to discover more about my journey
-      </motion.p>
-
-      {/* Constellation */}
-      <div className="relative w-full max-w-4xl h-64 sm:h-80 md:h-96 mb-6 z-20 px-4">
-        {showConstellation && (
-          <>
-            <svg className="absolute inset-0 w-full h-full">
-              {constellationLines.map((line, i) => {
-                const start = nodePositions[line.start];
-                const end = nodePositions[line.end];
-                return (
-                  <motion.line
-                    key={`line-${i}`}
-                    x1={`${start.x}%`}
-                    y1={`${start.y}%`}
-                    x2={`${end.x}%`}
-                    y2={`${end.y}%`}
-                    stroke="rgba(52, 211, 153, 0.6)"
-                    strokeWidth="1.5"
-                    variants={lineVariants}
-                    initial="hidden"
-                    animate="visible"
-                    custom={i}
-                  />
-                );
-              })}
-            </svg>
-            {nodePositions.map((pos, i) => (
-              <motion.button
-                key={`node-${i}`}
-                className="absolute rounded-full bg-emerald-400 cursor-pointer hover:bg-emerald-300 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:ring-opacity-50"
-                style={{
-                  left: `${pos.x}%`,
-                  top: `${pos.y}%`,
-                  width: "24px",
-                  height: "24px",
-                  transform: "translate(-50%, -50%)",
-                  boxShadow: "0 0 10px rgba(52, 211, 153, 0.5)",
-                }}
-                variants={nodeVariants}
-                initial="hidden"
-                animate={
-                  activeNode === i
-                    ? "active"
-                    : visitedNodes.includes(i)
-                      ? "visited"
-                      : "visible"
-                }
-                custom={i}
-                onClick={() => handleNodeClick(i)}
-                aria-label={`View information about ${infoNodes[i].title}`}
-              >
-                <span className="absolute top-6 left-1/2 -translate-x-1/2 text-xs whitespace-nowrap opacity-70 pointer-events-none">
-                  {infoNodes[i].title}
-                </span>
-              </motion.button>
-            ))}
-          </>
-        )}
-        {allVisited && (
-          <motion.div
-            className="absolute inset-0 z-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 0.4, 0.2], transition: { duration: 2, times: [0, 0.5, 1] } }}
-          >
-            <div
-              className="absolute inset-0"
-              style={{
-                background: "radial-gradient(circle at center, rgba(52, 211, 153, 0.2) 0%, transparent 70%)",
-              }}
-            />
-          </motion.div>
-        )}
+          {/* <p className="text-xs text-white/50 mb-2">Projects</p> */}
+          <ChevronDown className="w-5 h-5 text-white/70" />
+        </motion.div>
       </div>
-
-      {/* Information panel */}
-      <div className="relative z-30 w-full max-w-2xl px-4 h-48 sm:h-40">
-        <AnimatePresence mode="wait">
-          {activeNode !== null ? (
-            <motion.div
-              key={`info-${activeNode}`}
-              className="bg-black/80 backdrop-blur-sm border border-emerald-500/30 rounded-lg p-5 shadow-lg shadow-emerald-900/30"
-              variants={infoCardVariants}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-            >
-              <h3 className="text-lg font-semibold text-emerald-400 mb-2">{infoNodes[activeNode].title}</h3>
-              <p className="text-emerald-100 text-sm sm:text-base">{infoNodes[activeNode].description}</p>
-            </motion.div>
-          ) : (
-            showConstellation && (
-              <motion.p
-                className="text-center text-emerald-300/80 italic p-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.5 }}
-              >
-                Select a node to reveal more information...
-              </motion.p>
-            )
-          )}
-        </AnimatePresence>
-      </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-30 cursor-pointer"
-        variants={scrollIndicatorVariants}
-        initial="hidden"
-        animate="visible"
-        onClick={scrollToNextSection}
-        whileHover={{ scale: 1.1 }}
-      >
-        <p className="text-sm text-emerald-300/80 mb-2">Continue exploring</p>
-        <ChevronDown className="w-6 h-6 text-emerald-400" />
-      </motion.div>
 
       <style jsx>{`
         @keyframes twinkle {
-          0% { opacity: 0.3; transform: scale(1); }
-          50% { opacity: 1; transform: scale(1.2); }
-          100% { opacity: 0.3; transform: scale(1); }
+          0% { opacity: 0.2; transform: scale(1); }
+          50% { opacity: 0.7; transform: scale(1.2); }
+          100% { opacity: 0.2; transform: scale(1); }
         }
       `}</style>
     </section>
