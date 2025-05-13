@@ -1,28 +1,12 @@
 "use client";
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { motion } from "framer-motion";
 import Image from "next/image";
+import "../app/globals.css"
 
 export default function Explorer() {
-  const [activeSection, setActiveSection] = useState<string | null>(null);
-
-  // Scroll to next section
-  const scrollToNextSection = () => {
-    const nextSection = document.getElementById("projects");
-    if (nextSection) {
-      nextSection.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  // Toggle interactive element
-  const toggleSection = (id: string) => {
-    setActiveSection(activeSection === id ? null : id);
-    // playSelectSound();
-  };
 
   return (
-    <section className="min-h-screen w-full bg-black text-white font-sans relative overflow-hidden flex items-center justify-center">
+    <section className="min-h-screen w-full bg-black text-white relative overflow-hidden flex items-center justify-center">
       {/* Subtle star background */}
       <div className="absolute inset-0 z-0">
         {Array.from({ length: 100 }).map((_, i) => (
@@ -102,45 +86,6 @@ export default function Explorer() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            <button
-              onClick={() => toggleSection("discover")}
-              className={`w-full py-4 px-6 rounded-xl text-center transition-all ${activeSection === "discover"
-                  ? "bg-white/15 text-white shadow-lg shadow-white/5"
-                  : "bg-white/5 text-white/80 hover:bg-white/10"
-                }`}
-            >
-              <span className="text-base font-medium">Discover More</span>
-            </button>
-
-            {/* Expandable content */}
-            <AnimatePresence>
-              {activeSection === "discover" && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.4 }}
-                  className="overflow-hidden"
-                >
-                  <div className="mt-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 text-left">
-                    <h3 className="text-lg font-medium text-white mb-4">Let&apos;s connect</h3>
-                    <p className="text-white/80 mb-6">
-                      I&apos;m always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
-                    </p>
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="bg-white/10 rounded-lg p-4">
-                        <h4 className="font-medium mb-2">Current Focus</h4>
-                        <p className="text-sm text-white/70">Building web3 applications and exploring AI integrations</p>
-                      </div>
-                      <div className="bg-white/10 rounded-lg p-4">
-                        <h4 className="font-medium mb-2">Looking For</h4>
-                        <p className="text-sm text-white/70">Collaborative projects and innovative challenges</p>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </motion.div>
 
           {/* Social links */}
@@ -177,20 +122,6 @@ export default function Explorer() {
           </motion.div> */}
         </div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center cursor-pointer"
-          initial={{ opacity: 0 }}
-          animate={{
-            opacity: [0, 1, 0.5],
-            y: [0, 10, 0],
-          }}
-          transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
-          onClick={scrollToNextSection}
-        >
-          {/* <p className="text-xs text-white/50 mb-2">Projects</p> */}
-          <ChevronDown className="w-5 h-5 text-white/70" />
-        </motion.div>
       </div>
 
       <style jsx>{`

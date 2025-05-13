@@ -4,6 +4,10 @@ import { useState } from "react";
 import CosmicLoadingAnimation from "@/components/CosmicLoadingAnimation";
 import Welcome from "@/components/Welcome";
 import About from "@/components/About";
+import Skills from "@/components/Skills";
+import Experience from "@/components/Experience";
+import Projects from "@/components/Projects";
+import ComponentBlocks from "@/components/ComponentBlocks";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -25,6 +29,10 @@ export default function Home() {
       {!isLoading && !showWelcome && (
         <div>
           <About />
+          <Skills />
+          <Experience />
+          <Projects />
+          <ComponentBlocks />
         </div>
       )}
     </div>
