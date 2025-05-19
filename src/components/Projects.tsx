@@ -32,57 +32,57 @@ export default function Projects() {
   const projects = [
     {
       id: 1,
-      title: "Stellar Dashboard",
-      description: "A modern admin dashboard with dark mode, analytics, and responsive design.",
-      image: "/api/placeholder/600/400", // Replace with your actual image path
-      type: "frontend",
-      technologies: ["React", "TypeScript", "Tailwind CSS", "Chart.js"],
-      liveUrl: "#",
-      githubUrl: "#",
+      title: "ChatBox - Real time chat application",
+      description: "A chat web app with real-time messaging, secure Google Authentication for user login, and a friend request system with responsive UI for seamless use across devices",
+      image: "/images/Chatbox.webp",
+      type: "Fullstack",
+      technologies: ["Next.js", "TypeScript", "Tailwind CSS","Redis", "Google authentication"],
+      liveUrl: "https://chatbox-gamma-teal.vercel.app",
+      githubUrl: "https://github.com/nandanpathakk/Real-time-chat-app",
       featured: true
     },
     {
       id: 2,
-      title: "Quantum E-commerce",
-      description: "Full-stack e-commerce platform with product management, cart, and payment integration.",
-      image: "/api/placeholder/600/400", // Replace with your actual image path
-      type: "fullstack",
-      technologies: ["Next.js", "MongoDB", "Stripe", "Auth.js"],
-      liveUrl: "#",
-      githubUrl: "#",
+      title: "CodeCrew - web collaborative IDE",
+      description: "A collaborative IDE where users can join rooms to code together in real-time.",
+      image: "/images/codeCrew.webp", 
+      type: "Ongoing",
+      technologies: ["Next.js", "Typescript", "Tailwind CSS", "Express.js", "Socket.io", "Node.js"],
+      liveUrl: "",
+      githubUrl: "",
       featured: true
     },
     {
       id: 3,
-      title: "Cosmic Chat",
-      description: "Real-time chat application with user authentication and message encryption.",
-      image: "/api/placeholder/600/400", // Replace with your actual image path
-      type: "fullstack",
-      technologies: ["React", "Firebase", "Socket.io", "Tailwind CSS"],
-      liveUrl: "#",
-      githubUrl: "#",
+      title: "AI Note-Taking Application",
+      description: "Take notes seamlessly, and summarize or generate content instantly with AI.",
+      image: "/images/Note.png",
+      type: "Fullstack",
+      technologies: ["Next.js", "Supabase", "Typescript", "Tailwind CSS"],
+      liveUrl: "https://note-task-app-omega.vercel.app/login",
+      githubUrl: "https://github.com/nandanpathakk/Note-Task-App",
       featured: false
     },
     {
       id: 4,
-      title: "Portfolio Template",
-      description: "Responsive developer portfolio template with dark mode and smooth animations.",
-      image: "/api/placeholder/600/400", // Replace with your actual image path
-      type: "frontend",
-      technologies: ["HTML", "CSS", "JavaScript", "GSAP"],
-      liveUrl: "#",
-      githubUrl: "#",
+      title: "Portfolio",
+      description: "This Animated Portfolio",
+      image: "/images/Portfolio.png",
+      type: "Frontend",
+      technologies: ["Next.js","TypeScript","Tailwind CSS", "Framer Motion"],
+      liveUrl: "",
+      githubUrl: "https://github.com/nandanpathakk/Portfolio",
       featured: false
     },
     {
       id: 5,
-      title: "Task Nebula",
-      description: "Task management application with drag-and-drop functionality and team collaboration.",
-      image: "/api/placeholder/600/400", // Replace with your actual image path
-      type: "frontend",
-      technologies: ["React", "Redux", "Styled Components", "DnD Kit"],
-      liveUrl: "#",
-      githubUrl: "#",
+      title: "Frontend Component Library",
+      description: "A reusable and scalable UI component library featuring modular components and responsive design for seamless integration into projects.",
+      image: "/images/Frontend_Library.png",
+      type: "Comming Soon",
+      technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Figma"],
+      liveUrl: "",
+      githubUrl: "",
       featured: false
     }
   ];
@@ -202,7 +202,7 @@ export default function Projects() {
                 <Image
                   src={project.image}
                   alt={project.title}
-                  className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                  className="object-fill w-full h-full group-hover:scale-105 transition-transform duration-500"
                   width={600}
                   height={400}
                 />

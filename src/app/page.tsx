@@ -7,7 +7,7 @@ import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Experience from "@/components/Experience";
 import Projects from "@/components/Projects";
-import ComponentBlocks from "@/components/ComponentBlocks";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,7 +23,7 @@ export default function Home() {
   };
 
   return (
-    <div className="scroll-smooth">
+    <div className="scroll-smooth roboto-regular">
       {isLoading && <CosmicLoadingAnimation onComplete={handleLoadingComplete} />}
       {showWelcome && <Welcome onComplete={handleWelcomeComplete} />}
       {!isLoading && !showWelcome && (
@@ -32,9 +32,10 @@ export default function Home() {
           <Skills />
           <Experience />
           <Projects />
-          <ComponentBlocks />
+          {/* <ComponentBlocks /> */}
+          <Footer />
         </div>
-      )}
+      )} 
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { tangerine } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "Nandan Pathak | Frontend Explorer",
@@ -13,11 +14,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-black text-white press-start-2p-regular">
+      <body className={`bg-black text-white press-start-2p-regular  ${tangerine.variable}`}>
         {children}
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 bg-green-500/30 border border-green-500 text-white md:text-sm text-xs px-4 py-1 rounded-full shadow-md">
+        {/* <div className="fixed top-4 left-1/2 -translate-x-1/2 bg-green-500/30 border border-green-500 text-white md:text-sm text-xs px-4 py-1 rounded-full shadow-md">
           🚧 This portfolio is still under development. Stay tuned! 🚀
-        </div>
+        </div> */}
 
       </body>
     </html>

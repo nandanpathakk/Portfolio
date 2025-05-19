@@ -46,7 +46,7 @@ export default function Explorer() {
               />
             </div>
 
-            <h1 className="text-4xl md:text-5xl font-light italic text-white tracking-tight mb-2">
+            <h1 className="text-4xl md:text-5xl text-white tracking-tight mb-2 tangerine-bold">
               Hello, I&apos;m Nandan
             </h1>
             {/* <p className="text-sm md:text-base text-white/70">
@@ -56,7 +56,7 @@ export default function Explorer() {
 
           {/* Introduction text */}
           <motion.div
-            className="mb-12 text-base md:text-lg text-white/90 space-y-4 text-left"
+            className="mb-12 text-base md:text-lg text-white/90 space-y-4 text-justify"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.3 }}

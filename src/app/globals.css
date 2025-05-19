@@ -1,6 +1,5 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 
 body {
   margin: 0;
@@ -8,17 +7,81 @@ body {
   overflow-x: hidden;
 }
 
-.roboto-regular {
-  font-family: "Roboto", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-  font-variation-settings:
-    "wdth" 100;
-}
-
-
 
 @theme {
   --color-mint-500: oklch(0.72 0.11 178);
+}
+
+/* Add this to your globals.css file */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Base animations for scroll-triggered elements */
+.animation-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  will-change: opacity, transform;
+}
+
+.animation-on-scroll.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animation delay classes */
+.delay-100 {
+  transition-delay: 100ms;
+}
+
+.delay-200 {
+  transition-delay: 200ms;
+}
+
+.delay-300 {
+  transition-delay: 300ms;
+}
+
+.delay-400 {
+  transition-delay: 400ms;
+}
+
+.delay-500 {
+  transition-delay: 500ms;
+}
+
+/* Animation variations */
+.fade-in-up.animation-on-scroll {
+  transform: translateY(30px);
+}
+
+.fade-in-down.animation-on-scroll {
+  transform: translateY(-30px);
+}
+
+.fade-in-left.animation-on-scroll {
+  transform: translateX(30px);
+}
+
+.fade-in-right.animation-on-scroll {
+  transform: translateX(-30px);
+}
+
+.zoom-in.animation-on-scroll {
+  transform: scale(0.95);
+}
+
+/* Optimize animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animation-on-scroll {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+  
+  html {
+    scroll-behavior: auto;
+  }
 }
