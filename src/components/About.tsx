@@ -1,6 +1,8 @@
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { LineShadowText } from "./magicui/line-shadow-text";
+
 import "../app/globals.css"
 
 export default function Explorer() {
@@ -37,7 +39,7 @@ export default function Explorer() {
           >
             <div className="w-24 h-24 md:w-32 md:h-32 rounded-full overflow-hidden border-2 border-white/10 mb-6">
               <Image
-                src="/images/main1.jpg"
+                src="/images/main2.jpg"
                 alt="Nandan"
                 className="w-full h-full object-cover"
                 width={128}
@@ -46,8 +48,8 @@ export default function Explorer() {
               />
             </div>
 
-            <h1 className="text-4xl md:text-5xl text-white tracking-tight mb-2 tangerine-bold">
-              Hello, I&apos;m Nandan
+            <h1 className="text-4xl md:text-5xl text-white tracking-tight mb-2">
+              Hello, I&apos;m <span className="italic"><LineShadowText shadowColor="white">Nandan</LineShadowText></span>
             </h1>
             {/* <p className="text-sm md:text-base text-white/70">
               — developer
@@ -56,7 +58,7 @@ export default function Explorer() {
 
           {/* Introduction text */}
           <motion.div
-            className="mb-12 text-base md:text-lg text-white/90 space-y-4 text-justify"
+            className="mb-12 text-base md:text-lg text-white/90 space-y-4 text-left"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.7, delay: 0.3 }}

@@ -1,12 +1,23 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { Code, Globe, Database, Terminal, Zap, Cpu } from "lucide-react";
+
+type Skill = {
+  name: string;
+  logo: string;
+};
+
+type SkillCategoryKey = "Frontend" | "Backend" | "Tools & Others";
+
+type SkillCategory = {
+  [key in SkillCategoryKey]: Skill[];
+};
+
 
 export default function Skills() {
-  const [activeCategory, setActiveCategory] = useState("frontend");
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<SkillCategoryKey>("Frontend");
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -27,113 +38,90 @@ export default function Skills() {
     };
   }, []);
 
-  const skillCategories = {
-    frontend: [
-      { name: "React", proficiency: 90 },
-      { name: "TypeScript", proficiency: 85 },
-      { name: "Next.js", proficiency: 80 },
-      { name: "CSS/Tailwind", proficiency: 95 },
-      { name: "Framer Motion", proficiency: 75 },
+  const skillCategories: SkillCategory = {
+    Frontend: [
+      { name: "React", logo: "https://cdn.simpleicons.org/react/61DAFB" },
+      { name: "TypeScript", logo: "https://cdn.simpleicons.org/typescript/3178C6" },
+      { name: "JavaScript", logo: "https://cdn.simpleicons.org/javascript/javascript" },
+      { name: "Next.js", logo: "https://cdn.simpleicons.org/nextdotjs/FFFFFF" },
+      { name: "Tailwind CSS", logo: "https://cdn.simpleicons.org/tailwindcss/06B6D4" },
+      { name: "HTML", logo: "https://cdn.simpleicons.org/html5/html5" },
+      { name: "CSS", logo: "https://cdn.simpleicons.org/css/css" },
+      { name: "Framer Motion", logo: "https://cdn.simpleicons.org/framer/0055FF" },
     ],
-    backend: [
-      { name: "Node.js", proficiency: 80 },
-      { name: "Express", proficiency: 75 },
-      { name: "MongoDB", proficiency: 70 },
-      { name: "GraphQL", proficiency: 65 },
-      { name: "Firebase", proficiency: 85 },
+    Backend: [
+      { name: "Node.js", logo: "https://cdn.simpleicons.org/nodedotjs/339933" },
+      { name: "Express", logo: "https://cdn.simpleicons.org/express/FFFFFF" },
+      { name: "MongoDB", logo: "https://cdn.simpleicons.org/mongodb/47A248" },
+      { name: "PostgreSQL", logo: "https://cdn.simpleicons.org/postgresql/postgresql" },
+      { name: "Prisma", logo: "https://cdn.simpleicons.org/prisma/prisma" },
     ],
-    other: [
-      { name: "Git/GitHub", proficiency: 90 },
-      { name: "Responsive Design", proficiency: 95 },
-      { name: "Performance Optimization", proficiency: 80 },
-      { name: "API Integration", proficiency: 85 },
-      { name: "UI/UX Principles", proficiency: 75 },
+    "Tools & Others": [
+      { name: "Git", logo: "https://cdn.simpleicons.org/git/F05032" },
+      { name: "GitHub", logo: "https://cdn.simpleicons.org/github/FFFFFF" },
+      { name: "Figma", logo: "https://cdn.simpleicons.org/figma/figma" },
+      { name: "VS Code", logo: "https://cdn.simpleicons.org/devbox/007ACC" },
+      { name: "Vercel", logo: "https://cdn.simpleicons.org/vercel/FFFFFF" },
+      { name: "Docker", logo: "https://cdn.simpleicons.org/docker/docker" },
+
     ],
   };
 
-  const getCategoryIcon = (category: string) => {
-    switch (category) {
-      case "frontend":
-        return <Code size={20} />;
-      case "backend":
-        return <Database size={20} />;
-      case "other":
-        return <Zap size={20} />;
-      default:
-        return <Globe size={20} />;
-    }
-  };
+
 
   return (
     <section
       id="skills"
       ref={sectionRef}
-      className="min-h-screen w-full bg-black text-white relative overflow-hidden flex items-center justify-center py-20"
+      className="min-h-screen w-full bg-black text-white relative overflow-hidden py-20"
     >
-      {/* Particles background - different from stars, more like data particles */}
-      <div className="absolute inset-0 z-0 opacity-40">
-        {Array.from({ length: 80 }).map((_, i) => (
-          <motion.div
-            key={`particle-${i}`}
-            className="absolute rounded-full bg-cyan-400"
+      {/* Cosmic background elements */}
+      <div className="absolute inset-0 z-0">
+        {/* Nebula effect */}
+        <div
+          className="absolute inset-0 opacity-20 bg-black"
+        ></div>
+
+        {/* Star-like particles */}
+        {Array.from({ length: 50 }).map((_, i) => (
+          <div
+            key={`star-skill-${i}`}
+            className="absolute rounded-full bg-white"
             style={{
-              width: `${Math.random() * 3 + 2}px`,
-              height: `${Math.random() * 3 + 2}px`,
+              width: `${Math.random() * 2 + 1}px`,
+              height: `${Math.random() * 2 + 1}px`,
               top: `${Math.random() * 100}%`,
               left: `${Math.random() * 100}%`,
-            }}
-            animate={
-              isVisible
-                ? {
-                    opacity: [0.2, 0.8, 0.2],
-                    scale: [1, 1.2, 1],
-                    x: [0, Math.random() * 50 - 25, 0],
-                    y: [0, Math.random() * 50 - 25, 0],
-                  }
-                : {}
-            }
-            transition={{
-              duration: Math.random() * 5 + 10,
-              repeat: Infinity,
-              repeatType: "reverse",
+              opacity: Math.random() * 0.5 + 0.2,
+              animation: `twinkle ${Math.random() * 5 + 2}s infinite alternate`,
             }}
           />
         ))}
+
+        {/* Glowing orb for each category */}
+        <motion.div
+          className={`absolute rounded-full blur-3xl opacity-10 transition-all duration-700 bg-gradient-to-r from-cyan-500 to-blue-600`}
+          animate={{
+            x: ['0%', '5%', '0%', '-5%', '0%'],
+            y: ['0%', '-5%', '0%', '5%', '0%'],
+          }}
+          transition={{
+            duration: 30,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          style={{
+            width: '30rem',
+            height: '30rem',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)'
+          }}
+        />
       </div>
 
-      {/* Digital circuit paths in background */}
-      <div className="absolute inset-0 z-0 opacity-20">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <div
-            key={`circuit-${i}`}
-            className="absolute bg-cyan-400 opacity-30"
-            style={{
-              height: "1px",
-              width: `${Math.random() * 30 + 10}%`,
-              top: `${(100 / 8) * i + Math.random() * 10}%`,
-              left: `${Math.random() * 70}%`,
-              boxShadow: "0 0 8px #22d3ee",
-            }}
-          />
-        ))}
-        
-        {Array.from({ length: 8 }).map((_, i) => (
-          <div
-            key={`circuit-v-${i}`}
-            className="absolute bg-cyan-400 opacity-30"
-            style={{
-              width: "1px",
-              height: `${Math.random() * 30 + 10}%`,
-              left: `${(100 / 8) * i + Math.random() * 10}%`,
-              top: `${Math.random() * 70}%`,
-              boxShadow: "0 0 8px #22d3ee",
-            }}
-          />
-        ))}
-      </div>
-      
       {/* Main content container */}
-      <motion.div 
+      <motion.div
         className="max-w-5xl w-full mx-auto px-6 relative z-10"
         initial={{ opacity: 0 }}
         animate={isVisible ? { opacity: 1 } : {}}
@@ -145,103 +133,80 @@ export default function Skills() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-light italic mb-4">
-            Technical Arsenal
+          <h2 className="text-3xl md:text-4xl font-medium mb-4">
+            Tech Stack
           </h2>
           <p className="text-white/70 max-w-2xl mx-auto">
-            The tools and technologies I wield to create exceptional digital experiences,
-            constantly evolving my skills to push the boundaries of what&apos;s possible.
+            Charting my technical constellation — the technologies I use to navigate
+            the digital cosmos and bring ideas to life.
           </p>
         </motion.div>
 
-        {/* Skill categories */}
-        <motion.div 
-          className="grid grid-cols-3 gap-4 mb-12 max-w-lg mx-auto"
+        {/* Category tabs */}
+        <motion.div
+          className="flex flex-wrap justify-center gap-3 mb-12"
           initial={{ y: 30, opacity: 0 }}
           animate={isVisible ? { y: 0, opacity: 1 } : {}}
           transition={{ duration: 0.7, delay: 0.3 }}
         >
-          {Object.keys(skillCategories).map((category) => (
+          {(["Frontend", "Backend", "Tools & Others"] as SkillCategoryKey[]).map((category) => (
             <button
               key={category}
               onClick={() => setActiveCategory(category)}
-              className={`py-3 px-4 rounded-xl border flex items-center justify-center gap-2 transition-all ${
-                activeCategory === category
-                  ? "bg-white/10 border-cyan-400/50 text-cyan-300 shadow-lg shadow-cyan-900/20"
-                  : "bg-black/20 border-white/10 text-white/70 hover:bg-white/5"
-              }`}
+              className={`px-5 py-2 rounded-lg transition-all ${activeCategory === category
+                ? `bg-white/10 border border-cyan-400/50 text-cyan-300 shadow-lg shadow-cyan-900/10`
+                : "bg-white/5 border border-white/10 text-white/70 hover:bg-white/10"
+                }`}
             >
-              {getCategoryIcon(category)}
               <span className="capitalize">{category}</span>
             </button>
           ))}
         </motion.div>
 
         {/* Skills display */}
-        <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 md:p-10">
-          <motion.div
-            key={activeCategory}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            className="grid gap-8"
-          >
-            {skillCategories[activeCategory as keyof typeof skillCategories].map((skill, index) => (
-              <motion.div
-                key={skill.name}
-                initial={{ x: -20, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-              >
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-medium text-white">{skill.name}</h3>
-                  <span className="text-white/60 text-sm">{skill.proficiency}%</span>
-                </div>
-                <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                  <motion.div
-                    className="h-full bg-gradient-to-r from-cyan-600 to-cyan-300"
-                    initial={{ width: 0 }}
-                    animate={{ width: isVisible ? `${skill.proficiency}%` : 0 }}
-                    transition={{ duration: 1, delay: 0.3 + index * 0.1 }}
-                  />
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-
-        {/* Skill nodes */}
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12"
-          initial={{ y: 30, opacity: 0 }}
-          animate={isVisible ? { y: 0, opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.6 }}
+        <motion.div
+          key={activeCategory}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.5 }}
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8"
         >
-          {[
-            { icon: <Cpu size={24} />, title: "Performance Optimization", description: "Creating lightning-fast experiences" },
-            { icon: <Terminal size={24} />, title: "Clean Code", description: "Maintainable, readable solutions" },
-            { icon: <Globe size={24} />, title: "Responsive Design", description: "Flawless on every device" },
-          ].map((item, index) => (
+          {skillCategories[activeCategory].map((skill, index) => (
             <motion.div
-              key={index}
-              whileHover={{ y: -5, scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:border-cyan-400/30 hover:shadow-lg hover:shadow-cyan-900/10 transition-all"
+              key={skill.name}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.07 }}
+              whileHover={{ y: -5, scale: 1.05 }}
+              className="flex flex-col items-center"
             >
-              <div className="text-cyan-400 mb-4">{item.icon}</div>
-              <h3 className="text-white text-lg font-medium mb-2">{item.title}</h3>
-              <p className="text-white/60 text-sm">{item.description}</p>
+              <div className={`w-16 h-16 rounded-full bg-white/5 backdrop-blur-md flex items-center justify-center border border-white/10 mb-4 hover:border-cyan-400/30 transition-all duration-300 group`}>
+                <div className="w-8 h-8 relative">
+                  <img src={skill.logo} alt={skill.name} className="w-full h-full object-contain" />
+                </div>
+              </div>
+              <span className="text-white font-medium text-center">{skill.name}</span>
             </motion.div>
           ))}
+        </motion.div>
+
+        {/* Bottom tagline */}
+        <motion.div
+          className="text-center mt-16"
+          initial={{ opacity: 0 }}
+          animate={isVisible ? { opacity: 1 } : {}}
+          transition={{ duration: 0.7, delay: 0.8 }}
+        >
+          <p className="text-white/50 text-sm italic">Always exploring, always evolving — the journey continues</p>
         </motion.div>
       </motion.div>
 
       <style jsx>{`
-        @keyframes flow {
-          0% { transform: translateX(0) translateY(0); }
-          50% { transform: translateX(10px) translateY(10px); }
-          100% { transform: translateX(0) translateY(0); }
+        @keyframes twinkle {
+          0% { opacity: 0.2; transform: scale(1); }
+          50% { opacity: 0.7; transform: scale(1.2); }
+          100% { opacity: 0.2; transform: scale(1); }
         }
       `}</style>
     </section>

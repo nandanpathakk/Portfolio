@@ -150,8 +150,8 @@ export default function Projects() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-light italic mb-4">
-            Featured Projects
+          <h2 className="text-3xl md:text-4xl font-medium mb-4">
+            Projects
           </h2>
           <p className="text-white/70 max-w-2xl mx-auto">
             A collection of my digital constellations — each project a testament to my exploration
@@ -166,7 +166,7 @@ export default function Projects() {
           animate={isVisible ? { y: 0, opacity: 1 } : {}}
           transition={{ duration: 0.7, delay: 0.3 }}
         >
-          {["all", "featured", "frontend", "fullstack"].map((filter) => (
+          {["all", "featured", "Frontend", "Fullstack"].map((filter) => (
             <button
               key={filter}
               onClick={() => setActiveFilter(filter)}

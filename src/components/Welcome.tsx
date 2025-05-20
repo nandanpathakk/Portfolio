@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { roboto_mono } from "@/lib/fonts";
 
 export default function Welcome({ onComplete }: { onComplete: () => void }) {
     const [textIndex, setTextIndex] = useState(0);
@@ -10,9 +11,8 @@ export default function Welcome({ onComplete }: { onComplete: () => void }) {
     const [showPulse, setShowPulse] = useState(false);
 
     const sentences = [
-        "Your curiosity has created a disturbance in the digital continuum.",
-        "The anomaly has breached the dimensional barriers between worlds.",
-        "Prepare as reality recalibrates. You're entering my universe now.",
+        "You’ve slipped through a glitch in the digital cosmos — welcome to the other side.",
+        "Welcom to my universe.",
     ];
 
 
@@ -98,7 +98,7 @@ export default function Welcome({ onComplete }: { onComplete: () => void }) {
     return (
         <section
             id="welcome"
-            className="min-h-[100dvh] flex flex-col items-center justify-center bg-black text-cyan-100 relative overflow-hidden"
+            className={`min-h-[100dvh] flex flex-col items-center justify-center bg-black text-cyan-100 relative overflow-hidden`}
         >
             {/* Star background */}
             <div className="absolute inset-0 z-0">
@@ -136,7 +136,7 @@ export default function Welcome({ onComplete }: { onComplete: () => void }) {
                 {!showBridges && (
                     <motion.div
                         key={textIndex}
-                        className="text-lg md:text-2xl font-mono text-center px-4 max-w-2xl z-20"
+                        className={`text-lg md:text-2xl font-mono text-center px-4 max-w-2xl z-20 ${roboto_mono.className}`}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
@@ -189,7 +189,7 @@ export default function Welcome({ onComplete }: { onComplete: () => void }) {
             {/* Skip button */}
             <motion.button
                 onClick={handleSkip}
-                className="absolute bottom-6 right-6 px-7 py-2 bg-black/30 border border-cyan-400/30 
+                className="absolute bottom-6 md:right-6 right-1/2 translate-x-1/2 md:translate-0 px-7 py-2 bg-black/30 border border-cyan-400/30 
                            text-cyan-300 rounded-md backdrop-blur-sm z-50 hover:bg-black/50 
                            hover:border-cyan-400/60 transition-colors duration-300 text-xs cursor-pointer"
                 initial={{ opacity: 0 }}

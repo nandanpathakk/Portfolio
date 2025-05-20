@@ -85,7 +85,7 @@ export default function Experience() {
                     transition={{ duration: 0.8, delay: 0.2 }}
                     className="text-center mb-16"
                 >
-                    <h2 className="text-3xl md:text-4xl font-light italic mb-4">
+                    <h2 className="text-3xl md:text-4xl font-medium  mb-4">
                         Professional Journey
                     </h2>
                     <p className="text-white/70 max-w-2xl mx-auto">
