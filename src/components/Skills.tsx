@@ -73,7 +73,7 @@ export default function Skills() {
     <section
       id="skills"
       ref={sectionRef}
-      className="min-h-screen w-full bg-black text-white relative overflow-hidden py-20"
+      className="min-h-screen w-full bg-black text-white relative overflow-hidden"
     >
       {/* Cosmic background elements */}
       <div className="absolute inset-0 z-0">

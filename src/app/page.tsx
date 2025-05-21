@@ -32,7 +32,6 @@ export default function Home() {
           <Skills />
           <Experience />
           <Projects />
-          {/* <ComponentBlocks /> */}
           <Footer />
         </div>
       )} 

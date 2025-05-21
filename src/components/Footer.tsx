@@ -96,7 +96,7 @@ export default function Footer() {
                         transition={{ duration: 0.6 }}
                         className="space-y-4"
                     >
-                        <h3 className="text-xl font-light italic text-white mb-4 flex items-center">
+                        <h3 className="text-xl font-medium text-white mb-4 flex items-center">
                             <Cpu size={18} className="mr-2 text-cyan-400" />
                             Nandan Pathak
                         </h3>
@@ -125,7 +125,7 @@ export default function Footer() {
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className="space-y-4"
                     >
-                        <h3 className="text-lg font-light italic text-white mb-4">Navigation</h3>
+                        <h3 className="text-lg font-medium text-white mb-4">Navigation</h3>
                         <ul className="space-y-2 text-sm">
                             <li>
                                 <Link href="#home" className="text-white/70 hover:text-cyan-300 transition-colors">
@@ -148,7 +148,7 @@ export default function Footer() {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="#contact" className="text-white/70 hover:text-cyan-300 transition-colors">
+                                <Link href="mailto:nandanpathak30@gmail.com" className="text-white/70 hover:text-cyan-300 transition-colors">
                                     Contact
                                 </Link>
                             </li>
@@ -162,7 +162,7 @@ export default function Footer() {
                         transition={{ duration: 0.6, delay: 0.4 }}
                         className="space-y-4"
                     >
-                        <h3 className="text-lg font-light italic text-white mb-4">Connect</h3>
+                        <h3 className="text-lg font-medium text-white mb-4">Connect</h3>
                         <div className="flex flex-wrap gap-3">
                             <a
                                 href="https://github.com/nandanpathakk"
@@ -174,7 +174,7 @@ export default function Footer() {
                                 <Github size={20} className="text-white/70 group-hover:text-cyan-300 transition-colors" />
                             </a>
                             <a
-                                href="www.linkedin.com/in/nandan-pathak-63211a234"
+                                href="https://www.linkedin.com/in/nandan-pathak-63211a234"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="p-3 bg-white/5 rounded-lg border border-white/10 hover:border-cyan-400/50 hover:bg-white/10 transition-all group"
