@@ -57,7 +57,7 @@ export default function Explorer() {
           </motion.div>
 
           {/* Introduction text */}
-          <motion.div
+          {/* <motion.div
             className="mb-12 text-base md:text-lg text-white/90 space-y-4 text-left"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -78,7 +78,31 @@ export default function Explorer() {
             <p>
               This space is where I share my learnings and thoughts as I grow as a developer.
             </p>
+          </motion.div> */}
+
+          <motion.div
+            className="mb-12 text-base md:text-lg text-white/90 space-y-4 text-left"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+          >
+            <p>
+              I&apos;m a developer who enjoys solving problems across the stack — from building smooth interfaces to designing efficient backend flows.
+            </p>
+
+            <p>
+              I have a strong interest in UI and UX, and I enjoy working with tools like React, TypeScript, and React Native to create fast, responsive experiences across web and mobile.
+            </p>
+
+            <p>
+              I also work with backend systems, APIs, and databases, and I care about writing code that’s clean, scalable, and easy to maintain.
+            </p>
+
+            <p>
+              This space is where I share my learnings and thoughts as I grow as a developer.
+            </p>
           </motion.div>
+
 
 
           {/* Interactive discovery element */}

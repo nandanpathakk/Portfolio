@@ -30,12 +30,21 @@ export default function Experience() {
     const experiences = [
         {
             id: 1,
+            role: "Associate Software Developer",
+            company: "Udaan IT Solutions",
+            companyLink: "https://www.udaaannitsolutions.com",
+            period: "June 2025 – Present",
+            description: "Working on cross-platform applications using React.js and React Native. Involved in building features, optimizing user experience, and contributing to backend development with Node.js and Azure-powered services.",
+            technologies: ["Next.js", "React.js","React Native", "TypeScript", "JavaScript", "Node.js", "MYSQL", ".NET", "Azure", "Tailwind CSS"]
+        },
+        {
+            id: 2,
             role: "Full-Stack Developer Intern",
             company: "SHDPIXEL - Metamatrix",
             companyLink: "https://shdpixel.com/",
             period: "January 2025 – April 2025",
             description: "Worked on multiple web projects with a primary focus on frontend development. Built responsive and dynamic user interfaces, implemented UI/UX improvements, and collaborated on backend development tasks including API integration and server-side logic. Contributed to both design and performance optimization across the stack.",
-            technologies: ["React", "TypeScript", "Next.js", "Tailwind CSS", "Node.js", "Express", "MYSQL", "MongoDB"]
+            technologies: ["React.js", "JavaScript", "TypeScript", "Next.js", "Tailwind CSS", "Node.js", "Express", "MYSQL", "MongoDB"]
         }
     ];
 

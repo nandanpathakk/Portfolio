@@ -12,7 +12,7 @@ export default function Welcome({ onComplete }: { onComplete: () => void }) {
 
     const sentences = [
         "You’ve slipped through a glitch in the digital cosmos — welcome to the other side.",
-        "Welcom to my universe.",
+        "Welcome to my universe.",
     ];
 
 

@@ -4,7 +4,7 @@ import { roboto } from "@/lib/fonts";
 
 
 export const metadata: Metadata = {
-  title: "Nandan Pathak | Frontend Explorer",
+  title: "Nandan Pathak | Developer",
   description: "A journey into my world of frontend development.",
 };
 
