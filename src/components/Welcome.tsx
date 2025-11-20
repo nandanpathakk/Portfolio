@@ -1,63 +1,194 @@
-
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function Welcome() {
+    const [showHindi, setShowHindi] = useState(true);
+    const [isGlitching, setIsGlitching] = useState(false);
+
+    useEffect(() => {
+        // Show Hindi for 2 seconds, then glitch and switch to English
+        const timer = setTimeout(() => {
+            setIsGlitching(true);
+            setTimeout(() => {
+                setShowHindi(false);
+                setIsGlitching(false);
+            }, 600); // Glitch duration
+        }, 2000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
     return (
-        <section className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden pt-20">
-            {/* Background Elements */}
+        <section className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden">
+            {/* Ambient Background */}
             <div className="absolute inset-0 -z-10">
-                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-[100px] animate-pulse" />
-                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white/5 rounded-full blur-[100px] animate-pulse delay-1000" />
+                <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] animate-pulse" />
+                <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
             </div>
 
-            <div className="container mx-auto px-4 md:px-6 relative z-10 text-center">
+            <div className="container mx-auto px-4 md:px-6 relative z-10">
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
+                    transition={{ duration: 1, ease: "easeOut" }}
+                    className="text-center max-w-4xl mx-auto"
                 >
-                    <h2 className="text-sm md:text-base font-mono text-muted-foreground mb-6 tracking-widest uppercase">
-                        Nandan Pathak
-                    </h2>
-                    <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold mb-8 tracking-tighter font-syne leading-none">
-                        CREATIVE<br />
-                        <span className="text-muted-foreground">DEVELOPER</span>
-                    </h1>
-                    <p className="text-xl md:text-2xl text-muted-foreground max-w-xl mx-auto mb-12 font-light leading-relaxed">
-                        Crafting immersive digital experiences with code and precision.
-                    </p>
+                    {/* Greeting */}
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.3, duration: 0.8 }}
+                        className="text-lg md:text-xl text-muted-foreground mb-4 font-light tracking-wide"
+                    >
+                        Hey there, I&apos;m
+                    </motion.p>
 
-                    <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-16">
+                    {/* Name with Hindi to English morph */}
+                    <div className="relative h-[120px] md:h-[180px] lg:h-[220px] mb-6 flex items-center justify-center overflow-hidden">
+                        <AnimatePresence mode="wait">
+                            {showHindi ? (
+                                <motion.h1
+                                    key="hindi"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{
+                                        opacity: 1,
+                                        y: 0,
+                                        x: isGlitching ? [0, -3, 3, -2, 2, -1, 1, 0] : 0,
+                                        filter: isGlitching ? [
+                                            "blur(0px) hue-rotate(0deg)",
+                                            "blur(1px) hue-rotate(0deg)",
+                                            "blur(3px) hue-rotate(0deg)",
+                                            "blur(1px) hue-rotate(0deg)",
+                                            "blur(2px) hue-rotate(0deg)",
+                                            "blur(0px) hue-rotate(0deg)"
+                                        ] : "blur(0px) hue-rotate(0deg)",
+                                        scale: isGlitching ? [1, 1.02, 0.98, 1.01, 0.99, 1] : 1
+                                    }}
+                                    exit={{
+                                        opacity: 0,
+                                        scale: 0.95,
+                                        filter: "blur(10px)"
+                                    }}
+                                    transition={{
+                                        duration: 0.8,
+                                        x: { duration: 0.6, times: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1] },
+                                        filter: { duration: 0.6, times: [0, 0.2, 0.4, 0.6, 0.8, 1] },
+                                        scale: { duration: 0.6, times: [0, 0.2, 0.4, 0.6, 0.8, 1] }
+                                    }}
+                                    className={`text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-none absolute ${isGlitching ? 'glitch' : ''}`}
+                                    style={{ fontFamily: "'rajdhani', cursive" }}
+                                >
+                                    नंदन पाठक
+                                </motion.h1>
+                            ) : (
+                                <motion.h1
+                                    key="english"
+                                    initial={{
+                                        opacity: 0,
+                                        scale: 0.95,
+                                        filter: "blur(10px)"
+                                    }}
+                                    animate={{
+                                        opacity: 1,
+                                        scale: 1,
+                                        filter: "blur(0px)"
+                                    }}
+                                    transition={{ duration: 0.8 }}
+                                    className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-none absolute"
+                                    style={{ fontFamily: "'Playfair Display', serif" }}
+                                >
+                                    Nandan Pathak
+                                </motion.h1>
+                            )}
+                        </AnimatePresence>
+                    </div>
+
+                    {/* Dual-Message Tagline */}
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.7, duration: 0.8 }}
+                        className="text-xl md:text-2xl lg:text-3xl mb-8 font-light leading-relaxed">
+
+                        <span className="text-muted-foreground/30">Making it </span>
+                        <span className="text-white font-semibold">work</span>
+                        <span className="text-muted-foreground/30">, Making it </span>
+                        <span className="text-white font-semibold">right</span>
+                        <span className="text-muted-foreground/30">, Making it </span>
+                        <span className="text-white font-semibold">fast</span>
+                    </motion.p>
+
+                    {/* Description with backend mention */}
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.9, duration: 0.8 }}
+                        className="text-base md:text-lg text-muted-foreground/80 max-w-2xl mx-auto mb-12 leading-relaxed"
+                    >
+                        Developer with a passion for clean code and minimal design.
+                        <br />
+                        <span className="text-muted-foreground/60 text-sm">
+                            (Of course I do backend as well 😌)
+                        </span>
+                    </motion.p>
+
+                    {/* iOS-Style CTA Buttons */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1.1, duration: 0.8 }}
+                        className="flex flex-col md:flex-row items-center justify-center gap-4 mb-12"
+                    >
+                        {/* Primary iOS Button */}
                         <a
                             href="#projects"
-                            className="group relative px-8 py-3 bg-white text-black font-medium rounded-full overflow-hidden transition-all hover:scale-105"
+                            className="group relative px-8 py-4 bg-white/10 backdrop-blur-xl border border-white/20 text-white font-medium rounded-2xl overflow-hidden transition-all hover:bg-white/15 hover:border-white/30 hover:scale-[1.02] active:scale-[0.98] shadow-[0_8px_32px_rgba(255,255,255,0.1)]"
                         >
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                             <span className="relative flex items-center gap-2">
-                                Selected Work <ArrowRight size={18} />
+                                View My Work <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                             </span>
                         </a>
+
+                        {/* Secondary iOS Button */}
                         <a
                             href="mailto:your.email@example.com"
-                            className="px-8 py-3 text-white hover:text-white/80 transition-colors font-medium"
+                            className="group relative px-8 py-4 bg-white/5 backdrop-blur-xl border border-white/10 text-white font-medium rounded-2xl overflow-hidden transition-all hover:bg-white/10 hover:border-white/20 hover:scale-[1.02] active:scale-[0.98] shadow-[0_8px_32px_rgba(255,255,255,0.05)]"
                         >
-                            Get in Touch
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                            <span className="relative">Let&apos;s Connect</span>
                         </a>
-                    </div>
+                    </motion.div>
 
-                    <div className="flex items-center justify-center gap-8 text-muted-foreground">
-                        <a href="#" className="hover:text-white transition-colors hover:scale-110 transform duration-200">
-                            <Github size={24} />
+                    {/* Social Links */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 1.3, duration: 0.8 }}
+                        className="flex items-center justify-center gap-6 text-muted-foreground"
+                    >
+                        <a
+                            href="#"
+                            className="p-3 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all hover:scale-110 transform duration-200"
+                        >
+                            <Github size={20} />
                         </a>
-                        <a href="#" className="hover:text-white transition-colors hover:scale-110 transform duration-200">
-                            <Linkedin size={24} />
+                        <a
+                            href="#"
+                            className="p-3 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all hover:scale-110 transform duration-200"
+                        >
+                            <Linkedin size={20} />
                         </a>
-                        <a href="#" className="hover:text-white transition-colors hover:scale-110 transform duration-200">
-                            <Mail size={24} />
+                        <a
+                            href="#"
+                            className="p-3 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all hover:scale-110 transform duration-200"
+                        >
+                            <Mail size={20} />
                         </a>
-                    </div>
+                    </motion.div>
                 </motion.div>
             </div>
         </section>
