@@ -1,218 +1,65 @@
+
 "use client";
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { roboto_mono } from "@/lib/fonts";
 
-export default function Welcome({ onComplete }: { onComplete: () => void }) {
-    const [textIndex, setTextIndex] = useState(0);
-    const [displayText, setDisplayText] = useState("");
-    const [isTyping, setIsTyping] = useState(false);
-    const [showBridges, setShowBridges] = useState(false);
-    const [showPulse, setShowPulse] = useState(false);
+import { motion } from "framer-motion";
+import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
 
-    const sentences = [
-        "You’ve slipped through a glitch in the digital cosmos — welcome to the other side.",
-        "Welcome to my universe.",
-    ];
-
-
-
-    const handleSkip = () => {
-        // Clear any existing timing operations
-        setIsTyping(false);
-        setShowPulse(true);
-        setTimeout(() => {
-            setShowBridges(true);
-
-            setTimeout(onComplete, 1000);
-        }, 500);
-    };
-
-    // Typing effect
-    useEffect(() => {
-        if (textIndex >= sentences.length) {
-            setTimeout(() => {
-                setShowPulse(true);
-                setTimeout(() => setShowBridges(true), 800);
-            }, 800);
-            return;
-        }
-
-        setIsTyping(true);
-        setDisplayText("");
-        const currentSentence = sentences[textIndex];
-        let charIndex = 0;
-        let typingText = "";
-
-        const typeInterval = setInterval(() => {
-            if (charIndex < currentSentence.length) {
-                // Build the string manually instead of relying on setState callback
-                typingText += currentSentence[charIndex];
-                setDisplayText(typingText);
-                charIndex++;
-            } else {
-                clearInterval(typeInterval);
-                setIsTyping(false);
-                setTimeout(() => setTextIndex(prev => prev + 1), 1500);
-            }
-        }, 50);
-
-        return () => clearInterval(typeInterval);
-    }, [textIndex]);
-
-    // Handle transition to next section
-    useEffect(() => {
-        if (showBridges) {
-            setTimeout(onComplete, 3000); // Longer time to appreciate the bridge effect
-        }
-    }, [showBridges, onComplete]);
-
-    // Animation variants
-    const bridgeVariants = {
-        hidden: { scaleX: 0, opacity: 0 },
-        visible: (i: number) => ({
-            scaleX: 1,
-            opacity: 0.8,
-            transition: {
-                duration: 1.2,
-                delay: i * 0.2,
-                ease: "easeOut",
-            },
-        }),
-        exit: { opacity: 0, transition: { duration: 0.5 } },
-    };
-
-    const pulseVariants = {
-        hidden: { scale: 0, opacity: 0 },
-        visible: {
-            scale: [0, 1.5, 0],
-            opacity: [0, 0.8, 0],
-            transition: {
-                duration: 1.5,
-                times: [0, 0.5, 1],
-                ease: "easeOut",
-            }
-        }
-    };
-
+export default function Welcome() {
     return (
-        <section
-            id="welcome"
-            className={`min-h-[100dvh] flex flex-col items-center justify-center bg-black text-cyan-100 relative overflow-hidden`}
-        >
-            {/* Star background */}
-            <div className="absolute inset-0 z-0">
-                {Array.from({ length: 50 }).map((_, i) => (
-                    <div
-                        key={i}
-                        className="absolute rounded-full bg-white"
-                        style={{
-                            width: Math.random() * 2 + 1 + "px",
-                            height: Math.random() * 2 + 1 + "px",
-                            top: Math.random() * 100 + "%",
-                            left: Math.random() * 100 + "%",
-                            opacity: Math.random() * 0.7 + 0.3,
-                            animation: `twinkle ${Math.random() * 3 + 2}s infinite alternate`
-                        }}
-                    />
-                ))}
+        <section className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden pt-20">
+            {/* Background Elements */}
+            <div className="absolute inset-0 -z-10">
+                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-[100px] animate-pulse" />
+                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-white/5 rounded-full blur-[100px] animate-pulse delay-1000" />
             </div>
 
-            {/* Pulse effect */}
-            <AnimatePresence>
-                {showPulse && (
-                    <motion.div
-                        className="absolute w-40 h-40 rounded-full bg-cyan-400/20 z-10"
-                        variants={pulseVariants}
-                        initial="hidden"
-                        animate="visible"
-                        onAnimationComplete={() => setShowPulse(false)}
-                    />
-                )}
-            </AnimatePresence>
+            <div className="container mx-auto px-4 md:px-6 relative z-10 text-center">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                >
+                    <h2 className="text-sm md:text-base font-mono text-muted-foreground mb-6 tracking-widest uppercase">
+                        Nandan Pathak
+                    </h2>
+                    <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold mb-8 tracking-tighter font-syne leading-none">
+                        CREATIVE<br />
+                        <span className="text-muted-foreground">DEVELOPER</span>
+                    </h1>
+                    <p className="text-xl md:text-2xl text-muted-foreground max-w-xl mx-auto mb-12 font-light leading-relaxed">
+                        Crafting immersive digital experiences with code and precision.
+                    </p>
 
-            {/* Text animation */}
-            <AnimatePresence mode="wait">
-                {!showBridges && (
-                    <motion.div
-                        key={textIndex}
-                        className={`text-lg md:text-2xl font-mono text-center px-4 max-w-2xl z-20 ${roboto_mono.className}`}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.5 }}
-                    >
-                        {displayText}
-                        {isTyping && (
-                            <span className="inline-block w-2 h-5 bg-cyan-400 animate-blink ml-1" />
-                        )}
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                    <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-16">
+                        <a
+                            href="#projects"
+                            className="group relative px-8 py-3 bg-white text-black font-medium rounded-full overflow-hidden transition-all hover:scale-105"
+                        >
+                            <span className="relative flex items-center gap-2">
+                                Selected Work <ArrowRight size={18} />
+                            </span>
+                        </a>
+                        <a
+                            href="mailto:your.email@example.com"
+                            className="px-8 py-3 text-white hover:text-white/80 transition-colors font-medium"
+                        >
+                            Get in Touch
+                        </a>
+                    </div>
 
-            {/* Bridge effects */}
-            {showBridges && (
-                <div className="absolute inset-0 flex items-center justify-center z-30">
-                    {/* More beams for a fuller effect */}
-                    {[...Array(8)].map((_, i) => (
-                        <motion.div
-                            key={i}
-                            className="absolute w-full h-1 bg-cyan-400 shadow-[0_0_15px_cyan]"
-                            style={{
-                                transform: `rotate(${i * 22.5}deg)`,
-                                transformOrigin: "center",
-                            }}
-                            variants={bridgeVariants}
-                            initial="hidden"
-                            animate="visible"
-                            exit="exit"
-                            custom={i}
-                        />
-                    ))}
-
-                    {/* Central glow effect */}
-                    <motion.div
-                        className="absolute w-40 h-40 rounded-full"
-                        style={{
-                            background: "radial-gradient(circle, rgba(34, 211, 238, 0.4) 0%, rgba(34, 211, 238, 0.1) 50%, transparent 70%)",
-                        }}
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{
-                            opacity: [0, 0.8, 0.6],
-                            scale: [0, 1, 1.2],
-                            transition: { duration: 2, times: [0, 0.4, 1] }
-                        }}
-                    />
-                </div>
-            )}
-
-            {/* Skip button */}
-            <motion.button
-                onClick={handleSkip}
-                className="absolute bottom-6 md:right-6 right-1/2 translate-x-1/2 md:translate-0 px-7 py-2 bg-black/30 border border-cyan-400/30 
-                           text-cyan-300 rounded-md backdrop-blur-sm z-50 hover:bg-black/50 
-                           hover:border-cyan-400/60 transition-colors duration-300 text-xs cursor-pointer"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
-            >
-                Skip
-            </motion.button>
-
-            <style jsx>{`
-            @keyframes blink {
-                0%, 100% { opacity: 1; }
-                50% { opacity: 0; }
-            }
-            .animate-blink {
-                animation: blink 0.8s infinite;
-            }
-            @keyframes twinkle {
-                0% { opacity: 0.3; transform: scale(1); }
-                50% { opacity: 1; transform: scale(1.2); }
-                100% { opacity: 0.3; transform: scale(1); }
-            }
-        `}</style>
+                    <div className="flex items-center justify-center gap-8 text-muted-foreground">
+                        <a href="#" className="hover:text-white transition-colors hover:scale-110 transform duration-200">
+                            <Github size={24} />
+                        </a>
+                        <a href="#" className="hover:text-white transition-colors hover:scale-110 transform duration-200">
+                            <Linkedin size={24} />
+                        </a>
+                        <a href="#" className="hover:text-white transition-colors hover:scale-110 transform duration-200">
+                            <Mail size={24} />
+                        </a>
+                    </div>
+                </motion.div>
+            </div>
         </section>
     );
 }

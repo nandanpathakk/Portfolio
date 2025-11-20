@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { roboto } from "@/lib/fonts";
+import { Syne, JetBrains_Mono, Inter } from "next/font/google";
+import { ReactLenis } from "@/lib/lenis";
 
+const syne = Syne({ subsets: ["latin"], variable: "--font-syne" });
+const jetbrains = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "Nandan Pathak | Developer",
@@ -14,9 +18,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`bg-black text-white press-start-2p-regular ${roboto.className}`}>
-        {children}
+    <html lang="en" className="dark">
+      <body className={`bg-background text-foreground ${syne.variable} ${jetbrains.variable} ${inter.variable} font-sans antialiased`}>
+        <ReactLenis root>
+          {children}
+        </ReactLenis>
       </body>
     </html>
   );

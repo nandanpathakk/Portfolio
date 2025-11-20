@@ -1,0 +1,43 @@
+
+> portfolio@0.1.0 build
+> next build
+
+   ▲ Next.js 15.2.1
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./src/app/globals.css.webpack[javascript/auto]!=!./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[3]!./src/app/globals.css
+Error: Cannot apply unknown utility class: border-border
+    at onInvalidCandidate (/home/nandan/Nandan/web-development-projects/portfolio/node_modules/tailwindcss/dist/lib.js:17:347)
+    at ne (/home/nandan/Nandan/web-development-projects/portfolio/node_modules/tailwindcss/dist/lib.js:12:115998)
+    at $e (/home/nandan/Nandan/web-development-projects/portfolio/node_modules/tailwindcss/dist/lib.js:17:310)
+    at Lr (/home/nandan/Nandan/web-development-projects/portfolio/node_modules/tailwindcss/dist/lib.js:33:724)
+    at async Mr (/home/nandan/Nandan/web-development-projects/portfolio/node_modules/tailwindcss/dist/lib.js:33:977)
+    at async ot (/home/nandan/Nandan/web-development-projects/portfolio/node_modules/@tailwindcss/node/dist/index.js:10:3272)
+    at async p (/home/nandan/Nandan/web-development-projects/portfolio/node_modules/@tailwindcss/postcss/dist/index.js:8:3242)
+    at async Object.Once (/home/nandan/Nandan/web-development-projects/portfolio/node_modules/@tailwindcss/postcss/dist/index.js:8:3443)
+    at async LazyResult.runAsync (/home/nandan/Nandan/web-development-projects/portfolio/node_modules/next/node_modules/postcss/lib/lazy-result.js:261:11)
+    at async Span.traceAsyncFn (/home/nandan/Nandan/web-development-projects/portfolio/node_modules/next/dist/trace/trace.js:157:20)
+
+Import trace for requested module:
+./src/app/globals.css.webpack[javascript/auto]!=!./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[10].use[3]!./src/app/globals.css
+./src/app/globals.css
+
+./src/app/globals.css
+Error: Can't resolve 'tailwindcss-animate'
+    at finishWithoutResolve (/home/nandan/Nandan/web-development-projects/portfolio/node_modules/enhanced-resolve/lib/Resolver.js:564:18)
+    at /home/nandan/Nandan/web-development-projects/portfolio/node_modules/enhanced-resolve/lib/Resolver.js:656:15
+    at /home/nandan/Nandan/web-development-projects/portfolio/node_modules/enhanced-resolve/lib/Resolver.js:718:5
+    at eval (eval at create (/home/nandan/Nandan/web-development-projects/portfolio/node_modules/next/dist/compiled/webpack/bundle5.js:14:9224), <anonymous>:15:1)
+    at /home/nandan/Nandan/web-development-projects/portfolio/node_modules/enhanced-resolve/lib/Resolver.js:718:5
+    at eval (eval at create (/home/nandan/Nandan/web-development-projects/portfolio/node_modules/next/dist/compiled/webpack/bundle5.js:14:9224), <anonymous>:27:1)
+    at /home/nandan/Nandan/web-development-projects/portfolio/node_modules/enhanced-resolve/lib/DescriptionFilePlugin.js:89:43
+    at /home/nandan/Nandan/web-development-projects/portfolio/node_modules/enhanced-resolve/lib/Resolver.js:718:5
+    at eval (eval at create (/home/nandan/Nandan/web-development-projects/portfolio/node_modules/next/dist/compiled/webpack/bundle5.js:14:9224), <anonymous>:15:1)
+    at /home/nandan/Nandan/web-development-projects/portfolio/node_modules/enhanced-resolve/lib/Resolver.js:718:5
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+> Build failed because of webpack errors
