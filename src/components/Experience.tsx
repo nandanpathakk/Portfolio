@@ -26,7 +26,7 @@ export default function Experience() {
                     {experiences.map((exp, i) => (
                         <div
                             key={i}
-                            className="relative pl-8 border-l border-white/10 hover:border-primary/50 transition-colors duration-300"
+                            className="relative pl-6 md:pl-8 border-l border-white/10 hover:border-primary/50 transition-colors duration-300"
                         >
                             <div className="absolute left-[-5px] top-0 w-2.5 h-2.5 rounded-full bg-primary" />
                             <span className="text-sm text-primary font-mono mb-2 block">

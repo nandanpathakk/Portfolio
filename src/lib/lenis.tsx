@@ -14,7 +14,6 @@ export function ReactLenis({ root, options, className, children }: LenisProps) {
     const lenisRef = useRef<LenisRef>(null);
 
     useEffect(() => {
-        // lenis/react handles raf automatically
     }, []);
 
     return (

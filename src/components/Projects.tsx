@@ -31,11 +31,11 @@ export default function Projects() {
         <h2 className="text-3xl md:text-5xl font-bold mb-12 text-center text-gradient-primary">
           Selected Work
         </h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto">
           {projects.map((project, i) => (
             <MagicCard key={i} className="flex flex-col h-full">
               <div className="h-48 bg-neutral-900/50 border-b border-white/10" />
-              <div className="p-6 flex flex-col flex-grow">
+              <div className="p-4 md:p-6 flex flex-col flex-grow">
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-xl font-bold text-foreground">{project.title}</h3>
                   <a

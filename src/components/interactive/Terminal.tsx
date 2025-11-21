@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Terminal as TerminalIcon } from "lucide-react";
+import { LINKS } from "../config/links";
 
 interface Command {
     command: string;
@@ -107,7 +108,7 @@ export default function Terminal() {
         projects: "Navigate to the 'Selected Work' section to see my latest creations.",
         contact: (
             <span>
-                Drop me a line at: <a href="mailto:your.email@example.com" className="text-primary hover:underline">your.email@example.com</a>
+                Drop me a line at: <a href={`mailto:${LINKS.EMAIL}`} className="text-primary hover:underline">{LINKS.EMAIL}</a>
             </span>
         ),
         whoami: "guest@portfolio",
@@ -347,7 +348,7 @@ export default function Terminal() {
                     {/* Terminal Body */}
                     <div
                         ref={terminalRef}
-                        className="p-6 h-[400px] overflow-y-auto custom-scrollbar font-mono"
+                        className="p-4 md:p-6 h-[300px] md:h-[400px] overflow-y-auto custom-scrollbar font-mono"
                         onClick={() => inputRef.current?.focus()}
                         onWheel={(e) => {
                             // Stop propagation to prevent page scroll

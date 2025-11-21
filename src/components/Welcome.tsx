@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
 import { useState, useEffect } from "react";
+import { LINKS } from "@/components/config/links";
 
 export default function Welcome() {
     const [showHindi, setShowHindi] = useState(true);
@@ -12,6 +13,12 @@ export default function Welcome() {
         // Show Hindi for 2 seconds, then glitch and switch to English
         const timer = setTimeout(() => {
             setIsGlitching(true);
+
+            // Play glitch sound
+            const audio = new Audio("https://assets.mixkit.co/active_storage/sfx/2578/2578-preview.mp3");
+            audio.volume = 0.5;
+            audio.play().catch(e => console.log("Audio play failed (user interaction needed first):", e));
+
             setTimeout(() => {
                 setShowHindi(false);
                 setIsGlitching(false);
@@ -41,13 +48,13 @@ export default function Welcome() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.3, duration: 0.8 }}
-                        className="text-lg md:text-xl text-muted-foreground mb-4 font-light tracking-wide"
+                        className="text-base md:text-xl text-muted-foreground mb-4 font-light tracking-wide"
                     >
-                        Hey there, I&apos;m
+                        Hey there 👋, I&apos;m
                     </motion.p>
 
                     {/* Name with Hindi to English morph */}
-                    <div className="relative h-[120px] md:h-[180px] lg:h-[220px] mb-6 flex items-center justify-center overflow-hidden">
+                    <div className="relative h-[80px] sm:h-[120px] md:h-[180px] lg:h-[220px] mb-6 flex items-center justify-center overflow-hidden">
                         <AnimatePresence mode="wait">
                             {showHindi ? (
                                 <motion.h1
@@ -78,8 +85,8 @@ export default function Welcome() {
                                         filter: { duration: 0.6, times: [0, 0.2, 0.4, 0.6, 0.8, 1] },
                                         scale: { duration: 0.6, times: [0, 0.2, 0.4, 0.6, 0.8, 1] }
                                     }}
-                                    className={`text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-none absolute ${isGlitching ? 'glitch' : ''}`}
-                                    style={{ fontFamily: "'rajdhani', cursive" }}
+                                    className={`text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-none absolute ${isGlitching ? 'glitch' : ''}`}
+                                    style={{ fontFamily: "'teko', cursive" }}
                                 >
                                     नंदन पाठक
                                 </motion.h1>
@@ -97,7 +104,7 @@ export default function Welcome() {
                                         filter: "blur(0px)"
                                     }}
                                     transition={{ duration: 0.8 }}
-                                    className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-none absolute"
+                                    className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-none absolute"
                                     style={{ fontFamily: "'Playfair Display', serif" }}
                                 >
                                     Nandan Pathak
@@ -111,7 +118,7 @@ export default function Welcome() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.7, duration: 0.8 }}
-                        className="text-xl md:text-2xl lg:text-3xl mb-8 font-light leading-relaxed">
+                        className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-8 font-light leading-relaxed">
 
                         <span className="text-muted-foreground/30">Making it </span>
                         <span className="text-white font-semibold">work</span>
@@ -126,7 +133,7 @@ export default function Welcome() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.9, duration: 0.8 }}
-                        className="text-base md:text-lg text-muted-foreground/80 max-w-2xl mx-auto mb-12 leading-relaxed"
+                        className="text-sm sm:text-base md:text-lg text-muted-foreground/80 max-w-2xl mx-auto mb-12 leading-relaxed"
                     >
                         Developer with a passion for clean code and minimal design.
                         <br />
@@ -155,7 +162,8 @@ export default function Welcome() {
 
                         {/* Secondary iOS Button */}
                         <a
-                            href="mailto:your.email@example.com"
+                            href={`mailto:${LINKS.EMAIL}`}
+                            target="_blank"
                             className="group relative px-8 py-4 bg-white/5 backdrop-blur-xl border border-white/10 text-white font-medium rounded-2xl overflow-hidden transition-all hover:bg-white/10 hover:border-white/20 hover:scale-[1.02] active:scale-[0.98] shadow-[0_8px_32px_rgba(255,255,255,0.05)]"
                         >
                             <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -171,19 +179,22 @@ export default function Welcome() {
                         className="flex items-center justify-center gap-6 text-muted-foreground"
                     >
                         <a
-                            href="#"
+                            href={LINKS.GITHUB}
+                            target="_blank"
                             className="p-3 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all hover:scale-110 transform duration-200"
                         >
                             <Github size={20} />
                         </a>
                         <a
-                            href="#"
+                            href={LINKS.LINKEDIN}
+                            target="_blank"
                             className="p-3 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all hover:scale-110 transform duration-200"
                         >
                             <Linkedin size={20} />
                         </a>
                         <a
-                            href="#"
+                            href={`mailto:${LINKS.EMAIL}`}
+                            target="_blank"
                             className="p-3 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all hover:scale-110 transform duration-200"
                         >
                             <Mail size={20} />
