@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import dynamic from "next/dynamic";
 
 import animationData from "./progress-lottie.json";
@@ -43,7 +43,7 @@ export default function ScrollProgress() {
     const pathString = `M ${p} 0 L ${p} ${h - p} L ${w} ${h - p}`;
 
     // Normalize animation data (handle potential default export wrapping)
-    const lottieData = (animationData as any).default || animationData;
+    const lottieData = (animationData as unknown as { default?: Record<string, unknown> }).default || animationData;
 
     return (
         <div className="fixed inset-0 z-50 pointer-events-none">
@@ -70,7 +70,7 @@ export default function ScrollProgress() {
     );
 }
 
-function CharacterOnPath({ progress, pathString, animationData, isMobile }: { progress: any, pathString: string, animationData: any, isMobile: boolean }) {
+function CharacterOnPath({ progress, pathString, animationData, isMobile }: { progress: MotionValue<number>, pathString: string, animationData: Record<string, unknown>, isMobile: boolean }) {
     const offsetDistance = useTransform(progress, [0, 1], ["0%", "100%"]);
     const sizeClass = isMobile ? "w-12 h-12" : "w-20 h-20";
 

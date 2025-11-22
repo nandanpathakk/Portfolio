@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { Code2, Globe, User, Zap } from "lucide-react";
 
-const Card = ({ item, index, x }: { item: any, index: number, x: MotionValue<string> }) => {
+const Card = ({ item }: { item: { title: string, description: string, icon: React.ReactNode }, index: number, x: MotionValue }) => {
   return (
     <div
       className="min-w-[85vw] md:min-w-[450px] h-[50vh] md:h-[60vh] p-6 md:p-10 rounded-3xl bg-black/40 backdrop-blur-md border border-white/10 flex flex-col justify-end hover:border-white/20 transition-colors duration-300 group"
