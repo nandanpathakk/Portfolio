@@ -54,7 +54,7 @@ export default function Welcome() {
                     </motion.p>
 
                     {/* Name with Hindi to English morph */}
-                    <div className="relative h-[80px] sm:h-[120px] md:h-[180px] lg:h-[220px] mb-6 flex items-center justify-center overflow-hidden">
+                    <div className="relative h-[80px] sm:h-[120px] md:h-[180px] lg:h-[220px] flex items-center justify-center overflow-hidden">
                         <AnimatePresence mode="wait">
                             {showHindi ? (
                                 <motion.h1
@@ -113,12 +113,26 @@ export default function Welcome() {
                         </AnimatePresence>
                     </div>
 
+                    {/* Description with backend mention */}
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.9, duration: 0.8 }}
+                        className="text-sm sm:text-base md:text-lg text-muted-foreground/80 max-w-2xl mx-auto mb-8 leading-relaxed"
+                    >
+                        A developer with a passion for clean code and minimal design.
+                        <br />
+                        <span className="text-muted-foreground/60 text-sm">
+                            (Of course I do backend as well 😌)
+                        </span>
+                    </motion.p>
+
                     {/* Dual-Message Tagline */}
                     <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.7, duration: 0.8 }}
-                        className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-8 font-light leading-relaxed">
+                        className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-12 font-light leading-relaxed">
 
                         <span className="text-muted-foreground/30">Making it </span>
                         <span className="text-white font-semibold">work</span>
@@ -126,20 +140,6 @@ export default function Welcome() {
                         <span className="text-white font-semibold">right</span>
                         <span className="text-muted-foreground/30">, Making it </span>
                         <span className="text-white font-semibold">fast</span>
-                    </motion.p>
-
-                    {/* Description with backend mention */}
-                    <motion.p
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.9, duration: 0.8 }}
-                        className="text-sm sm:text-base md:text-lg text-muted-foreground/80 max-w-2xl mx-auto mb-12 leading-relaxed"
-                    >
-                        Developer with a passion for clean code and minimal design.
-                        <br />
-                        <span className="text-muted-foreground/60 text-sm">
-                            (Of course I do backend as well 😌)
-                        </span>
                     </motion.p>
 
                     {/* iOS-Style CTA Buttons */}

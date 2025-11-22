@@ -3,16 +3,16 @@
 export default function Experience() {
     const experiences = [
         {
-            year: "2024 - Present",
-            role: "Frontend Developer",
-            company: "Tech Solutions Inc.",
-            description: "Building scalable web applications using React and Next.js.",
+            year: "Jun 2025 - Present",
+            role: "Associate Software Developer",
+            company: "Udaan Solutions",
+            description: "Building scalable web & mobile applications using React.js, Next.js, Node.js, .NET, Azure and more.",
         },
         {
-            year: "2023 - 2024",
-            role: "Junior Developer",
-            company: "Creative Agency",
-            description: "Collaborated on award-winning websites for global clients.",
+            year: "Jan 2025 - Apr 2025",
+            role: "Full-Stack Developer Intern",
+            company: "SHDPIXEL",
+            description: "Developed solutions with Next.js, TypeScript and Node.js.",
         },
     ];
 
