@@ -1,218 +1,207 @@
 "use client";
-import { useState, useEffect } from "react";
+
 import { motion, AnimatePresence } from "framer-motion";
-import { roboto_mono } from "@/lib/fonts";
+import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
+import { useState, useEffect } from "react";
+import { LINKS } from "@/components/config/links";
 
-export default function Welcome({ onComplete }: { onComplete: () => void }) {
-    const [textIndex, setTextIndex] = useState(0);
-    const [displayText, setDisplayText] = useState("");
-    const [isTyping, setIsTyping] = useState(false);
-    const [showBridges, setShowBridges] = useState(false);
-    const [showPulse, setShowPulse] = useState(false);
+export default function Welcome() {
+    const [showHindi, setShowHindi] = useState(true);
+    const [isGlitching, setIsGlitching] = useState(false);
 
-    const sentences = [
-        "You’ve slipped through a glitch in the digital cosmos — welcome to the other side.",
-        "Welcome to my universe.",
-    ];
-
-
-
-    const handleSkip = () => {
-        // Clear any existing timing operations
-        setIsTyping(false);
-        setShowPulse(true);
-        setTimeout(() => {
-            setShowBridges(true);
-
-            setTimeout(onComplete, 1000);
-        }, 500);
-    };
-
-    // Typing effect
     useEffect(() => {
-        if (textIndex >= sentences.length) {
+        // Show Hindi for 2 seconds, then glitch and switch to English
+        const timer = setTimeout(() => {
+            setIsGlitching(true);
+
+            // Play glitch sound
+            const audio = new Audio("https://assets.mixkit.co/active_storage/sfx/2578/2578-preview.mp3");
+            audio.volume = 0.5;
+            audio.play().catch(e => console.log("Audio play failed (user interaction needed first):", e));
+
             setTimeout(() => {
-                setShowPulse(true);
-                setTimeout(() => setShowBridges(true), 800);
-            }, 800);
-            return;
-        }
+                setShowHindi(false);
+                setIsGlitching(false);
+            }, 600); // Glitch duration
+        }, 2000);
 
-        setIsTyping(true);
-        setDisplayText("");
-        const currentSentence = sentences[textIndex];
-        let charIndex = 0;
-        let typingText = "";
-
-        const typeInterval = setInterval(() => {
-            if (charIndex < currentSentence.length) {
-                // Build the string manually instead of relying on setState callback
-                typingText += currentSentence[charIndex];
-                setDisplayText(typingText);
-                charIndex++;
-            } else {
-                clearInterval(typeInterval);
-                setIsTyping(false);
-                setTimeout(() => setTextIndex(prev => prev + 1), 1500);
-            }
-        }, 50);
-
-        return () => clearInterval(typeInterval);
-    }, [textIndex]);
-
-    // Handle transition to next section
-    useEffect(() => {
-        if (showBridges) {
-            setTimeout(onComplete, 3000); // Longer time to appreciate the bridge effect
-        }
-    }, [showBridges, onComplete]);
-
-    // Animation variants
-    const bridgeVariants = {
-        hidden: { scaleX: 0, opacity: 0 },
-        visible: (i: number) => ({
-            scaleX: 1,
-            opacity: 0.8,
-            transition: {
-                duration: 1.2,
-                delay: i * 0.2,
-                ease: "easeOut",
-            },
-        }),
-        exit: { opacity: 0, transition: { duration: 0.5 } },
-    };
-
-    const pulseVariants = {
-        hidden: { scale: 0, opacity: 0 },
-        visible: {
-            scale: [0, 1.5, 0],
-            opacity: [0, 0.8, 0],
-            transition: {
-                duration: 1.5,
-                times: [0, 0.5, 1],
-                ease: "easeOut",
-            }
-        }
-    };
+        return () => clearTimeout(timer);
+    }, []);
 
     return (
-        <section
-            id="welcome"
-            className={`min-h-[100dvh] flex flex-col items-center justify-center bg-black text-cyan-100 relative overflow-hidden`}
-        >
-            {/* Star background */}
-            <div className="absolute inset-0 z-0">
-                {Array.from({ length: 50 }).map((_, i) => (
-                    <div
-                        key={i}
-                        className="absolute rounded-full bg-white"
-                        style={{
-                            width: Math.random() * 2 + 1 + "px",
-                            height: Math.random() * 2 + 1 + "px",
-                            top: Math.random() * 100 + "%",
-                            left: Math.random() * 100 + "%",
-                            opacity: Math.random() * 0.7 + 0.3,
-                            animation: `twinkle ${Math.random() * 3 + 2}s infinite alternate`
-                        }}
-                    />
-                ))}
+        <section className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden">
+            {/* Ambient Background */}
+            <div className="absolute inset-0 -z-10">
+                <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] animate-pulse" />
+                <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
             </div>
 
-            {/* Pulse effect */}
-            <AnimatePresence>
-                {showPulse && (
-                    <motion.div
-                        className="absolute w-40 h-40 rounded-full bg-cyan-400/20 z-10"
-                        variants={pulseVariants}
-                        initial="hidden"
-                        animate="visible"
-                        onAnimationComplete={() => setShowPulse(false)}
-                    />
-                )}
-            </AnimatePresence>
+            <div className="container mx-auto px-4 md:px-6 relative z-10">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, ease: "easeOut" }}
+                    className="text-center max-w-4xl mx-auto"
+                >
+                    {/* Greeting */}
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.3, duration: 0.8 }}
+                        className="text-base md:text-xl text-muted-foreground mb-4 font-light tracking-wide"
+                    >
+                        Hey there 👋, I&apos;m
+                    </motion.p>
 
-            {/* Text animation */}
-            <AnimatePresence mode="wait">
-                {!showBridges && (
+                    {/* Name with Hindi to English morph */}
+                    <div className="relative h-[80px] sm:h-[120px] md:h-[180px] lg:h-[220px] flex items-center justify-center overflow-hidden">
+                        <AnimatePresence mode="wait">
+                            {showHindi ? (
+                                <motion.h1
+                                    key="hindi"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{
+                                        opacity: 1,
+                                        y: 0,
+                                        x: isGlitching ? [0, -3, 3, -2, 2, -1, 1, 0] : 0,
+                                        filter: isGlitching ? [
+                                            "blur(0px) hue-rotate(0deg)",
+                                            "blur(1px) hue-rotate(0deg)",
+                                            "blur(3px) hue-rotate(0deg)",
+                                            "blur(1px) hue-rotate(0deg)",
+                                            "blur(2px) hue-rotate(0deg)",
+                                            "blur(0px) hue-rotate(0deg)"
+                                        ] : "blur(0px) hue-rotate(0deg)",
+                                        scale: isGlitching ? [1, 1.02, 0.98, 1.01, 0.99, 1] : 1
+                                    }}
+                                    exit={{
+                                        opacity: 0,
+                                        scale: 0.95,
+                                        filter: "blur(10px)"
+                                    }}
+                                    transition={{
+                                        duration: 0.8,
+                                        x: { duration: 0.6, times: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1] },
+                                        filter: { duration: 0.6, times: [0, 0.2, 0.4, 0.6, 0.8, 1] },
+                                        scale: { duration: 0.6, times: [0, 0.2, 0.4, 0.6, 0.8, 1] }
+                                    }}
+                                    className={`text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-none absolute ${isGlitching ? 'glitch' : ''}`}
+                                    style={{ fontFamily: "'teko', cursive" }}
+                                >
+                                    नंदन पाठक
+                                </motion.h1>
+                            ) : (
+                                <motion.h1
+                                    key="english"
+                                    initial={{
+                                        opacity: 0,
+                                        scale: 0.95,
+                                        filter: "blur(10px)"
+                                    }}
+                                    animate={{
+                                        opacity: 1,
+                                        scale: 1,
+                                        filter: "blur(0px)"
+                                    }}
+                                    transition={{ duration: 0.8 }}
+                                    className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-none absolute"
+                                    style={{ fontFamily: "'Playfair Display', serif" }}
+                                >
+                                    Nandan Pathak
+                                </motion.h1>
+                            )}
+                        </AnimatePresence>
+                    </div>
+
+                    {/* Description with backend mention */}
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.9, duration: 0.8 }}
+                        className="text-sm sm:text-base md:text-lg text-muted-foreground/80 max-w-2xl mx-auto mb-8 leading-relaxed"
+                    >
+                        A developer with a passion for clean code and minimal design.
+                        <br />
+                        <span className="text-muted-foreground/60 text-sm">
+                            (Of course I do backend as well 😌)
+                        </span>
+                    </motion.p>
+
+                    {/* Dual-Message Tagline */}
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.7, duration: 0.8 }}
+                        className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-12 font-light leading-relaxed">
+
+                        <span className="text-muted-foreground/30">Making it </span>
+                        <span className="text-white font-semibold">work</span>
+                        <span className="text-muted-foreground/30">, Making it </span>
+                        <span className="text-white font-semibold">right</span>
+                        <span className="text-muted-foreground/30">, Making it </span>
+                        <span className="text-white font-semibold">fast</span>
+                    </motion.p>
+
+                    {/* iOS-Style CTA Buttons */}
                     <motion.div
-                        key={textIndex}
-                        className={`text-lg md:text-2xl font-mono text-center px-4 max-w-2xl z-20 ${roboto_mono.className}`}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.5 }}
+                        transition={{ delay: 1.1, duration: 0.8 }}
+                        className="flex flex-col md:flex-row items-center justify-center gap-4 mb-12"
                     >
-                        {displayText}
-                        {isTyping && (
-                            <span className="inline-block w-2 h-5 bg-cyan-400 animate-blink ml-1" />
-                        )}
+                        {/* Primary iOS Button */}
+                        <a
+                            href="#projects"
+                            className="group relative px-8 py-4 bg-white/10 backdrop-blur-xl border border-white/20 text-white font-medium rounded-2xl overflow-hidden transition-all hover:bg-white/15 hover:border-white/30 hover:scale-[1.02] active:scale-[0.98] shadow-[0_8px_32px_rgba(255,255,255,0.1)]"
+                        >
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                            <span className="relative flex items-center gap-2">
+                                View My Work <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                            </span>
+                        </a>
+
+                        {/* Secondary iOS Button */}
+                        <a
+                            href={`mailto:${LINKS.EMAIL}`}
+                            target="_blank"
+                            className="group relative px-8 py-4 bg-white/5 backdrop-blur-xl border border-white/10 text-white font-medium rounded-2xl overflow-hidden transition-all hover:bg-white/10 hover:border-white/20 hover:scale-[1.02] active:scale-[0.98] shadow-[0_8px_32px_rgba(255,255,255,0.05)]"
+                        >
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                            <span className="relative">Let&apos;s Connect</span>
+                        </a>
                     </motion.div>
-                )}
-            </AnimatePresence>
 
-            {/* Bridge effects */}
-            {showBridges && (
-                <div className="absolute inset-0 flex items-center justify-center z-30">
-                    {/* More beams for a fuller effect */}
-                    {[...Array(8)].map((_, i) => (
-                        <motion.div
-                            key={i}
-                            className="absolute w-full h-1 bg-cyan-400 shadow-[0_0_15px_cyan]"
-                            style={{
-                                transform: `rotate(${i * 22.5}deg)`,
-                                transformOrigin: "center",
-                            }}
-                            variants={bridgeVariants}
-                            initial="hidden"
-                            animate="visible"
-                            exit="exit"
-                            custom={i}
-                        />
-                    ))}
-
-                    {/* Central glow effect */}
+                    {/* Social Links */}
                     <motion.div
-                        className="absolute w-40 h-40 rounded-full"
-                        style={{
-                            background: "radial-gradient(circle, rgba(34, 211, 238, 0.4) 0%, rgba(34, 211, 238, 0.1) 50%, transparent 70%)",
-                        }}
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{
-                            opacity: [0, 0.8, 0.6],
-                            scale: [0, 1, 1.2],
-                            transition: { duration: 2, times: [0, 0.4, 1] }
-                        }}
-                    />
-                </div>
-            )}
-
-            {/* Skip button */}
-            <motion.button
-                onClick={handleSkip}
-                className="absolute bottom-6 md:right-6 right-1/2 translate-x-1/2 md:translate-0 px-7 py-2 bg-black/30 border border-cyan-400/30 
-                           text-cyan-300 rounded-md backdrop-blur-sm z-50 hover:bg-black/50 
-                           hover:border-cyan-400/60 transition-colors duration-300 text-xs cursor-pointer"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
-            >
-                Skip
-            </motion.button>
-
-            <style jsx>{`
-            @keyframes blink {
-                0%, 100% { opacity: 1; }
-                50% { opacity: 0; }
-            }
-            .animate-blink {
-                animation: blink 0.8s infinite;
-            }
-            @keyframes twinkle {
-                0% { opacity: 0.3; transform: scale(1); }
-                50% { opacity: 1; transform: scale(1.2); }
-                100% { opacity: 0.3; transform: scale(1); }
-            }
-        `}</style>
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 1.3, duration: 0.8 }}
+                        className="flex items-center justify-center gap-6 text-muted-foreground"
+                    >
+                        <a
+                            href={LINKS.GITHUB}
+                            target="_blank"
+                            className="p-3 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all hover:scale-110 transform duration-200"
+                        >
+                            <Github size={20} />
+                        </a>
+                        <a
+                            href={LINKS.LINKEDIN}
+                            target="_blank"
+                            className="p-3 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all hover:scale-110 transform duration-200"
+                        >
+                            <Linkedin size={20} />
+                        </a>
+                        <a
+                            href={`mailto:${LINKS.EMAIL}`}
+                            target="_blank"
+                            className="p-3 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all hover:scale-110 transform duration-200"
+                        >
+                            <Mail size={20} />
+                        </a>
+                    </motion.div>
+                </motion.div>
+            </div>
         </section>
     );
 }
