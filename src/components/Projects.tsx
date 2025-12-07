@@ -1,28 +1,9 @@
-"use client";
+
 
 import { MagicCard } from "./ui/MagicCard";
 import { ArrowUpRight } from "lucide-react";
-
-const projects = [
-  {
-    title: "Project One",
-    description: "A futuristic web application built with Next.js and WebGL.",
-    tags: ["Next.js", "WebGL", "Three.js"],
-    link: "#",
-  },
-  {
-    title: "Project Two",
-    description: "E-commerce platform with real-time inventory management.",
-    tags: ["React", "Node.js", "Socket.io"],
-    link: "#",
-  },
-  {
-    title: "Project Three",
-    description: "AI-powered content generation tool for creators.",
-    tags: ["OpenAI", "Python", "FastAPI"],
-    link: "#",
-  },
-];
+import Image from "next/image";
+import { projectsData } from "@/data/projects";
 
 export default function Projects() {
   return (
@@ -32,14 +13,22 @@ export default function Projects() {
           Selected Work
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto">
-          {projects.map((project, i) => (
-            <MagicCard key={i} className="flex flex-col h-full">
-              <div className="h-48 bg-neutral-900/50 border-b border-white/10" />
+          {projectsData.map((project, i) => (
+            <MagicCard key={i} className="flex flex-col h-full group">
+              <div className="h-48 w-full relative overflow-hidden bg-neutral-900/50 border-b border-white/10">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
               <div className="p-4 md:p-6 flex flex-col flex-grow">
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-xl font-bold text-foreground">{project.title}</h3>
                   <a
                     href={project.link}
+                    target="_blank"
                     className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
                   >
                     <ArrowUpRight className="w-4 h-4" />
