@@ -1,21 +1,6 @@
-"use client";
+import { experienceData } from "@/data/experience";
 
 export default function Experience() {
-    const experiences = [
-        {
-            year: "Jun 2025 - Present",
-            role: "Associate Software Developer",
-            company: "Udaan Solutions",
-            description: "Building scalable web & mobile applications using React.js, Next.js, Node.js, .NET, Azure and more.",
-        },
-        {
-            year: "Jan 2025 - Apr 2025",
-            role: "Full-Stack Developer Intern",
-            company: "SHDPIXEL",
-            description: "Developed solutions with Next.js, TypeScript and Node.js.",
-        },
-    ];
-
     return (
         <section id="experience" className="py-20">
             <div className="container mx-auto px-4 md:px-6">
@@ -23,7 +8,7 @@ export default function Experience() {
                     Experience
                 </h2>
                 <div className="max-w-3xl mx-auto space-y-8">
-                    {experiences.map((exp, i) => (
+                    {experienceData.map((exp, i) => (
                         <div
                             key={i}
                             className="relative pl-6 md:pl-8 border-l border-white/10 hover:border-primary/50 transition-colors duration-300"

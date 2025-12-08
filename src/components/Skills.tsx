@@ -4,17 +4,7 @@ import { MagicCard } from "./ui/MagicCard";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const skillsData = {
-  Frontend: [
-    "React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "HTML5", "CSS3", "JavaScript"
-  ],
-  Backend: [
-    "Node.js", "Express", "PostgreSQL", "MongoDB", "Prisma", "Supabase"
-  ],
-  Tools: [
-    "Git", "Docker", "VS Code", "Figma", "Vercel", "Linux"
-  ]
-};
+import { skillsData } from "@/data/skills";
 
 export default function Skills() {
   const [activeTab, setActiveTab] = useState("Frontend");

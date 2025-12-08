@@ -181,6 +181,7 @@ export default function Welcome() {
                         <a
                             href={LINKS.GITHUB}
                             target="_blank"
+                            aria-label="GitHub Profile"
                             className="p-3 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all hover:scale-110 transform duration-200"
                         >
                             <Github size={20} />
@@ -188,6 +189,7 @@ export default function Welcome() {
                         <a
                             href={LINKS.LINKEDIN}
                             target="_blank"
+                            aria-label="LinkedIn Profile"
                             className="p-3 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all hover:scale-110 transform duration-200"
                         >
                             <Linkedin size={20} />
@@ -195,6 +197,7 @@ export default function Welcome() {
                         <a
                             href={`mailto:${LINKS.EMAIL}`}
                             target="_blank"
+                            aria-label="Email Me"
                             className="p-3 rounded-full bg-white/5 backdrop-blur-xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all hover:scale-110 transform duration-200"
                         >
                             <Mail size={20} />
