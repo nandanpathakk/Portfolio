@@ -1,7 +1,7 @@
 
 
 import { MagicCard } from "./ui/MagicCard";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Github } from "lucide-react";
 import Image from "next/image";
 import { projectsData } from "@/data/projects";
 
@@ -26,13 +26,22 @@ export default function Projects() {
               <div className="p-4 md:p-6 flex flex-col flex-grow">
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-xl font-bold text-foreground">{project.title}</h3>
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
-                  >
-                    <ArrowUpRight className="w-4 h-4" />
-                  </a>
+                  <div className="flex justify-end gap-2">
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
+                    >
+                      <Github className="w-4 h-4" />
+                    </a>
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
+                    >
+                      <ArrowUpRight className="w-4 h-4" />
+                    </a>
+                  </div>
                 </div>
                 <p className="text-muted-foreground mb-6 flex-grow">
                   {project.description}

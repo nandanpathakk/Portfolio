@@ -1,11 +1,11 @@
 export const skillsData = {
     Frontend: [
-        "React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "HTML5", "CSS3", "JavaScript"
+        "React", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS", "Framer Motion", "HTML5", "CSS3", "React Native", "Redux", "Zustand"
     ],
     Backend: [
-        "Node.js", "Express", "PostgreSQL", "MongoDB", "Prisma", "Supabase"
+        "Node.js", "Express", ".NET", "PostgreSQL", "MongoDB", "Prisma", "Supabase"
     ],
     Tools: [
-        "Git", "Docker", "VS Code", "Figma", "Vercel", "Linux"
+        "Git", "Docker", "Figma", "Postman"
     ]
 };

@@ -6,6 +6,7 @@ export const projectsData: Project[] = [
         description: "A web-based drawing tool like Excalidraw where users can create flow diagrams on a canvas.",
         tags: ["Next.js", "Canvas", "Zustand"],
         link: "https://doodleup.vercel.app",
+        github: "https://github.com/nandanpathakk/Doodle",
         image: "/images/doodle.png",
     },
     {
@@ -13,6 +14,7 @@ export const projectsData: Project[] = [
         description: "A GitHub issue estimator where users enter a repo and get all open issues with estimated cost and difficulty level.",
         tags: ["GitHub API", "OpenAi API", "Supabase"],
         link: "https://github-issue-estimator.vercel.app",
+        github: "https://github.com/nandanpathakk/github-issue-estimator",
         image: "/images/peg.png",
     },
     {
@@ -20,6 +22,7 @@ export const projectsData: Project[] = [
         description: "A real-time chat application with live messaging functionality.",
         tags: ["Next.js", "Pusher", "Tailwind CSS"],
         link: "https://chatbox-gamma-teal.vercel.app/login",
+        github: "https://github.com/nandanpathakk/Real-time-chat-app",
         image: "/images/Chatbox.webp",
     },
 ];
