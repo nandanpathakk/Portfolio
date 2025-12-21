@@ -16,10 +16,10 @@ export default function Home() {
       <Welcome />
       <div className="space-y-24 pb-24">
         <About />
+        <Experience />
         <Skills />
         <Projects />
         <Terminal />
-        <Experience />
       </div>
       <Footer />
       <ScrollProgress />

@@ -2,8 +2,11 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
+import { ConfettiSideCannons } from "./ui/ConfettiSideCannons";
 import { useState, useEffect } from "react";
 import { LINKS } from "@/components/config/links";
+import { Meteors } from "./ui/meteors";
+import { LineShadowText } from "./ui/line-shadow-text";
 
 export default function Welcome() {
     const [showHindi, setShowHindi] = useState(true);
@@ -30,6 +33,7 @@ export default function Welcome() {
 
     return (
         <section className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden">
+            <Meteors />
             {/* Ambient Background */}
             <div className="absolute inset-0 -z-10">
                 <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] animate-pulse" />
@@ -135,11 +139,11 @@ export default function Welcome() {
                         className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-12 font-light leading-relaxed">
 
                         <span className="text-muted-foreground/30">Making it </span>
-                        <span className="text-white font-semibold">work</span>
+                        <span className="text-white font-semibold"><LineShadowText className="italic">work</LineShadowText></span>
                         <span className="text-muted-foreground/30">, Making it </span>
-                        <span className="text-white font-semibold">right</span>
+                        <span className="text-white font-semibold"><LineShadowText className="italic">right</LineShadowText></span>
                         <span className="text-muted-foreground/30">, Making it </span>
-                        <span className="text-white font-semibold">fast</span>
+                        <span className="text-white font-semibold"><LineShadowText className="italic">fast</LineShadowText></span>
                     </motion.p>
 
                     {/* iOS-Style CTA Buttons */}
@@ -202,6 +206,10 @@ export default function Welcome() {
                         >
                             <Mail size={20} />
                         </a>
+
+
+                        {/* Surprise Button */}
+                        <ConfettiSideCannons />
                     </motion.div>
                 </motion.div>
             </div>
