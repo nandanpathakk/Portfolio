@@ -2,7 +2,6 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
-import { ConfettiSideCannons } from "./ui/ConfettiSideCannons";
 import { useState, useEffect } from "react";
 import { LINKS } from "@/components/config/links";
 import { Meteors } from "./ui/meteors";
