@@ -33,7 +33,7 @@ export default function Welcome() {
 
     return (
         <section className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden">
-            <Meteors />
+            <Meteors/>
             {/* Ambient Background */}
             <div className="absolute inset-0 -z-10">
                 <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-white/5 rounded-full blur-[120px] animate-pulse" />
@@ -209,7 +209,7 @@ export default function Welcome() {
 
 
                         {/* Surprise Button */}
-                        <ConfettiSideCannons />
+                        {/* <ConfettiSideCannons /> */}
                     </motion.div>
                 </motion.div>
             </div>
