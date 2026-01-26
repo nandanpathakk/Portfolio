@@ -29,7 +29,7 @@ export default function ScrollReset() {
         });
 
         // Prevent scroll on focus (in case autoFocus causes scrolling)
-        const preventScrollOnFocus = (e: FocusEvent) => {
+        const preventScrollOnFocus = () => {
             if (document.documentElement.scrollTop !== 0 || document.body.scrollTop !== 0) {
                 resetScroll();
             }
