@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Syne, JetBrains_Mono, Inter, Playfair_Display, Kalam, Rajdhani, Teko } from "next/font/google";
 import { ReactLenis } from "@/lib/lenis";
+import ScrollReset from "@/components/ScrollReset";
 
 const syne = Syne({ subsets: ["latin"], variable: "--font-syne" });
 const jetbrains = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
@@ -24,6 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`bg-background text-foreground ${syne.variable} ${jetbrains.variable} ${inter.variable} ${playfair.variable} ${kalam.variable} ${rajdhani.variable} ${teko.variable} font-sans antialiased overflow-x-hidden`}>
+        <ScrollReset />
         <ReactLenis root>
           {children}
         </ReactLenis>
