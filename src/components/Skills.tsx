@@ -2,12 +2,13 @@
 
 import { MagicCard } from "./ui/MagicCard";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 import { skillsData } from "@/data/skills";
 
 export default function Skills() {
   const [activeTab, setActiveTab] = useState("Frontend");
+  const reducedMotion = useReducedMotion();
 
   return (
     <section id="skills" className="py-20">
@@ -37,10 +38,10 @@ export default function Skills() {
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: reducedMotion ? 1 : 0, y: reducedMotion ? 0 : 20 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
+              exit={{ opacity: reducedMotion ? 1 : 0, y: reducedMotion ? 0 : -20 }}
+              transition={{ duration: reducedMotion ? 0 : 0.3 }}
               className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
             >
               {skillsData[activeTab as keyof typeof skillsData].map((skill) => (

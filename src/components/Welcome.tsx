@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
 import { useState, useEffect } from "react";
 import { LINKS } from "@/components/config/links";
@@ -10,25 +10,19 @@ import { LineShadowText } from "./ui/line-shadow-text";
 export default function Welcome() {
     const [showHindi, setShowHindi] = useState(true);
     const [isGlitching, setIsGlitching] = useState(false);
+    const reducedMotion = useReducedMotion();
 
     useEffect(() => {
-        // Show Hindi for 2 seconds, then glitch and switch to English
         const timer = setTimeout(() => {
-            setIsGlitching(true);
-
-            // Play glitch sound
-            const audio = new Audio("https://assets.mixkit.co/active_storage/sfx/2578/2578-preview.mp3");
-            audio.volume = 0.5;
-            audio.play().catch(e => console.log("Audio play failed (user interaction needed first):", e));
-
+            if (!reducedMotion) setIsGlitching(true);
             setTimeout(() => {
                 setShowHindi(false);
                 setIsGlitching(false);
-            }, 600); // Glitch duration
-        }, 2000);
+            }, reducedMotion ? 0 : 600);
+        }, reducedMotion ? 0 : 2000);
 
         return () => clearTimeout(timer);
-    }, []);
+    }, [reducedMotion]);
 
     return (
         <section className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden">
@@ -43,14 +37,14 @@ export default function Welcome() {
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, ease: "easeOut" }}
+                    transition={{ duration: reducedMotion ? 0 : 1, ease: "easeOut" }}
                     className="text-center max-w-4xl mx-auto"
                 >
                     {/* Greeting */}
                     <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ delay: 0.3, duration: 0.8 }}
+                        transition={{ delay: reducedMotion ? 0 : 0.3, duration: reducedMotion ? 0 : 0.8 }}
                         className="text-base md:text-xl text-muted-foreground mb-4 font-light tracking-wide"
                     >
                         Hey there 👋, I&apos;m
@@ -79,8 +73,8 @@ export default function Welcome() {
                                     }}
                                     exit={{
                                         opacity: 0,
-                                        scale: 0.95,
-                                        filter: "blur(10px)"
+                                        scale: reducedMotion ? 1 : 0.95,
+                                        filter: reducedMotion ? "blur(0px)" : "blur(10px)"
                                     }}
                                     transition={{
                                         duration: 0.8,
@@ -88,7 +82,7 @@ export default function Welcome() {
                                         filter: { duration: 0.6, times: [0, 0.2, 0.4, 0.6, 0.8, 1] },
                                         scale: { duration: 0.6, times: [0, 0.2, 0.4, 0.6, 0.8, 1] }
                                     }}
-                                    className={`text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-none absolute ${isGlitching ? 'glitch' : ''}`}
+                                    className={`text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-none absolute ${isGlitching && !reducedMotion ? 'glitch' : ''}`}
                                     style={{ fontFamily: "'teko', cursive" }}
                                 >
                                     नंदन पाठक
@@ -98,15 +92,15 @@ export default function Welcome() {
                                     key="english"
                                     initial={{
                                         opacity: 0,
-                                        scale: 0.95,
-                                        filter: "blur(10px)"
+                                        scale: reducedMotion ? 1 : 0.95,
+                                        filter: reducedMotion ? "blur(0px)" : "blur(10px)"
                                     }}
                                     animate={{
                                         opacity: 1,
                                         scale: 1,
                                         filter: "blur(0px)"
                                     }}
-                                    transition={{ duration: 0.8 }}
+                                    transition={{ duration: reducedMotion ? 0 : 0.8 }}
                                     className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-none absolute"
                                     style={{ fontFamily: "'Playfair Display', serif" }}
                                 >
@@ -120,7 +114,7 @@ export default function Welcome() {
                     <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ delay: 0.9, duration: 0.8 }}
+                        transition={{ delay: reducedMotion ? 0 : 0.9, duration: reducedMotion ? 0 : 0.8 }}
                         className="text-sm sm:text-base md:text-lg text-muted-foreground/80 max-w-2xl mx-auto mb-8 leading-relaxed"
                     >
                         A developer with a passion for clean code and minimal design.
@@ -134,7 +128,7 @@ export default function Welcome() {
                     <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ delay: 0.7, duration: 0.8 }}
+                        transition={{ delay: reducedMotion ? 0 : 0.7, duration: reducedMotion ? 0 : 0.8 }}
                         className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-12 font-light leading-relaxed">
 
                         <span className="text-muted-foreground/30">Making it </span>
@@ -149,7 +143,7 @@ export default function Welcome() {
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 1.1, duration: 0.8 }}
+                        transition={{ delay: reducedMotion ? 0 : 1.1, duration: reducedMotion ? 0 : 0.8 }}
                         className="flex flex-col md:flex-row items-center justify-center gap-4 mb-12"
                     >
                         {/* Primary iOS Button */}
@@ -178,7 +172,7 @@ export default function Welcome() {
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ delay: 1.3, duration: 0.8 }}
+                        transition={{ delay: reducedMotion ? 0 : 1.3, duration: reducedMotion ? 0 : 0.8 }}
                         className="flex items-center justify-center gap-6 text-muted-foreground"
                     >
                         <a
@@ -207,8 +201,6 @@ export default function Welcome() {
                         </a>
 
 
-                        {/* Surprise Button */}
-                        {/* <ConfettiSideCannons /> */}
                     </motion.div>
                 </motion.div>
             </div>

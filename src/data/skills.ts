@@ -6,6 +6,6 @@ export const skillsData = {
         "Node.js", "Express", ".NET", "PostgreSQL", "MongoDB", "Prisma", "Supabase"
     ],
     Tools: [
-        "Git", "Docker", "Figma", "Postman"
+        "Git", "GitHub Actions", "Docker", "Figma", "Postman", "VS Code", "Vercel", "Linux"
     ]
 };
