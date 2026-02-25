@@ -1,56 +1,123 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { aboutItems } from "@/data/about";
 import { LucideIcon } from "lucide-react";
 
-const Card = ({ item }: { item: { title: string, description: string, icon: LucideIcon }, index: number, x: MotionValue }) => {
-  return (
+// ─── Shared card used by both layouts ────────────────────────────────────────
+
+const Card = ({
+    item,
+    className = "",
+}: {
+    item: { title: string; description: string; icon: LucideIcon };
+    className?: string;
+}) => (
     <div
-      className="min-w-[85vw] md:min-w-[450px] h-[50vh] md:h-[60vh] p-6 md:p-10 rounded-3xl bg-black/40 backdrop-blur-md border border-white/10 flex flex-col justify-end hover:border-white/20 transition-colors duration-300 group"
+        className={`p-6 md:p-8 rounded-3xl bg-black/40 backdrop-blur-md border border-white/10 flex flex-col hover:border-white/20 transition-colors duration-300 group ${className}`}
     >
-      <div className="mb-4 p-3 rounded-2xl bg-white/5 w-fit group-hover:bg-white/10 transition-colors">
-        <item.icon className="h-8 w-8 text-white" />
-      </div>
-      <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">{item.title}</h3>
-      <p className="text-lg text-neutral-400 group-hover:text-neutral-300 transition-colors">{item.description}</p>
+        <div className="mb-4 p-3 rounded-2xl bg-white/5 w-fit group-hover:bg-white/10 transition-colors">
+            <item.icon className="h-6 w-6 text-white" />
+        </div>
+        <h3 className="text-xl md:text-2xl font-bold text-white mb-3">{item.title}</h3>
+        <p className="text-neutral-400 group-hover:text-neutral-300 transition-colors leading-relaxed">
+            {item.description}
+        </p>
     </div>
-  );
-};
+);
+
+// ─── Mobile: original horizontal scroll ──────────────────────────────────────
+
+function MobileAbout() {
+    const targetRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll({ target: targetRef });
+    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-85%"]);
+
+    return (
+        <section ref={targetRef} className="relative h-[400vh] bg-background">
+            <div className="sticky top-0 h-screen flex items-center overflow-hidden">
+                <motion.div style={{ x }} className="flex gap-4 px-4 items-center">
+                    {/* Intro text */}
+                    <div className="min-w-[85vw] h-[50vh] flex flex-col justify-center p-6 rounded-3xl bg-transparent">
+                        <h2 className="text-4xl font-bold mb-4 text-white tracking-tighter">
+                            About Me
+                        </h2>
+                        <p className="text-xl text-neutral-400 leading-relaxed font-light">
+                            I like building things for the internet.
+                        </p>
+                    </div>
+                    {/* Cards */}
+                    {aboutItems.map((item, i) => (
+                        <Card key={i} item={item} className="min-w-[85vw] h-[50vh] justify-end" />
+                    ))}
+                </motion.div>
+            </div>
+        </section>
+    );
+}
+
+// ─── Desktop: sticky left + vertical cards ───────────────────────────────────
+
+function DesktopAbout({ reducedMotion }: { reducedMotion: boolean | null }) {
+    return (
+        <section className="py-20">
+            <div className="container mx-auto px-6">
+                <div className="grid grid-cols-2 gap-16 items-start">
+
+                    {/* Left: sticky heading */}
+                    <div className="sticky top-24">
+                        <motion.div
+                            initial={{ opacity: 0, y: reducedMotion ? 0 : 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: reducedMotion ? 0 : 0.6 }}
+                        >
+                            <h2 className="text-6xl lg:text-7xl font-bold text-white tracking-tighter mb-6">
+                                About Me
+                            </h2>
+                            <p className="text-xl text-neutral-400 leading-relaxed font-light">
+                                I like building things for the internet.
+                            </p>
+                        </motion.div>
+                    </div>
+
+                    {/* Right: stacked cards */}
+                    <div className="flex flex-col gap-6">
+                        {aboutItems.map((item, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: reducedMotion ? 0 : 24 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: "-60px" }}
+                                transition={{ duration: reducedMotion ? 0 : 0.5, delay: reducedMotion ? 0 : i * 0.08 }}
+                            >
+                                <Card item={item} />
+                            </motion.div>
+                        ))}
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    );
+}
+
+// ─── Export ───────────────────────────────────────────────────────────────────
 
 export default function About() {
-  const targetRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-  });
+    const reducedMotion = useReducedMotion();
 
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-85%"]);
-
-
-
-  return (
-    <section ref={targetRef} id="about" className="relative h-[400vh] bg-background">
-      <div className="sticky top-0 h-screen flex items-center overflow-hidden perspective-[1000px]">
-
-        {/* Horizontal Scroll Container */}
-        <motion.div style={{ x }} className="flex gap-4 md:gap-8 px-4 md:px-24 items-center">
-          {/* Intro Text Card */}
-          <div className="min-w-[85vw] md:min-w-[600px] h-[50vh] md:h-[60vh] flex flex-col justify-center p-6 md:p-12 rounded-3xl bg-transparent border-none">
-            <h2 className="text-4xl md:text-7xl font-bold mb-8 text-white tracking-tighter">
-              About Me
-            </h2>
-            <p className="text-2xl text-neutral-400 leading-relaxed font-light">
-              I like building things for the internet       <br /><br />
-            </p>
-          </div>
-
-          {/* Feature Cards */}
-          {aboutItems.map((item, i) => (
-            <Card key={i} item={item} index={i} x={x} />
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-} 
+    return (
+        <div id="about">
+            {/* Mobile only */}
+            <div className="block md:hidden">
+                <MobileAbout />
+            </div>
+            {/* Desktop only */}
+            <div className="hidden md:block">
+                <DesktopAbout reducedMotion={reducedMotion} />
+            </div>
+        </div>
+    );
+}

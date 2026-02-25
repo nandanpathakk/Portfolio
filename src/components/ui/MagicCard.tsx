@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
+import { motion, useMotionTemplate, useMotionValue, useReducedMotion } from "framer-motion";
 import { MouseEvent } from "react";
 
 export const MagicCard = ({
@@ -13,8 +13,10 @@ export const MagicCard = ({
 }) => {
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
+    const reducedMotion = useReducedMotion();
 
     function handleMouseMove({ currentTarget, clientX, clientY }: MouseEvent) {
+        if (reducedMotion) return;
         const { left, top } = currentTarget.getBoundingClientRect();
         mouseX.set(clientX - left);
         mouseY.set(clientY - top);
@@ -29,7 +31,7 @@ export const MagicCard = ({
             onMouseMove={handleMouseMove}
         >
             <motion.div
-                className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 group-hover:opacity-100"
+                className={`pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 ${!reducedMotion ? "group-hover:opacity-100" : ""}`}
                 style={{
                     background: useMotionTemplate`
             radial-gradient(

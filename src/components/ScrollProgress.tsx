@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { motion, useScroll, useTransform, MotionValue, useReducedMotion } from "framer-motion";
 import dynamic from "next/dynamic";
 
 import animationData from "./progress-lottie.json";
@@ -13,6 +13,7 @@ export default function ScrollProgress() {
     const { scrollYProgress } = useScroll();
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
     const [isMounted, setIsMounted] = useState(false);
+    const reducedMotion = useReducedMotion();
 
     useEffect(() => {
         setIsMounted(true);
@@ -29,7 +30,7 @@ export default function ScrollProgress() {
         return () => window.removeEventListener("resize", updateDimensions);
     }, []);
 
-    if (!isMounted || dimensions.width === 0) return null;
+    if (!isMounted || dimensions.width === 0 || reducedMotion) return null;
 
     // Path: Down the left edge, then across the bottom
     // Padding from edge
