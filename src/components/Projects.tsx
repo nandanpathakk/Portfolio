@@ -9,13 +9,16 @@ export default function Projects() {
   return (
     <section id="projects" className="py-20">
       <div className="container mx-auto px-4 md:px-6">
-        <h2 className="text-3xl md:text-5xl font-bold mb-12 text-center text-gradient-primary">
+        <h2 className="text-3xl md:text-5xl font-bold mb-4 text-center text-gradient-primary">
           Selected Work
         </h2>
+        <p className="text-center text-foreground/70 text-base md:text-lg mb-12 italic max-w-xl mx-auto">
+          There&apos;s more, just not here yet. Patience is a virtue, apparently.
+        </p>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto">
           {projectsData.map((project, i) => (
             <MagicCard key={i} className="flex flex-col h-full group">
-              <div className="h-48 w-full relative overflow-hidden bg-neutral-900/50 border-b border-white/10">
+              <div className="h-40 sm:h-48 w-full relative overflow-hidden bg-neutral-900/50 border-b border-white/10">
                 <Image
                   src={project.image}
                   alt={project.title}
@@ -50,7 +53,7 @@ export default function Projects() {
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1 rounded-full text-xs bg-primary/10 text-primary border border-primary/20"
+                      className="px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-xs bg-primary/10 text-primary border border-primary/20"
                     >
                       {tag}
                     </span>
