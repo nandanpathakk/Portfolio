@@ -37,19 +37,19 @@ function MobileAbout() {
     return (
         <section ref={targetRef} className="relative h-[400vh] bg-background">
             <div className="sticky top-0 h-screen flex items-center overflow-hidden">
-                <motion.div style={{ x }} className="flex gap-4 px-4 items-center">
+                <motion.div style={{ x }} className="flex gap-3 sm:gap-4 px-3 sm:px-4 items-center">
                     {/* Intro text */}
-                    <div className="min-w-[85vw] h-[50vh] flex flex-col justify-center p-6 rounded-3xl bg-transparent">
-                        <h2 className="text-4xl font-bold mb-4 text-white tracking-tighter">
+                    <div className="min-w-[88vw] sm:min-w-[85vw] h-[50vh] flex flex-col justify-center p-5 sm:p-6 rounded-3xl bg-transparent">
+                        <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-white tracking-tighter">
                             About Me
                         </h2>
-                        <p className="text-xl text-neutral-400 leading-relaxed font-light">
+                        <p className="text-base sm:text-xl text-neutral-400 leading-relaxed font-light">
                             I like building things for the internet.
                         </p>
                     </div>
                     {/* Cards */}
                     {aboutItems.map((item, i) => (
-                        <Card key={i} item={item} className="min-w-[85vw] h-[50vh] justify-end" />
+                        <Card key={i} item={item} className="min-w-[88vw] sm:min-w-[85vw] h-[50vh] justify-end" />
                     ))}
                 </motion.div>
             </div>
@@ -62,8 +62,8 @@ function MobileAbout() {
 function DesktopAbout({ reducedMotion }: { reducedMotion: boolean | null }) {
     return (
         <section className="py-20">
-            <div className="container mx-auto px-6">
-                <div className="grid grid-cols-2 gap-16 items-start">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="grid grid-cols-2 gap-8 lg:gap-16 items-start">
 
                     {/* Left: sticky heading */}
                     <div className="sticky top-24">
@@ -73,10 +73,10 @@ function DesktopAbout({ reducedMotion }: { reducedMotion: boolean | null }) {
                             viewport={{ once: true }}
                             transition={{ duration: reducedMotion ? 0 : 0.6 }}
                         >
-                            <h2 className="text-6xl lg:text-7xl font-bold text-white tracking-tighter mb-6">
+                            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tighter mb-6">
                                 About Me
                             </h2>
-                            <p className="text-xl text-neutral-400 leading-relaxed font-light">
+                            <p className="text-base md:text-xl text-neutral-400 leading-relaxed font-light">
                                 I like building things for the internet.
                             </p>
                         </motion.div>

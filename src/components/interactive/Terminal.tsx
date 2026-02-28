@@ -73,7 +73,7 @@ export default function Terminal() {
         help: (
             <div className="space-y-1">
                 <p>Available commands:</p>
-                <div className="grid grid-cols-[100px_1fr] gap-2">
+                <div className="grid grid-cols-[80px_1fr] sm:grid-cols-[100px_1fr] gap-2">
                     <span className="text-primary">about</span>
                     <span>Who is Nandan?</span>
                     <span className="text-primary">skills</span>
@@ -324,7 +324,7 @@ export default function Terminal() {
     }, [history]);
 
     return (
-        <section className="py-20">
+        <section className="py-12 md:py-20">
             <div className="container mx-auto px-4 md:px-6">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -348,7 +348,7 @@ export default function Terminal() {
                     {/* Terminal Body */}
                     <div
                         ref={terminalRef}
-                        className="p-4 md:p-6 h-[300px] md:h-[400px] overflow-y-auto custom-scrollbar font-mono"
+                        className="p-4 md:p-6 h-[260px] sm:h-[300px] md:h-[400px] overflow-y-auto custom-scrollbar font-mono"
                         onClick={() => inputRef.current?.focus()}
                         onWheel={(e) => {
                             // Stop propagation to prevent page scroll

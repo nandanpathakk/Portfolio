@@ -52,7 +52,7 @@ export default function PianoKeys() {
     const keys = Array.from({ length: keyCount });
 
     return (
-        <div className="w-full h-48 relative overflow-hidden bg-black/20 border-b border-white/5 backdrop-blur-sm [mask-image:linear-gradient(to_bottom,transparent_0%,black_40%)]">
+        <div className="w-full h-24 sm:h-32 md:h-48 relative overflow-hidden bg-black/20 border-b border-white/5 backdrop-blur-sm [mask-image:linear-gradient(to_bottom,transparent_0%,black_40%)]">
             <div className="flex w-full h-full">
                 {keys.map((_, i) => (
                     <PianoKey key={i} index={i} total={keyCount} />

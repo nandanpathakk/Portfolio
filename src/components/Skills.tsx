@@ -23,7 +23,7 @@ export default function Skills() {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${activeTab === tab
+              className={`px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${activeTab === tab
                 ? "bg-white text-black shadow-lg scale-105"
                 : "bg-white/5 text-white/60 hover:bg-white/10 hover:text-white"
                 }`}
@@ -42,11 +42,11 @@ export default function Skills() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: reducedMotion ? 1 : 0, y: reducedMotion ? 0 : -20 }}
               transition={{ duration: reducedMotion ? 0 : 0.3 }}
-              className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
+              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-4xl mx-auto"
             >
               {skillsData[activeTab as keyof typeof skillsData].map((skill) => (
-                <MagicCard key={skill} className="p-4 md:p-6 flex items-center justify-center text-center">
-                  <span className="text-lg font-medium text-foreground">{skill}</span>
+                <MagicCard key={skill} className="p-3 sm:p-4 md:p-6 flex items-center justify-center text-center">
+                  <span className="text-sm sm:text-base md:text-lg font-medium text-foreground">{skill}</span>
                 </MagicCard>
               ))}
             </motion.div>

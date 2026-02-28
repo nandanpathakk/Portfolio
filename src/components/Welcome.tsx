@@ -117,11 +117,7 @@ export default function Welcome() {
                         transition={{ delay: reducedMotion ? 0 : 0.9, duration: reducedMotion ? 0 : 0.8 }}
                         className="text-sm sm:text-base md:text-lg text-muted-foreground/80 max-w-2xl mx-auto mb-8 leading-relaxed"
                     >
-                        A developer with a passion for clean code and minimal design.
-                        <br />
-                        <span className="text-muted-foreground/60 text-sm">
-                            (Of course I do backend as well 😌)
-                        </span>
+                        A developer who builds things. All of it.
                     </motion.p>
 
                     {/* Dual-Message Tagline */}
