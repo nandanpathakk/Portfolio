@@ -25,18 +25,18 @@ export const MagicCard = ({
     return (
         <div
             className={cn(
-                "group relative border border-white/10 bg-black overflow-hidden rounded-xl",
+                "group relative border border-border bg-card/30 overflow-hidden",
                 className
             )}
             onMouseMove={handleMouseMove}
         >
             <motion.div
-                className={`pointer-events-none absolute -inset-px rounded-xl opacity-0 transition duration-300 ${!reducedMotion ? "group-hover:opacity-100" : ""}`}
+                className={`pointer-events-none absolute -inset-px opacity-0 transition duration-300 ${!reducedMotion ? "group-hover:opacity-100" : ""}`}
                 style={{
                     background: useMotionTemplate`
             radial-gradient(
-              650px circle at ${mouseX}px ${mouseY}px,
-              rgba(255,255,255,0.1),
+              580px circle at ${mouseX}px ${mouseY}px,
+              rgba(200, 145, 55, 0.10),
               transparent 80%
             )
           `,

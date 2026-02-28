@@ -7,8 +7,8 @@ export const aboutItems = [
         icon: User,
     },
     {
-        title: "Tools I Vibe With",
-        description: "React for the component life, Next.js for that sweet SSR, TypeScript so future me doesn't hate present me, Tailwind because life's too short for stylesheets.",
+        title: "Stack I Reach For",
+        description: "React and Next.js on the frontend, Node.js and .NET on the backend, PostgreSQL and MongoDB for data. TypeScript everywhere, because runtime surprises aren't fun.",
         icon: Code2,
     },
     {

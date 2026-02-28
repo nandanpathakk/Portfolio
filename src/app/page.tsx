@@ -14,14 +14,12 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background selection:bg-primary/20 selection:text-primary">
       <Welcome />
-      <div className="space-y-24 pb-24">
-        <About />
-        <Experience />
-        <Skills />
-        <Projects />
-        <Terminal />
-        <Contact />
-      </div>
+      <About />
+      <Experience />
+      <Skills />
+      <Projects />
+      <Terminal />
+      <Contact />
       <Footer />
       <ScrollProgress />
     </main>
