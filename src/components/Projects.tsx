@@ -1,69 +1,113 @@
+"use client";
 
-
-import { MagicCard } from "./ui/MagicCard";
+import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Github } from "lucide-react";
 import Image from "next/image";
 import { projectsData } from "@/data/projects";
 
 export default function Projects() {
-  return (
-    <section id="projects" className="py-20">
-      <div className="container mx-auto px-4 md:px-6">
-        <h2 className="text-3xl md:text-5xl font-bold mb-4 text-center text-gradient-primary">
-          Selected Work
-        </h2>
-        <p className="text-center text-foreground/70 text-base md:text-lg mb-12 italic max-w-xl mx-auto">
-          There&apos;s more, just not here yet. Patience is a virtue, apparently.
-        </p>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto">
-          {projectsData.map((project, i) => (
-            <MagicCard key={i} className="flex flex-col h-full group">
-              <div className="h-40 sm:h-48 w-full relative overflow-hidden bg-neutral-900/50 border-b border-white/10">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <div className="p-4 md:p-6 flex flex-col flex-grow">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl font-bold text-foreground">{project.title}</h3>
-                  <div className="flex justify-end gap-2">
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
+    const reducedMotion = useReducedMotion();
+
+    return (
+        <section id="projects" className="py-24">
+            <div className="px-6 md:px-10 lg:px-16">
+
+                {/* Section header */}
+                <motion.div
+                    initial={{ opacity: 0, y: reducedMotion ? 0 : 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: reducedMotion ? 0 : 0.6 }}
+                    className="mb-4"
+                >
+                    <p className="section-label mb-5">Work</p>
+                    <h2
+                        className="text-5xl md:text-6xl lg:text-7xl font-normal leading-none mb-4"
+                        style={{ fontFamily: "var(--font-elegant), serif" }}
                     >
-                      <Github className="w-4 h-4" />
-                    </a>
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
-                    >
-                      <ArrowUpRight className="w-4 h-4" />
-                    </a>
-                  </div>
+                        Selected<br /><em>projects.</em>
+                    </h2>
+                    <p className="text-muted-foreground/60 italic text-sm mb-16">
+                        There&apos;s more, just not here yet. Patience is a virtue, apparently
+                    </p>
+                </motion.div>
+
+                {/* Project grid */}
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 max-w-6xl">
+                    {projectsData.map((project, i) => (
+                        <motion.div
+                            key={i}
+                            initial={{ opacity: 0, y: reducedMotion ? 0 : 24 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-40px" }}
+                            transition={{ duration: reducedMotion ? 0 : 0.5, delay: reducedMotion ? 0 : i * 0.08 }}
+                            className="group relative overflow-hidden bg-card/30 border border-border hover:border-primary/30 transition-colors duration-500"
+                        >
+                            {/* Project number — large decorative */}
+                            <span
+                                className="absolute -top-3 right-4 text-[6rem] font-bold leading-none text-border/50 select-none pointer-events-none z-0"
+                                style={{ fontFamily: "var(--font-elegant), serif" }}
+                            >
+                                0{i + 1}
+                            </span>
+
+                            {/* Image */}
+                            <div className="h-44 sm:h-48 relative overflow-hidden bg-card z-10">
+                                <Image
+                                    src={project.image}
+                                    alt={project.title}
+                                    fill
+                                    className="object-cover group-hover:scale-105 transition-transform duration-700"
+                                />
+                                {/* Gradient overlay */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent" />
+                            </div>
+
+                            {/* Content */}
+                            <div className="relative z-10 p-5 md:p-6">
+                                <div className="flex justify-between items-start mb-3">
+                                    <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
+                                        {project.title}
+                                    </h3>
+                                    <div className="flex gap-1 shrink-0 ml-2">
+                                        <a
+                                            href={project.github}
+                                            target="_blank"
+                                            aria-label="View source code"
+                                            className="p-2 text-muted-foreground hover:text-primary transition-colors duration-200"
+                                        >
+                                            <Github className="w-4 h-4" />
+                                        </a>
+                                        <a
+                                            href={project.link}
+                                            target="_blank"
+                                            aria-label="View live project"
+                                            className="p-2 text-muted-foreground hover:text-primary transition-colors duration-200"
+                                        >
+                                            <ArrowUpRight className="w-4 h-4" />
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <p className="text-muted-foreground text-sm leading-relaxed mb-5">
+                                    {project.description}
+                                </p>
+
+                                <div className="flex flex-wrap gap-2">
+                                    {project.tags.map((tag) => (
+                                        <span
+                                            key={tag}
+                                            className="px-2.5 py-0.5 text-xs font-mono bg-primary/10 text-primary border border-primary/20"
+                                        >
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </motion.div>
+                    ))}
                 </div>
-                <p className="text-muted-foreground mb-6 flex-grow">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-xs bg-primary/10 text-primary border border-primary/20"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </MagicCard>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+            </div>
+        </section>
+    );
 }

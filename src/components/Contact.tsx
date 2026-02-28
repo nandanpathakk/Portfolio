@@ -1,60 +1,84 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Mail, Github, Linkedin, ArrowUpRight } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
 import { LINKS } from "@/components/config/links";
 
 export default function Contact() {
+    const reducedMotion = useReducedMotion();
+
     return (
-        <section id="contact" className="py-20">
-            <div className="container mx-auto px-4 md:px-6">
+        <section id="contact" className="py-24 md:py-32 relative overflow-hidden">
+
+            {/* Giant ambient background text */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden -z-10">
+                <span
+                    className="font-normal leading-none text-border/20 opacity-60"
+                    style={{
+                        fontFamily: "var(--font-elegant), serif",
+                        fontSize: "clamp(6rem, 28vw, 28rem)",
+                    }}
+                >
+                    hello.
+                </span>
+            </div>
+
+            <div className="px-6 md:px-10 lg:px-16 relative z-10">
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: reducedMotion ? 0 : 24 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
+                    transition={{ duration: reducedMotion ? 0 : 0.7 }}
                 >
-                    <h2 className="text-3xl md:text-5xl font-bold mb-12 text-center text-gradient-primary">
-                        Let&apos;s Work Together
+                    <p className="section-label mb-5">Contact</p>
+
+                    <h2
+                        className="text-5xl md:text-7xl lg:text-8xl font-normal leading-[1.0] mb-10 md:mb-14 max-w-3xl"
+                        style={{ fontFamily: "var(--font-elegant), serif" }}
+                    >
+                        Let&apos;s build<br />
+                        something<br />
+                        <em>great.</em>
                     </h2>
 
-                    <div className="max-w-2xl mx-auto glass-card rounded-3xl p-6 sm:p-8 md:p-12 text-center">
-                        <p className="text-muted-foreground text-base md:text-lg mb-6 md:mb-8 leading-relaxed">
-                            Have a project in mind, a question, or just want to say hi?
-                            My inbox is always open.
-                        </p>
+                    {/* Primary CTA — email as large text link */}
+                    <motion.a
+                        href={`mailto:${LINKS.EMAIL}`}
+                        initial={{ opacity: 0, x: reducedMotion ? 0 : -16 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: reducedMotion ? 0 : 0.6, delay: reducedMotion ? 0 : 0.15 }}
+                        className="group inline-flex items-center gap-4 text-xl md:text-2xl lg:text-3xl text-muted-foreground hover:text-primary transition-colors duration-300 mb-12 md:mb-16"
+                    >
+                        <span className="border-b border-muted-foreground/30 group-hover:border-primary transition-colors duration-300 pb-1">
+                            {LINKS.EMAIL}
+                        </span>
+                        <ArrowUpRight
+                            size={24}
+                            className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-200 shrink-0"
+                        />
+                    </motion.a>
 
-                        {/* Primary CTA */}
+                    {/* Secondary social links */}
+                    <div className="flex items-center gap-8 border-t border-border pt-8">
                         <a
-                            href={`mailto:${LINKS.EMAIL}`}
-                            className="inline-flex items-center gap-2 sm:gap-3 px-4 sm:px-8 py-3 sm:py-4 bg-white/10 backdrop-blur-xl border border-white/20 text-white font-medium rounded-2xl hover:bg-white/15 hover:border-white/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 shadow-[0_8px_32px_rgba(255,255,255,0.08)] mb-6 md:mb-8 group max-w-full"
+                            href={LINKS.GITHUB}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="group flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors duration-200"
                         >
-                            <Mail size={16} className="shrink-0" />
-                            <span className="text-sm sm:text-base truncate">{LINKS.EMAIL}</span>
-                            <ArrowUpRight size={14} className="opacity-60 group-hover:opacity-100 transition-opacity shrink-0" />
+                            GitHub
+                            <ArrowUpRight size={11} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
                         </a>
-
-                        {/* Secondary Links */}
-                        <div className="flex items-center justify-center gap-4 md:gap-6 pt-4 border-t border-white/5">
-                            <a
-                                href={LINKS.GITHUB}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-200 text-sm"
-                            >
-                                <Github size={16} />
-                                GitHub
-                            </a>
-                            <a
-                                href={LINKS.LINKEDIN}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors duration-200 text-sm"
-                            >
-                                <Linkedin size={16} />
-                                LinkedIn
-                            </a>
-                        </div>
+                        <a
+                            href={LINKS.LINKEDIN}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="group flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors duration-200"
+                        >
+                            LinkedIn
+                            <ArrowUpRight size={11} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
+                        </a>
                     </div>
                 </motion.div>
             </div>

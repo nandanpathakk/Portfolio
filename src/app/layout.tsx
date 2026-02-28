@@ -13,7 +13,7 @@ const teko = Teko({ subsets: ["latin"], weight: ["400", "700"], variable: "--fon
 
 export const metadata: Metadata = {
   title: "Nandan Pathak | Developer",
-  description: "A journey into my world of frontend development.",
+  description: "Developer who builds things — web, mobile, APIs, and more.",
 };
 
 export default function RootLayout({
