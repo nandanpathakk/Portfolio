@@ -5,6 +5,7 @@ export interface Project {
     link: string;
     github: string;
     image: string;
+    comingSoon?: boolean;
 }
 
 export interface Experience {
