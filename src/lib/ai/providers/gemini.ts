@@ -1,10 +1,11 @@
 import { ChatMessage, AIProviderResponse } from "../types";
+import { AI_CONFIG } from "@/config/ai";
 
 export async function generateGeminiResponse(
     systemPrompt: string,
     messages: ChatMessage[]
 ): Promise<AIProviderResponse> {
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = AI_CONFIG.apiKey
 
     if (!apiKey) {
         return {
@@ -20,7 +21,7 @@ export async function generateGeminiResponse(
         }));
 
         const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+            `https://generativelanguage.googleapis.com/v1beta/models/${AI_CONFIG.model}:generateContent?key=${apiKey}`,
             {
                 method: "POST",
                 headers: {

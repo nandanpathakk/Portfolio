@@ -1,12 +1,13 @@
 import { ChatMessage, AIProviderResponse } from "./types";
 import { generateOpenAIResponse } from "./providers/openai";
 import { generateGeminiResponse } from "./providers/gemini";
+import { AI_CONFIG } from "@/config/ai";
 
 export async function generateAIResponse(
     systemPrompt: string,
     messages: ChatMessage[]
 ): Promise<AIProviderResponse> {
-    const provider = process.env.AI_PROVIDER || "openai";
+    const provider = AI_CONFIG.provider || "gemini"
 
     if (provider === "gemini") {
         return generateGeminiResponse(systemPrompt, messages);
