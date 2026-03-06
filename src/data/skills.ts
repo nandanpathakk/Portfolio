@@ -1,11 +1,43 @@
 export const skillsData = {
     Frontend: [
-        "React", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS", "Framer Motion", "HTML5", "CSS3", "React Native", "Redux", "Zustand"
+        "React",
+        "Next.js",
+        "TypeScript",
+        "JavaScript",
+        "Tailwind CSS",
+        "Framer Motion",
+        "HTML5",
+        "CSS3",
+        "React Native",
+        "Redux",
+        "Zustand",
     ],
     Backend: [
-        "Node.js", "Express", ".NET", "PostgreSQL", "MongoDB", "Prisma", "Supabase"
+        "Node.js",
+        "Express",
+        ".NET",
+        "PostgreSQL",
+        "MongoDB",
+        "Prisma",
+        "Supabase",
+    ],
+    "AI & Dev Tools": [
+        "Claude Code",
+        "GPT-based assistants",
+        "OpenAI / ChatGPT API",
+        "Anthropic Claude API",
+        "AI-assisted code generation",
+        "Ollama",
+        "AI-first prototyping workflows",
     ],
     Tools: [
-        "Git", "GitHub Actions", "Docker", "Figma", "Postman", "VS Code", "Vercel", "Linux"
-    ]
+        "Git",
+        "GitHub Actions",
+        "Docker",
+        "Figma",
+        "Postman",
+        "VS Code",
+        "Vercel",
+        "Linux",
+    ],
 };

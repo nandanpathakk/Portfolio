@@ -2,6 +2,16 @@ import { Project } from "@/types";
 
 export const projectsData: Project[] = [
     {
+        title: "Halt",
+        description:
+            "Rust-based safety layer that monitors every command executed by you or your AI tools in your terminal, flags suspicious behaviour, and warns you before anything risky runs on your machine.",
+        tags: ["Rust", "Security", "AI tooling"],
+        link: "#",
+        github: "#",
+        image: "/images/Halt.png",
+        comingSoon: true,
+    },
+    {
         title: "Doodle",
         description: "A web-based drawing tool like Excalidraw where users can create flow diagrams on a canvas.",
         tags: ["Next.js", "Canvas", "Zustand"],

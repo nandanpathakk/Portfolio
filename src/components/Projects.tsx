@@ -66,27 +66,36 @@ export default function Projects() {
                             {/* Content */}
                             <div className="relative z-10 p-5 md:p-6">
                                 <div className="flex justify-between items-start mb-3">
-                                    <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
-                                        {project.title}
-                                    </h3>
-                                    <div className="flex gap-1 shrink-0 ml-2">
-                                        <a
-                                            href={project.github}
-                                            target="_blank"
-                                            aria-label="View source code"
-                                            className="p-2 text-muted-foreground hover:text-primary transition-colors duration-200"
-                                        >
-                                            <Github className="w-4 h-4" />
-                                        </a>
-                                        <a
-                                            href={project.link}
-                                            target="_blank"
-                                            aria-label="View live project"
-                                            className="p-2 text-muted-foreground hover:text-primary transition-colors duration-200"
-                                        >
-                                            <ArrowUpRight className="w-4 h-4" />
-                                        </a>
+                                    <div className="flex flex-col gap-1">
+                                        <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
+                                            {project.title}
+                                        </h3>
+                                        {project.comingSoon && (
+                                            <span className="inline-flex items-center px-2 py-0.5 text-[10px] font-mono uppercase tracking-[0.16em] rounded-full border border-amber-400/40 bg-amber-500/10 text-amber-200">
+                                                Coming soon
+                                            </span>
+                                        )}
                                     </div>
+                                    {!project.comingSoon && (
+                                        <div className="flex gap-1 shrink-0 ml-2">
+                                            <a
+                                                href={project.github}
+                                                target="_blank"
+                                                aria-label="View source code"
+                                                className="p-2 text-muted-foreground hover:text-primary transition-colors duration-200"
+                                            >
+                                                <Github className="w-4 h-4" />
+                                            </a>
+                                            <a
+                                                href={project.link}
+                                                target="_blank"
+                                                aria-label="View live project"
+                                                className="p-2 text-muted-foreground hover:text-primary transition-colors duration-200"
+                                            >
+                                                <ArrowUpRight className="w-4 h-4" />
+                                            </a>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <p className="text-muted-foreground text-sm leading-relaxed mb-5">
