@@ -113,7 +113,7 @@ export default function Terminal() {
                 </div>
                 <div className="h-px bg-border mt-2 mb-1 max-w-[260px]" />
                 <div className="flex gap-1.5 mt-1">
-                    {["#F59E0B","#3B82F6","#10B981","#EF4444","#8B5CF6","#EC4899"].map(c => (
+                    {["#F59E0B", "#3B82F6", "#10B981", "#EF4444", "#8B5CF6", "#EC4899"].map(c => (
                         <span key={c} className="w-3.5 h-3.5 rounded-sm inline-block" style={{ background: c }} />
                     ))}
                 </div>
@@ -127,25 +127,25 @@ export default function Terminal() {
                     <div>
                         <p className="text-muted-foreground text-xs mb-1.5 uppercase tracking-widest">Frontend</p>
                         <div className="flex flex-wrap gap-1.5">
-                            {["React","Next.js","TypeScript","Tailwind CSS","Framer Motion","Redux","Zustand"].map(s => <Tag key={s}>{s}</Tag>)}
+                            {["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion", "Redux", "Zustand"].map(s => <Tag key={s}>{s}</Tag>)}
                         </div>
                     </div>
                     <div>
                         <p className="text-muted-foreground text-xs mb-1.5 uppercase tracking-widest">Backend</p>
                         <div className="flex flex-wrap gap-1.5">
-                            {["Node.js","Express",".NET","REST APIs","WebSockets"].map(s => <Tag key={s}>{s}</Tag>)}
+                            {["Node.js", "Express", ".NET", "REST APIs", "WebSockets"].map(s => <Tag key={s}>{s}</Tag>)}
                         </div>
                     </div>
                     <div>
                         <p className="text-muted-foreground text-xs mb-1.5 uppercase tracking-widest">Database</p>
                         <div className="flex flex-wrap gap-1.5">
-                            {["PostgreSQL","MongoDB","Prisma","Supabase"].map(s => <Tag key={s}>{s}</Tag>)}
+                            {["PostgreSQL", "MongoDB", "Prisma", "Supabase"].map(s => <Tag key={s}>{s}</Tag>)}
                         </div>
                     </div>
                     <div>
                         <p className="text-muted-foreground text-xs mb-1.5 uppercase tracking-widest">Infrastructure</p>
                         <div className="flex flex-wrap gap-1.5">
-                            {["Azure","Docker","Vercel","GitHub Actions"].map(s => <Tag key={s}>{s}</Tag>)}
+                            {["Azure", "Docker", "Vercel", "GitHub Actions"].map(s => <Tag key={s}>{s}</Tag>)}
                         </div>
                     </div>
                 </div>
@@ -156,7 +156,7 @@ export default function Terminal() {
             <div className="space-y-2 text-sm">
                 <p className="text-muted-foreground text-xs mb-2">Run <span className="text-primary">stack</span> for the full breakdown, or:</p>
                 <div className="flex flex-wrap gap-1.5">
-                    {["React","Next.js","TypeScript","Node.js",".NET","PostgreSQL","MongoDB","Docker","Azure","Prisma","Supabase","Tailwind"].map(s => (
+                    {["React", "Next.js", "TypeScript", "Node.js", ".NET", "PostgreSQL", "MongoDB", "Docker", "Azure", "Prisma", "Supabase", "Tailwind"].map(s => (
                         <Tag key={s}>{s}</Tag>
                     ))}
                 </div>
@@ -195,12 +195,12 @@ export default function Terminal() {
             <div className="text-sm font-mono space-y-0.5">
                 <p className="text-muted-foreground text-xs mb-1">total 6</p>
                 {[
-                    { name: "about/",      desc: "the human behind the code" },
+                    { name: "about/", desc: "the human behind the code" },
                     { name: "experience/", desc: "companies I've shipped at" },
-                    { name: "skills/",     desc: "things I actually know" },
-                    { name: "projects/",   desc: "stuff I built and shipped" },
-                    { name: "terminal/",   desc: "you are here 📍" },
-                    { name: "contact/",    desc: "let's talk" },
+                    { name: "skills/", desc: "things I actually know" },
+                    { name: "projects/", desc: "stuff I built and shipped" },
+                    { name: "terminal/", desc: "you are here 📍" },
+                    { name: "contact/", desc: "let's talk" },
                 ].map(({ name, desc }) => (
                     <div key={name} className="grid grid-cols-[120px_1fr] gap-2">
                         <span className="text-primary">{name}</span>
@@ -213,14 +213,11 @@ export default function Terminal() {
         "git log": (
             <div className="text-xs font-mono space-y-1.5 leading-relaxed">
                 {[
-                    { hash: "a3f2c1b", branch: "HEAD → main", msg: "feat: shipped Chatbox — real-time WebSockets" },
-                    { hash: "e8d7a6f", branch: null,           msg: "feat: built Peg with OpenAI + Supabase backend" },
-                    { hash: "c9b8a7d", branch: null,           msg: "chore: survived a production .NET codebase" },
-                    { hash: "d4c3b2a", branch: null,           msg: "feat: launched Doodle — canvas tool on Next.js" },
-                    { hash: "f1e0b9a", branch: null,           msg: "chore: joined a startup as software developer" },
-                    { hash: "g2f1c0b", branch: null,           msg: "feat: landed first dev internship — shipped to prod" },
-                    { hash: "h3a0d9c", branch: null,           msg: "chore: decided frontend-only was too limiting" },
-                    { hash: "i4b9e8d", branch: null,           msg: "init: wrote first 'Hello World' in HTML" },
+                    { hash: "c9b8a7d", branch: null, msg: "chore: survived a production .NET codebase" },
+                    { hash: "f1e0b9a", branch: null, msg: "chore: joined a company as software developer" },
+                    { hash: "g2f1c0b", branch: null, msg: "feat: landed first dev internship — shipped to prod" },
+                    { hash: "h3a0d9c", branch: null, msg: "chore: decided frontend-only was too limiting" },
+                    { hash: "i4b9e8d", branch: null, msg: "init: wrote first 'Hello World' in HTML" },
                 ].map(({ hash, branch, msg }) => (
                     <div key={hash} className="flex gap-2 flex-wrap">
                         <span className="text-yellow-500">*</span>
@@ -252,7 +249,7 @@ export default function Terminal() {
         "npm install nandan": (
             <div className="text-xs font-mono space-y-1">
                 <p className="text-muted-foreground">added 4 packages in 0.8s</p>
-                {["curiosity@latest","typescript@5.0.0","coffee@∞","shipping-speed@fast"].map(p => (
+                {["curiosity@latest", "typescript@5.0.0", "coffee@∞", "shipping-speed@fast"].map(p => (
                     <p key={p}><span className="text-green-400">+</span> {p}</p>
                 ))}
             </div>
@@ -568,7 +565,6 @@ export default function Terminal() {
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyDown={handleKeyDown}
                                 className="bg-transparent border-none outline-none text-foreground flex-1 ml-0.5 font-mono caret-primary"
-                                autoFocus
                                 spellCheck={false}
                                 autoComplete="off"
                                 autoCorrect="off"
