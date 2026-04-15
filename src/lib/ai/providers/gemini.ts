@@ -33,7 +33,7 @@ export async function generateGeminiResponse(
                     },
                     contents: formattedMessages,
                     generationConfig: {
-                        maxOutputTokens: 400,
+                        maxOutputTokens: 1500,
                         temperature: 0.45,
                     },
                 }),
