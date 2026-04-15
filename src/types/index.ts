@@ -2,9 +2,10 @@ export interface Project {
     title: string;
     description: string;
     tags: string[];
-    link: string;
-    github: string;
+    link?: string;
+    github?: string | Array<{ label: string; url: string }>;
     image: string;
+    media?: Array<{ type: 'image' | 'video'; url: string }>;
     comingSoon?: boolean;
 }
 

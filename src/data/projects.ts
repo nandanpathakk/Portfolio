@@ -12,6 +12,21 @@ export const projectsData: Project[] = [
         comingSoon: true,
     },
     {
+        title: "Chessling",
+        description: "A fast real-time web3 chess application for Solana mobile hackathon and their mobile seeker. Users can stake money to play, and the winner takes the pot minus a small cut.",
+        tags: ["Hackathon project", "React Native", "Expo", "TypeScript", "Supabase", "Web3"],
+        github: [
+            { label: "App", url: "https://github.com/nandanpathakk/ChessLing-mobile" },
+            { label: "Server", url: "https://github.com/nandanpathakk/chessling-server" }
+        ],
+        image: "/images/Chessling_home.jpg",
+        media: [
+            { type: "image", url: "/images/Chessling_home.jpg" },
+            { type: "image", url: "/images/Chessling_board.jpg" },
+            { type: "video", url: "/videos/chessling_demo.mp4" }
+        ],
+    },
+    {
         title: "Doodle",
         description: "A web-based drawing tool like Excalidraw where users can create flow diagrams on a canvas.",
         tags: ["Next.js", "Canvas", "Zustand"],
@@ -22,7 +37,7 @@ export const projectsData: Project[] = [
     {
         title: "Peg",
         description: "A GitHub issue estimator where users enter a repo and get all open issues with estimated cost and difficulty level.",
-        tags: ["GitHub API", "OpenAi API", "Supabase"],
+        tags: ["GitHub API", "OpenAi API", "Supabase", "Hackathon project"],
         link: "https://github-issue-estimator.vercel.app",
         github: "https://github.com/nandanpathakk/github-issue-estimator",
         image: "/images/peg.png",

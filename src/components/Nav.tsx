@@ -59,6 +59,15 @@ export default function Nav() {
                         {/* Social icon links */}
                         <div className="flex items-center gap-5">
                             <a
+                                href={LINKS.RESUME}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="group relative hidden sm:flex items-center gap-1.5 px-3 py-1.5 overflow-hidden text-xs font-mono uppercase tracking-[0.1em] text-primary border border-primary/20 hover:border-primary/50 transition-colors duration-300 rounded-[2px]"
+                            >
+                                <span className="relative z-10 font-bold">Resume</span>
+                                <div className="absolute inset-0 bg-primary/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                            </a>
+                            <a
                                 href={LINKS.GITHUB}
                                 target="_blank"
                                 rel="noreferrer"

@@ -199,21 +199,34 @@ export default function Welcome() {
                         initial={{ opacity: 0, y: 16 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: reducedMotion ? 0 : 0.9, duration: reducedMotion ? 0 : 0.7 }}
-                        className="flex flex-col sm:flex-row md:flex-col gap-3"
+                        className="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0"
                     >
                         <a
                             href="#projects"
-                            className="group px-8 py-3.5 bg-primary text-primary-foreground font-medium text-sm flex items-center gap-3 hover:bg-primary/90 active:scale-[0.98] transition-all duration-200"
+                            className="group w-full md:w-auto px-8 py-3.5 bg-primary text-primary-foreground font-medium text-sm flex items-center justify-center gap-3 hover:bg-primary/90 active:scale-[0.98] transition-all duration-200"
                         >
                             View Work
                             <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-200" />
                         </a>
-                        <a
-                            href={`mailto:${LINKS.EMAIL}`}
-                            className="group px-8 py-3.5 border border-border text-foreground font-medium text-sm flex items-center gap-3 hover:border-primary/60 hover:text-primary active:scale-[0.98] transition-all duration-200"
-                        >
-                            Get in Touch
-                        </a>
+                        <div className="flex gap-3 w-full md:w-auto">
+                            <a
+                                href={`mailto:${LINKS.EMAIL}`}
+                                className="flex-1 justify-center group px-6 py-3.5 border border-border text-foreground font-medium text-sm flex items-center gap-3 hover:border-primary/60 hover:text-primary active:scale-[0.98] transition-all duration-200"
+                            >
+                                Contact
+                            </a>
+                            <a
+                                href={LINKS.RESUME}
+                                target="_blank"
+                                rel="noreferrer"
+                                aria-label="View Resume"
+                                className="flex-1 justify-center group px-6 py-3.5 border border-border bg-card/10 text-foreground font-medium text-sm flex items-center gap-2.5 hover:border-primary/60 hover:text-primary active:scale-[0.98] transition-all duration-200 relative overflow-hidden"
+                            >
+                                Resume
+                                <span className="w-1.5 h-1.5 rounded-full bg-primary/70 group-hover:bg-primary animate-pulse" />
+                                <div className="absolute inset-0 bg-primary/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                            </a>
+                        </div>
                     </motion.div>
                 </div>
             </div>
