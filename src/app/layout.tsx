@@ -15,6 +15,9 @@ const teko = Teko({ subsets: ["latin"], weight: ["400", "700"], variable: "--fon
 export const metadata: Metadata = {
   title: "Nandan Pathak | Developer",
   description: "Developer who builds things — web, mobile, APIs, and AI-assisted workflows.",
+  icons: {
+    icon: '/images/favicon.jpg',
+  },
 };
 
 export default function RootLayout({
