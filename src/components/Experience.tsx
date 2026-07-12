@@ -58,6 +58,33 @@ export default function Experience() {
                                 <p className="text-muted-foreground/70 text-sm leading-relaxed max-w-2xl">
                                     {exp.description}
                                 </p>
+
+                                {exp.bullets && exp.bullets.length > 0 && (
+                                    <ul className="mt-5 space-y-2.5 max-w-2xl">
+                                        {exp.bullets.map((bullet, idx) => (
+                                            <li
+                                                key={idx}
+                                                className="flex gap-3 text-sm leading-relaxed text-muted-foreground/70"
+                                            >
+                                                <span className="text-primary/60 font-mono select-none shrink-0 leading-relaxed">—</span>
+                                                <span>{bullet}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+
+                                {exp.tech && exp.tech.length > 0 && (
+                                    <div className="mt-6 flex flex-wrap gap-2">
+                                        {exp.tech.map((item) => (
+                                            <span
+                                                key={item}
+                                                className="px-2.5 py-0.5 text-xs font-mono bg-primary/10 text-primary border border-primary/20"
+                                            >
+                                                {item}
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         </motion.div>
                     ))}

@@ -1,9 +1,20 @@
 import { MetadataRoute } from 'next';
+import { projectsData } from '@/data/projects';
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const baseUrl = 'https://nandanpathak.vercel.app';
 
+    const caseStudies = projectsData
+        .filter((p) => p.slug && p.details)
+        .map((p) => ({
+            url: `${baseUrl}/projects/${p.slug}`,
+            lastModified: new Date(),
+            changeFrequency: 'monthly' as const,
+            priority: 0.9,
+        }));
+
     return [
+        ...caseStudies,
         {
             url: baseUrl,
             lastModified: new Date(),
