@@ -2,8 +2,9 @@
 
 import React, { useState } from "react";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, Github, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowUpRight, Github, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { projectsData } from "@/data/projects";
 import { Project } from "@/types";
 
@@ -12,6 +13,21 @@ function ProjectMediaCarousel({ project }: { project: Project }) {
     const media = project.media;
 
     if (!media || media.length === 0) {
+        if (!project.image) {
+            // Placeholder until real screenshots/demo are added
+            return (
+                <div className="h-44 sm:h-48 relative overflow-hidden bg-card z-10 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.07] via-transparent to-transparent pointer-events-none" />
+                    <span
+                        className="text-4xl italic text-muted-foreground/40 group-hover:text-primary/50 transition-colors duration-500 select-none"
+                        style={{ fontFamily: "var(--font-elegant), serif" }}
+                    >
+                        {project.title}
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent pointer-events-none" />
+                </div>
+            );
+        }
         return (
             <div className="h-44 sm:h-48 relative overflow-hidden bg-card z-10">
                 <Image
@@ -246,6 +262,19 @@ export default function Projects() {
                                         </span>
                                     ))}
                                 </div>
+
+                                {project.slug && project.details && (
+                                    <Link
+                                        href={`/projects/${project.slug}`}
+                                        className="group/cs relative z-20 mt-5 inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-primary"
+                                    >
+                                        <span className="relative">
+                                            Read case study
+                                            <span className="absolute -bottom-0.5 left-0 w-full h-px bg-primary/30 group-hover/cs:bg-primary transition-colors duration-300" />
+                                        </span>
+                                        <ArrowRight className="w-3.5 h-3.5 group-hover/cs:translate-x-1 transition-transform duration-300" />
+                                    </Link>
+                                )}
                             </div>
                         </motion.div>
                     ))}

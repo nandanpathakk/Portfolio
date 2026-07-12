@@ -22,18 +22,24 @@ function buildProfileContext() {
     .join("\n");
 
   const experience = experienceData
-    .map(
-      (item) =>
-        `- ${item.year}: ${item.role} at ${item.company} — ${item.description}`,
-    )
+    .map((item) => {
+      const bullets = item.bullets?.length
+        ? ` Key work: ${item.bullets.join(" ")}`
+        : "";
+      return `- ${item.year}: ${item.role} at ${item.company} — ${item.description}${bullets}`;
+    })
     .join("\n");
 
   const projects = projectsData
-    .map(
-      (p) =>
-        `- ${p.title}${p.comingSoon ? " (coming soon)" : ""}: ${p.description
-        } [tags: ${p.tags.join(", ")}]`,
-    )
+    .map((p) => {
+      const caseStudy = p.details
+        ? ` Case study highlights: ${p.details.tagline} ${p.details.sections
+            .map((s) => `${s.label}: ${s.title}.`)
+            .join(" ")}`
+        : "";
+      return `- ${p.title}${p.comingSoon ? " (coming soon)" : ""}: ${p.description
+        } [tags: ${p.tags.join(", ")}]${caseStudy}`;
+    })
     .join("\n");
 
   const skills = Object.entries(skillsData)
