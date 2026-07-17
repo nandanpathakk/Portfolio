@@ -7,12 +7,17 @@ export const projectsData: Project[] = [
         description:
             "An Android guide that helps non-technical people finish phone tasks one tap at a time. It reads the screen, points at the next step, and explains it in plain language - but never taps anything itself.",
         tags: ["Android", "Kotlin", "Jetpack Compose", "Node.js", "LLM", "Accessibility"],
-        // Drop screenshots/demo clips into /public/images/nudge/ and list them here
-        // (they will show on the card carousel and in the case-study gallery):
-        // media: [
-        //     { type: "image", url: "/images/nudge/home.png" },
-        //     { type: "video", url: "/videos/nudge_demo.mp4" },
-        // ],
+        image: "/images/nudge_1.jpeg",
+        media: [
+            { type: "image", url: "/images/nudge_1.jpeg" },
+            { type: "image", url: "/images/nudge_2.jpeg" },
+            { type: "image", url: "/images/nudge_3.jpeg" },
+            { type: "image", url: "/images/nudge_4.jpeg" },
+            { type: "image", url: "/images/nudge_5.jpeg" },
+            { type: "image", url: "/images/Nudge-6.jpeg" },
+            { type: "image", url: "/images/nudge_7.jpeg" },
+            { type: "image", url: "/images/nudge_8.jpeg" },
+        ],
         details: {
             tagline:
                 "AI-guided phone assistance for people who get lost in their own phone — built on one rule: point and explain, never tap.",
@@ -111,20 +116,20 @@ export const projectsData: Project[] = [
         github: "https://github.com/nandanpathakk/Doodle",
         image: "/images/doodle.png",
     },
-    {
-        title: "Peg",
-        description: "A GitHub issue estimator where users enter a repo and get all open issues with estimated cost and difficulty level.",
-        tags: ["GitHub API", "OpenAi API", "Supabase", "Hackathon project"],
-        link: "https://github-issue-estimator.vercel.app",
-        github: "https://github.com/nandanpathakk/github-issue-estimator",
-        image: "/images/peg.png",
-    },
-    {
-        title: "Chatbox",
-        description: "A real-time chat application with live messaging functionality.",
-        tags: ["Next.js", "Pusher", "Tailwind CSS"],
-        link: "https://chatbox-gamma-teal.vercel.app/login",
-        github: "https://github.com/nandanpathakk/Real-time-chat-app",
-        image: "/images/Chatbox.webp",
-    },
+    // {
+    //     title: "Peg",
+    //     description: "A GitHub issue estimator where users enter a repo and get all open issues with estimated cost and difficulty level.",
+    //     tags: ["GitHub API", "OpenAi API", "Supabase", "Hackathon project"],
+    //     link: "https://github-issue-estimator.vercel.app",
+    //     github: "https://github.com/nandanpathakk/github-issue-estimator",
+    //     image: "/images/peg.png",
+    // },
+    // {
+    //     title: "Chatbox",
+    //     description: "A real-time chat application with live messaging functionality.",
+    //     tags: ["Next.js", "Pusher", "Tailwind CSS"],
+    //     link: "https://chatbox-gamma-teal.vercel.app/login",
+    //     github: "https://github.com/nandanpathakk/Real-time-chat-app",
+    //     image: "/images/Chatbox.webp",
+    // },
 ];
