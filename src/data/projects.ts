@@ -5,8 +5,8 @@ export const projectsData: Project[] = [
         title: "Doodle",
         slug: "doodle",
         description:
-            "A hand-drawn-style whiteboard you share with a link. Two people draw on the same canvas at once — cursors, selections and strokes appearing as they are made — with no account, no database, and nothing stored on a server.",
-        tags: ["Next.js", "TypeScript", "Yjs / CRDT", "WebSockets", "Canvas", "Zustand"],
+            "A hand-drawn-style whiteboard you share with a link. Two people draw on the same canvas at once — cursors, selections and strokes appearing as they are made — over a CRDT sync engine on the client and a WebSocket relay server I built and deploy.",
+        tags: ["Next.js", "TypeScript", "Node.js", "WebSockets", "Yjs / CRDT", "Canvas"],
         link: "https://doodleup.vercel.app",
         github: "https://github.com/nandanpathakk/Doodle",
         tryIt: {
@@ -61,12 +61,12 @@ export const projectsData: Project[] = [
                 "RoughJS",
                 "Yjs (CRDT)",
                 "y-websocket",
-                "Node + ws relay",
+                "Node WebSocket server (ws)",
                 "IndexedDB",
             ],
             overview: [
-                "Doodle started as a drawing tool — an infinite canvas with shapes, arrows, freehand and text, rendered in a hand-drawn style. The interesting half of the project was making it collaborative without giving it a backend: send someone a link and you are both on the same board, watching each other's cursors and each other's shapes appear as they are drawn.",
-                "There is no database, no login, and no API that takes a drawing and saves it. Every drawing lives in the browser of whoever drew it, as a Yjs CRDT persisted to IndexedDB. The only server is a ~270-line Node relay that holds WebSockets open and passes messages between browsers connected at the same moment; it writes nothing to disk and a room stops existing when the last person leaves. That is why the app works fully offline and merges cleanly when the connection returns.",
+                "Doodle started as a drawing tool — an infinite canvas with shapes, arrows, freehand and text, rendered in a hand-drawn style. The interesting half of the project was the real-time layer: send someone a link and you are both on the same board, watching each other's cursors and each other's shapes appear as they are drawn.",
+                "That took a system on both sides of the wire. On the client, elements live in a Yjs CRDT persisted to IndexedDB, so a board keeps working with the network gone and merges cleanly when it returns. On the server, a Node WebSocket service owns the live half of a session: it resolves the room from the connection URL, tracks membership, speaks the sync protocol well enough to bring a late joiner up to the room's current state, fans awareness traffic out to the right peers, and tears a room down when the last person leaves. It runs as its own deployment, separate from the Next.js app and pointed at by environment, and the test suite starts a real instance of it in-process rather than mocking it.",
                 "The constraint I held onto throughout: the rest of the app must not know that collaboration exists. The toolbar, renderer and tools read and write one Zustand store exactly as they would in a single-player app, and a single binding file connects that store to the synced document in both directions. Collaboration was added to a working drawing tool without rewriting it.",
             ],
             sections: [
@@ -74,7 +74,7 @@ export const projectsData: Project[] = [
                     label: "Merging",
                     title: "Every concurrent edit survives, or it isn't collaboration",
                     body: [
-                        "The obvious design is to broadcast “element 5 now looks like this” and let the last message win. That silently loses work: recolour a box while someone else drags it and one of the two changes disappears. So elements are stored as a Yjs Y.Map per element and merging happens per field — your colour change and my position change touch different keys and both survive, with no server arbitrating.",
+                        "The obvious design is to broadcast “element 5 now looks like this” and let the last message win. That silently loses work: recolour a box while someone else drags it and one of the two changes disappears. So elements are stored as a Yjs Y.Map per element and merging happens per field — your colour change and my position change touch different keys and both survive, without either client waiting on a round trip to find out.",
                         "Two operations needed shapes that merge rather than conflict. Layering is normally an array order, and array reordering is the one thing CRDTs handle badly, so each element carries a fractional index string and z-order is the sort of those strings — “move this up” becomes “set one string to a value between these two”. Deletion is a tombstone rather than a removal, swept only after 24 hours, because deleting a shape while someone is offline editing it must not let their edit resurrect it.",
                         "The last thing that could still lose an edit was text: two people typing in the same label. Labels are Y.Text now, and edits are diffed into the existing type instead of replacing the string, so both typists keep what they wrote. The editor was the harder half — it is deliberately uncontrolled and takes remote changes as a splice that preserves the selection, because letting React assign the textarea's value throws your caret to the end of the line every time your collaborator types.",
                     ],
@@ -106,12 +106,12 @@ export const projectsData: Project[] = [
                     ],
                 },
                 {
-                    label: "Storage",
-                    title: "No backend, and a clear account of what that costs",
+                    label: "Data",
+                    title: "Deciding where each kind of data lives, and standing behind it",
                     body: [
-                        "Three kinds of data, three homes, and which one something belongs in is the most consequential decision in the codebase. The drawing lives in a Yjs document in IndexedDB. Cursors and in-flight gestures live nowhere by construction. Preferences — dark mode, brush settings, your display name — are the only things in localStorage.",
+                        "Three kinds of data, three homes, and which one something belongs in is the most consequential decision in the codebase. The drawing is a Yjs document persisted to IndexedDB on each client. Rooms are held in the relay's memory for the life of a session, so the server is authoritative about who is connected and about catching newcomers up, but never becomes a place drawings sit at rest. Cursors and in-flight gestures are ephemeral by construction, and localStorage holds nothing but preferences.",
                         "Your private canvas and each room are separate documents that are never merged. Starting a session copies your canvas into a fresh room; joining someone else's link must never push your canvas into theirs; leaving returns you to your own board exactly as you left it. Several of the subtlest bugs in the project lived on that boundary, which is why the rule is written down as an invariant rather than left implicit in the code.",
-                        "The limits are stated rather than glossed: anyone with a room link can read and edit it, whoever runs the relay can see room contents, and clearing site data deletes your drawings. End-to-end encryption is deferred on purpose — the relay currently parses the sync protocol to catch late joiners up, and under E2EE it could not, so late joiners would have to be caught up by peers instead. That trade-off is recorded so the decision can be made deliberately rather than rediscovered.",
+                        "Two pieces are deliberately not built yet, both with the reasoning written down. A room has no access control — the link is the permission — because the product is “send this to someone”, and accounts would be a larger change than the sharing model currently needs. End-to-end encryption is designed and deferred: the server reads the sync protocol today in order to bring late joiners up to date, so encrypting payloads moves that job onto peers. Knowing what a security decision costs before making it is the point of writing it down.",
                     ],
                 },
                 {
@@ -130,7 +130,7 @@ export const projectsData: Project[] = [
         title: "Nudge",
         slug: "nudge",
         description:
-            "An Android guide that helps non-technical people finish phone tasks one tap at a time. It reads the screen, points at the next step, and explains it in plain language - but never taps anything itself.",
+            "An Android app for the people who call us for help with their phone — a mum, a dad, a grandparent. They say what they want to do, in Hindi or English, and Nudge circles the one thing to tap next and explains it in plain words. It never taps for them; they stay in control the whole way.",
         tags: ["Android", "Kotlin", "Jetpack Compose", "Node.js", "LLM", "Accessibility"],
         github: "https://github.com/nandanpathakk/Nudge",
         // Bump the version in `url`, `meta` and `releaseUrl` with each release —
@@ -140,8 +140,10 @@ export const projectsData: Project[] = [
             meta: "v0.1.0 · 1.1 MB · Android 8.0+",
             note:
                 "Nudge isn't on the Play Store — it's a personal project, so you install it directly. " +
-                "It asks for two permissions and explains both before it asks: one to read what's on your " +
-                "screen, so it knows what to point at, and one to draw the highlight over other apps.",
+                "It asks for two permissions and explains both before it asks: one to read what's on the " +
+                "screen, so it knows what to point at, and one to draw the highlight over other apps. " +
+                "If you're setting this up for a parent or grandparent, sit with them for those two grants " +
+                "once — after that, it's press the mic and say what you need.",
             steps: [
                 "Download the APK on your Android phone.",
                 "Open it and allow installs from your browser — normal for apps outside the Play Store.",
@@ -162,7 +164,7 @@ export const projectsData: Project[] = [
         ],
         details: {
             tagline:
-                "AI-guided phone assistance for people who get lost in their own phone — built on one rule: point and explain, never tap.",
+                "For the parent or grandparent who calls because they can't find the button — Nudge points at the next tap and explains it in their own language. It never touches the screen for them.",
             year: "2026",
             role: "Design, research & full-stack development",
             status: "v0.1.0 — released, installable today",
@@ -174,7 +176,8 @@ export const projectsData: Project[] = [
                 "Gemini 2.5 Flash",
             ],
             overview: [
-                "Nudge exists for the parent or grandparent who calls because they can't find the button. You tell it what you want to do — by typing or speaking — and it draws a ring around the one thing to tap next, with a plain-language explanation. The human performs every tap; Nudge only points.",
+                "Every family knows this phone call. A parent or a grandparent is stuck somewhere in an app — a button moved, the screen changed, the words don't mean anything — and the only way through is for someone younger to talk them through it one more time. Both people feel it: one for having to ask again, the other for having explained it before. The phone was supposed to make life easier, and instead it quietly tells them they're too old for it.",
+                "Nudge is that patient someone, living on the phone itself. You say what you want to do — speak it or type it, in Hindi or English — and it draws a ring around the one thing to tap next, with a short explanation in the same language. The human performs every tap; Nudge only points. That matters more than it sounds: finishing the task yourself is the difference between being helped and being taken over.",
                 "That single rule shaped every technical decision. Because Nudge never acts, it cannot move money, change a setting, or install anything — the worst a wrong decision can do is suggest a bad tap. Everything else in the project hardens that suggestion channel.",
                 "The build is a native Kotlin app that reads the screen through Android's AccessibilityService (structured text, not screenshots), a thin stateless Node/Express backend that holds the AI key off-device, and an LLM that picks exactly one next step per screen.",
             ],

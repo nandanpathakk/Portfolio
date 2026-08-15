@@ -97,7 +97,7 @@ export default function CaseStudy({ project }: { project: Project }) {
                                         className="text-2xl md:text-3xl font-normal leading-snug mb-4"
                                         style={{ fontFamily: "var(--font-elegant), serif" }}
                                     >
-                                        Put it on your <em>phone.</em>
+                                        Put it on your phone — or <em>theirs.</em>
                                     </h2>
                                     {project.download.note && (
                                         <p className="text-muted-foreground/80 text-sm md:text-base leading-relaxed">

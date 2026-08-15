@@ -1,17 +1,21 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import Welcome from "@/components/Welcome";
+import About from "@/components/About";
+import Skills from "@/components/Skills";
+import Experience from "@/components/Experience";
+import Projects from "@/components/Projects";
+import Terminal from "@/components/interactive/Terminal";
+import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
+import ScrollProgress from "@/components/ScrollProgress";
 
-const About = dynamic(() => import("@/components/About"));
-const Skills = dynamic(() => import("@/components/Skills"));
-const Experience = dynamic(() => import("@/components/Experience"));
-const Projects = dynamic(() => import("@/components/Projects"));
-const Terminal = dynamic(() => import("@/components/interactive/Terminal"));
-const Contact = dynamic(() => import("@/components/Contact"));
-const Footer = dynamic(() => import("@/components/Footer"));
-const ScrollProgress = dynamic(() => import("@/components/ScrollProgress"));
-
+// These are imported statically on purpose. Wrapping them in next/dynamic
+// code-splits each section, and until its chunk lands React renders the
+// placeholder instead of the server-rendered markup — so #skills, #projects
+// etc. briefly vanish from the DOM after hydration and anchor links pointing
+// at them do nothing. Every section here is anchor-navigable, so they need to
+// be present from the first paint.
 export default function Home() {
   return (
     <main className="min-h-screen bg-background selection:bg-primary/20 selection:text-primary">

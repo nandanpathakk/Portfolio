@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { JetBrains_Mono, Inter, Playfair_Display, Kalam, Teko } from "next/font/google";
 import { ReactLenis } from "@/lib/lenis";
-import ScrollReset from "@/components/ScrollReset";
+import ScrollManager from "@/components/ScrollManager";
 import Nav from "@/components/Nav";
 import { PortfolioAssistant } from "@/components/PortfolioAssistant";
 
@@ -28,9 +28,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`bg-background text-foreground ${jetbrains.variable} ${inter.variable} ${playfair.variable} ${kalam.variable} ${teko.variable} font-sans antialiased overflow-x-hidden`}>
-        <ScrollReset />
         <Nav />
         <ReactLenis root>
+          <ScrollManager />
           {children}
         </ReactLenis>
         <PortfolioAssistant />
