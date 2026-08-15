@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowLeft, ArrowUpRight, Github } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Download, Github } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Project } from "@/types";
@@ -84,6 +84,129 @@ export default function CaseStudy({ project }: { project: Project }) {
                         </p>
                     </div>
                 </motion.div>
+
+                {/* Try it — only for projects that ship something installable */}
+                {project.download && (
+                    <motion.section {...fadeIn} className="border-t border-border py-10 md:py-14 max-w-5xl">
+                        <p className="text-xs font-mono uppercase tracking-[0.2em] text-primary mb-8">Try it</p>
+
+                        <div className="rounded-xl border border-border bg-card/30 p-6 md:p-8">
+                            <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+                                <div className="max-w-md">
+                                    <h2
+                                        className="text-2xl md:text-3xl font-normal leading-snug mb-4"
+                                        style={{ fontFamily: "var(--font-elegant), serif" }}
+                                    >
+                                        Put it on your <em>phone.</em>
+                                    </h2>
+                                    {project.download.note && (
+                                        <p className="text-muted-foreground/80 text-sm md:text-base leading-relaxed">
+                                            {project.download.note}
+                                        </p>
+                                    )}
+                                </div>
+
+                                <div className="shrink-0 flex flex-col gap-3 md:items-end">
+                                    <a
+                                        href={project.download.url}
+                                        className="group inline-flex items-center gap-2.5 px-5 py-3 rounded-lg border border-primary/30 bg-primary/10 text-primary text-xs font-mono uppercase tracking-[0.2em] hover:bg-primary/20 hover:border-primary/50 transition-colors duration-300"
+                                    >
+                                        <Download className="w-4 h-4 group-hover:translate-y-0.5 transition-transform duration-300" />
+                                        Download APK
+                                    </a>
+                                    {project.download.meta && (
+                                        <p className="text-[11px] font-mono text-muted-foreground/60">
+                                            {project.download.meta}
+                                        </p>
+                                    )}
+                                    {project.download.releaseUrl && (
+                                        <a
+                                            href={project.download.releaseUrl}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="group inline-flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-[0.16em] text-muted-foreground hover:text-primary transition-colors duration-200"
+                                        >
+                                            Release notes
+                                            <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+                                        </a>
+                                    )}
+                                </div>
+                            </div>
+
+                            {project.download.steps && project.download.steps.length > 0 && (
+                                <ol className="mt-8 pt-8 border-t border-border grid gap-5 sm:grid-cols-3">
+                                    {project.download.steps.map((step, i) => (
+                                        <li key={i} className="flex gap-3">
+                                            <span className="text-xs font-mono text-primary shrink-0 leading-relaxed">
+                                                0{i + 1}
+                                            </span>
+                                            <span className="text-sm text-muted-foreground/70 leading-relaxed">
+                                                {step}
+                                            </span>
+                                        </li>
+                                    ))}
+                                </ol>
+                            )}
+                        </div>
+                    </motion.section>
+                )}
+
+                {/* Try it — for anything hosted, where the whole install step is a link */}
+                {project.tryIt && (
+                    <motion.section {...fadeIn} className="border-t border-border py-10 md:py-14 max-w-5xl">
+                        <p className="text-xs font-mono uppercase tracking-[0.2em] text-primary mb-8">Try it</p>
+
+                        <div className="rounded-xl border border-border bg-card/30 p-6 md:p-8">
+                            <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+                                <div className="max-w-md">
+                                    <h2
+                                        className="text-2xl md:text-3xl font-normal leading-snug mb-4"
+                                        style={{ fontFamily: "var(--font-elegant), serif" }}
+                                    >
+                                        <em>{project.tryIt.heading}</em>
+                                    </h2>
+                                    {project.tryIt.note && (
+                                        <p className="text-muted-foreground/80 text-sm md:text-base leading-relaxed">
+                                            {project.tryIt.note}
+                                        </p>
+                                    )}
+                                </div>
+
+                                <div className="shrink-0 flex flex-col gap-3 md:items-end">
+                                    <a
+                                        href={project.tryIt.url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="group inline-flex items-center gap-2.5 px-5 py-3 rounded-lg border border-primary/30 bg-primary/10 text-primary text-xs font-mono uppercase tracking-[0.2em] hover:bg-primary/20 hover:border-primary/50 transition-colors duration-300"
+                                    >
+                                        {project.tryIt.label}
+                                        <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+                                    </a>
+                                    {project.tryIt.meta && (
+                                        <p className="text-[11px] font-mono text-muted-foreground/60">
+                                            {project.tryIt.meta}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {project.tryIt.steps && project.tryIt.steps.length > 0 && (
+                                <ol className="mt-8 pt-8 border-t border-border grid gap-5 sm:grid-cols-3">
+                                    {project.tryIt.steps.map((step, i) => (
+                                        <li key={i} className="flex gap-3">
+                                            <span className="text-xs font-mono text-primary shrink-0 leading-relaxed">
+                                                0{i + 1}
+                                            </span>
+                                            <span className="text-sm text-muted-foreground/70 leading-relaxed">
+                                                {step}
+                                            </span>
+                                        </li>
+                                    ))}
+                                </ol>
+                            )}
+                        </div>
+                    </motion.section>
+                )}
 
                 {/* Overview */}
                 <motion.section
@@ -205,6 +328,24 @@ export default function CaseStudy({ project }: { project: Project }) {
                         </a>
                     </div>
                     <div className="flex items-center gap-6">
+                        {project.tryIt && (
+                            <a
+                                href={project.tryIt.url}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors duration-200"
+                            >
+                                <ArrowUpRight className="w-4 h-4" /> Live
+                            </a>
+                        )}
+                        {project.download && (
+                            <a
+                                href={project.download.url}
+                                className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors duration-200"
+                            >
+                                <Download className="w-4 h-4" /> Download
+                            </a>
+                        )}
                         {typeof project.github === "string" && project.github !== "#" && (
                             <a
                                 href={project.github}

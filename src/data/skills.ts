@@ -20,6 +20,8 @@ export const skillsData = {
         "MongoDB",
         "Prisma",
         "Supabase",
+        "WebSockets",
+        "Yjs / CRDTs",
     ],
     "AI & Dev Tools": [
         "Claude Code",

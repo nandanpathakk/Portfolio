@@ -2,11 +2,153 @@ import { Project } from "@/types";
 
 export const projectsData: Project[] = [
     {
+        title: "Doodle",
+        slug: "doodle",
+        description:
+            "A hand-drawn-style whiteboard you share with a link. Two people draw on the same canvas at once — cursors, selections and strokes appearing as they are made — with no account, no database, and nothing stored on a server.",
+        tags: ["Next.js", "TypeScript", "Yjs / CRDT", "WebSockets", "Canvas", "Zustand"],
+        link: "https://doodleup.vercel.app",
+        github: "https://github.com/nandanpathakk/Doodle",
+        tryIt: {
+            url: "https://doodleup.vercel.app",
+            heading: "Open a board.",
+            label: "Open Doodle",
+            meta: "No sign-up · works offline · runs in any browser",
+            note:
+                "Nothing to install and nothing to sign up for. Draw something, press Share, and send " +
+                "the link to someone — you will both be on the same canvas, cursors and all. Your drawings " +
+                "live in your own browser; rooms exist only while someone is connected to them.",
+            steps: [
+                "Open the board and sketch something.",
+                "Press Share — your drawing is copied into a new room and the URL becomes /r/<room-id>.",
+                "Send that link to anyone. Leaving the room returns you to your own canvas, untouched.",
+            ],
+        },
+        image: "/images/doodle-collab.png",
+        media: [
+            {
+                type: "image",
+                url: "/images/doodle-collab.png",
+                caption: "Three people in one room: live cursors, a peer's stroke mid-flight, and who is here.",
+            },
+            {
+                type: "image",
+                url: "/images/doodle-board.png",
+                caption: "The canvas itself — shapes, arrows, freehand and text, rendered hand-drawn.",
+            },
+            {
+                type: "image",
+                url: "/images/doodle-session.png",
+                caption: "Sharing is one control: your name, the invite link, the room, and click-to-follow.",
+            },
+            {
+                type: "image",
+                url: "/images/doodle-tools.png",
+                caption: "Light theme, with the styling panel: colour, width, sloppiness, edges, opacity.",
+            },
+        ],
+        details: {
+            tagline:
+                "A shared whiteboard where the hard part is invisible: two people drawing at once, offline edits that merge on reconnect, and an undo that only ever touches your own work.",
+            year: "2026",
+            role: "Design & full-stack development",
+            status: "Live — draw solo, or share a link",
+            stack: [
+                "Next.js 16",
+                "React 19",
+                "TypeScript",
+                "Zustand",
+                "RoughJS",
+                "Yjs (CRDT)",
+                "y-websocket",
+                "Node + ws relay",
+                "IndexedDB",
+            ],
+            overview: [
+                "Doodle started as a drawing tool — an infinite canvas with shapes, arrows, freehand and text, rendered in a hand-drawn style. The interesting half of the project was making it collaborative without giving it a backend: send someone a link and you are both on the same board, watching each other's cursors and each other's shapes appear as they are drawn.",
+                "There is no database, no login, and no API that takes a drawing and saves it. Every drawing lives in the browser of whoever drew it, as a Yjs CRDT persisted to IndexedDB. The only server is a ~270-line Node relay that holds WebSockets open and passes messages between browsers connected at the same moment; it writes nothing to disk and a room stops existing when the last person leaves. That is why the app works fully offline and merges cleanly when the connection returns.",
+                "The constraint I held onto throughout: the rest of the app must not know that collaboration exists. The toolbar, renderer and tools read and write one Zustand store exactly as they would in a single-player app, and a single binding file connects that store to the synced document in both directions. Collaboration was added to a working drawing tool without rewriting it.",
+            ],
+            sections: [
+                {
+                    label: "Merging",
+                    title: "Every concurrent edit survives, or it isn't collaboration",
+                    body: [
+                        "The obvious design is to broadcast “element 5 now looks like this” and let the last message win. That silently loses work: recolour a box while someone else drags it and one of the two changes disappears. So elements are stored as a Yjs Y.Map per element and merging happens per field — your colour change and my position change touch different keys and both survive, with no server arbitrating.",
+                        "Two operations needed shapes that merge rather than conflict. Layering is normally an array order, and array reordering is the one thing CRDTs handle badly, so each element carries a fractional index string and z-order is the sort of those strings — “move this up” becomes “set one string to a value between these two”. Deletion is a tombstone rather than a removal, swept only after 24 hours, because deleting a shape while someone is offline editing it must not let their edit resurrect it.",
+                        "The last thing that could still lose an edit was text: two people typing in the same label. Labels are Y.Text now, and edits are diffed into the existing type instead of replacing the string, so both typists keep what they wrote. The editor was the harder half — it is deliberately uncontrolled and takes remote changes as a splice that preserves the selection, because letting React assign the textarea's value throws your caret to the end of the line every time your collaborator types.",
+                    ],
+                },
+                {
+                    label: "Latency",
+                    title: "Two channels: one for the record, one for what is happening now",
+                    body: [
+                        "A single pencil stroke is around 300 pointer events. If each one were written to the shared document, dragging one box would produce hundreds of versions, hundreds of network updates, and hundreds of undo entries. So there are two channels with different rules.",
+                        "The document gets the result: one update when the gesture ends, bracketed explicitly by a gesture lifecycle so mid-gesture state never reaches it. Cursors, selections, and the geometry of the shape you are still dragging travel on Yjs's ephemeral awareness channel instead — never persisted, never part of undo history, dropped automatically on disconnect. Peers watch your shape being drawn in real time while the permanent record stays one edit per gesture.",
+                        "Rendering follows the same split. Remote cursors move at about 30Hz per person, so they get their own transparent canvas stacked above the drawing, with a frame loop that parks itself when nothing is moving — a cursor twitch must never repaint the scene or re-run the hand-drawn shape generation. Remote presence never enters React state at all; at 30Hz per peer that would re-render the app hundreds of times a second, so the overlay reads it directly and only the roster reaches React.",
+                    ],
+                },
+                {
+                    label: "Performance",
+                    title: "Measured at 2000 elements and six peers, not assumed",
+                    body: [
+                        "A load harness drives a heavy room — 2000 elements, six peers, cursors at 30Hz — and reports rather than asserts. The number that matters most: moving one element costs 35 bytes on the wire regardless of how large the drawing is, because writes are diffed against the document instead of sent whole. A peer joining that room catches up in about 50ms, and six peers moving cursors cost roughly 18.5 kB/s each.",
+                        "Two fixes came directly out of measuring. Freehand strokes are simplified with Ramer–Douglas–Peucker when the gesture ends — 301 points become 31, with no visible difference in a hand-drawn rendering. And the live preview sent to peers is thinned too, which turned out to matter more: an in-flight stroke is republished every frame, so an unsimplified one costs the square of its own length. One 300-point stroke went from 907 kB on the wire to 197 kB.",
+                        "The remaining cost is honest and documented: generating hand-drawn geometry for 2000 elements takes about 82ms once, on first load. After that a full repaint is 4–5ms, and the shape cache is not keyed by zoom, so zooming does not pay it again — verified, because that would have been an easy and expensive thing to get wrong.",
+                    ],
+                },
+                {
+                    label: "Undo",
+                    title: "Undo must not delete your collaborator's work",
+                    body: [
+                        "Undo was originally “restore a snapshot of the whole drawing”, which is the normal single-player answer and is fundamentally incompatible with collaboration: restoring a snapshot discards everything that arrived after it, so pressing undo would quietly delete other people's work.",
+                        "It is a Y.UndoManager scoped to this client's own transaction origin now. Your undo reaches your changes and stops there. The ordering is load-bearing in a way that is invisible from the code — the undo manager is created after the store is bound to the document, so restoring your drawing on page load is not itself an undoable step.",
+                    ],
+                },
+                {
+                    label: "Storage",
+                    title: "No backend, and a clear account of what that costs",
+                    body: [
+                        "Three kinds of data, three homes, and which one something belongs in is the most consequential decision in the codebase. The drawing lives in a Yjs document in IndexedDB. Cursors and in-flight gestures live nowhere by construction. Preferences — dark mode, brush settings, your display name — are the only things in localStorage.",
+                        "Your private canvas and each room are separate documents that are never merged. Starting a session copies your canvas into a fresh room; joining someone else's link must never push your canvas into theirs; leaving returns you to your own board exactly as you left it. Several of the subtlest bugs in the project lived on that boundary, which is why the rule is written down as an invariant rather than left implicit in the code.",
+                        "The limits are stated rather than glossed: anyone with a room link can read and edit it, whoever runs the relay can see room contents, and clearing site data deletes your drawings. End-to-end encryption is deferred on purpose — the relay currently parses the sync protocol to catch late joiners up, and under E2EE it could not, so late joiners would have to be caught up by peers instead. That trade-off is recorded so the decision can be made deliberately rather than rediscovered.",
+                    ],
+                },
+                {
+                    label: "Verification",
+                    title: "Driving the real app, because the tests could not see it",
+                    body: [
+                        "Sync layer correctness is covered by fast tests with no framework and no DOM — convergence between two peers, echo suppression counted in document updates rather than final state, per-user undo, and a real WebSocket relay running in-process for late joins and presence withdrawal. Those tests are why refactors in this area were safe.",
+                        "They were also not enough. Following a peer's viewport switched itself off whenever that peer backgrounded their tab, because awareness drops a silent peer after 30 seconds and the code read absence as “they left”. No unit test had a notion of a peer going quiet; it was found by driving two real browser tabs and watching. A pencil stroke dropping points under fast input was the same story — a stale render-time snapshot meant a 301-event burst kept 10 points.",
+                        "Both fixes came with the measurement that proved them and a written note about the trap, alongside the environment gotchas that had already caused wrong conclusions: hidden tabs do not run animation frames, hot reload leaves stale module state in the sync layer, and timers are throttled to about 1Hz in a background tab. The project keeps its design decisions, its invariants and its rejected alternatives in writing, because none of that reasoning is recoverable from the code.",
+                    ],
+                },
+            ],
+        },
+    },
+    {
         title: "Nudge",
         slug: "nudge",
         description:
             "An Android guide that helps non-technical people finish phone tasks one tap at a time. It reads the screen, points at the next step, and explains it in plain language - but never taps anything itself.",
         tags: ["Android", "Kotlin", "Jetpack Compose", "Node.js", "LLM", "Accessibility"],
+        github: "https://github.com/nandanpathakk/Nudge",
+        // Bump the version in `url`, `meta` and `releaseUrl` with each release —
+        // the asset filename is version-stamped, so it can't be a "latest" link.
+        download: {
+            url: "https://github.com/nandanpathakk/Nudge/releases/download/v0.1.0/nudge-v0.1.0.apk",
+            meta: "v0.1.0 · 1.1 MB · Android 8.0+",
+            note:
+                "Nudge isn't on the Play Store — it's a personal project, so you install it directly. " +
+                "It asks for two permissions and explains both before it asks: one to read what's on your " +
+                "screen, so it knows what to point at, and one to draw the highlight over other apps.",
+            steps: [
+                "Download the APK on your Android phone.",
+                "Open it and allow installs from your browser — normal for apps outside the Play Store.",
+                "Open Nudge, say or type what you want to do, and follow the ring.",
+            ],
+            releaseUrl: "https://github.com/nandanpathakk/Nudge/releases/tag/v0.1.0",
+        },
         image: "/images/nudge_1.jpeg",
         media: [
             { type: "image", url: "/images/nudge_1.jpeg" },
@@ -23,7 +165,7 @@ export const projectsData: Project[] = [
                 "AI-guided phone assistance for people who get lost in their own phone — built on one rule: point and explain, never tap.",
             year: "2026",
             role: "Design, research & full-stack development",
-            status: "In development — working on real devices",
+            status: "v0.1.0 — released, installable today",
             stack: [
                 "Kotlin",
                 "Jetpack Compose",
@@ -107,14 +249,6 @@ export const projectsData: Project[] = [
             { type: "image", url: "/images/Chessling_board.jpg" },
             { type: "video", url: "/videos/chessling_demo.mp4" }
         ],
-    },
-    {
-        title: "Doodle",
-        description: "A web-based drawing tool like Excalidraw where users can create flow diagrams on a canvas.",
-        tags: ["Next.js", "Canvas", "Zustand"],
-        link: "https://doodleup.vercel.app",
-        github: "https://github.com/nandanpathakk/Doodle",
-        image: "/images/doodle.png",
     },
     // {
     //     title: "Peg",

@@ -22,6 +22,25 @@ export interface ProjectDetails {
     media?: MediaItem[];
 }
 
+/** A downloadable build of a project — an app people can actually install. */
+export interface ProjectDownload {
+    url: string;         // direct link to the binary
+    meta?: string;       // version · size · platform requirement
+    note?: string;       // the honest sentence: what it is, what it asks for
+    steps?: string[];    // install steps, for anything outside an app store
+    releaseUrl?: string; // full release notes
+}
+
+/** A hosted project someone can open right now — nothing to install. */
+export interface ProjectTryIt {
+    url: string;       // where it runs
+    heading: string;   // display heading, e.g. "Open a board."
+    label: string;     // button text
+    meta?: string;     // the one-line caveat: what it costs, what it needs
+    note?: string;     // what it is and what it asks of you
+    steps?: string[];  // how to actually use it
+}
+
 export interface Project {
     title: string;
     slug?: string;
@@ -29,6 +48,8 @@ export interface Project {
     tags: string[];
     link?: string;
     github?: string | Array<{ label: string; url: string }>;
+    download?: ProjectDownload;
+    tryIt?: ProjectTryIt;
     image?: string;
     media?: MediaItem[];
     comingSoon?: boolean;
