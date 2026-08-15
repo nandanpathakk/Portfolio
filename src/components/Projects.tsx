@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, Github, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { ArrowUpRight, Download, Github, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { projectsData } from "@/data/projects";
@@ -206,6 +206,22 @@ export default function Projects() {
                                     </div>
                                     {!project.comingSoon && (
                                         <div className="flex gap-2 shrink-0 ml-2 relative z-20">
+                                            {/* Installable build — the one action a visitor
+                                                can take right now, so it leads. */}
+                                            {project.download && (
+                                                <a
+                                                    href={project.download.url}
+                                                    aria-label={`Download ${project.title}`}
+                                                    title={project.download.meta}
+                                                    className="flex items-center gap-1.5 py-2 px-1.5 text-primary/70 hover:text-primary transition-colors duration-200 group/dl"
+                                                >
+                                                    <Download className="w-4 h-4 group-hover/dl:translate-y-0.5 transition-transform duration-300" />
+                                                    <span className="text-[10px] uppercase font-mono tracking-wider opacity-70 group-hover/dl:opacity-100 transition-opacity">
+                                                        App
+                                                    </span>
+                                                </a>
+                                            )}
+
                                             {/* Single Github Link */}
                                             {typeof project.github === "string" && project.github !== "#" && (
                                                 <a
