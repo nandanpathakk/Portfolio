@@ -43,3 +43,5 @@ next-env.d.ts
 .claude/
 
 .vscode
+# stray build logs
+build_output.txt

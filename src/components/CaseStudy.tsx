@@ -1,16 +1,59 @@
 "use client";
 
+import { useMemo } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowLeft, ArrowUpRight, Download, Github } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Project } from "@/types";
 import { LINKS } from "@/components/config/links";
+import CaseStudyNav, { Chapter } from "@/components/CaseStudyNav";
+
+const slugify = (value: string) =>
+    value
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
+
+/** Section labels are prose, so two of them could slugify alike. */
+function uniqueSlugs(labels: string[]): string[] {
+    const seen = new Map<string, number>();
+
+    return labels.map((label) => {
+        const base = slugify(label) || "section";
+        const used = seen.get(base) ?? 0;
+
+        seen.set(base, used + 1);
+        return used ? `${base}-${used + 1}` : base;
+    });
+}
 
 export default function CaseStudy({ project }: { project: Project }) {
     const reducedMotion = useReducedMotion();
     const details = project.details!;
     const media = details.media ?? project.media;
+    const hasTryIt = Boolean(project.download || project.tryIt);
+
+    // One source for both the anchors below and the rail, so a renamed section
+    // can never leave the nav pointing at an id that no longer exists.
+    const sectionIds = useMemo(
+        () => uniqueSlugs(details.sections.map((section) => section.label)),
+        [details.sections],
+    );
+
+    const chapters = useMemo<Chapter[]>(
+        () => [
+            ...(hasTryIt ? [{ id: "try-it", label: "Try it" }] : []),
+            { id: "overview", label: "Overview" },
+            ...(media?.length ? [{ id: "screens", label: "Screens" }] : []),
+            ...details.sections.map((section, i) => ({
+                id: sectionIds[i],
+                label: section.label,
+            })),
+        ],
+        [hasTryIt, media, details.sections, sectionIds],
+    );
 
     const fadeIn = {
         initial: { opacity: 0, y: reducedMotion ? 0 : 20 },
@@ -21,6 +64,8 @@ export default function CaseStudy({ project }: { project: Project }) {
 
     return (
         <main className="min-h-screen bg-background selection:bg-primary/20 selection:text-primary">
+            <CaseStudyNav chapters={chapters} />
+
             <div className="px-6 md:px-10 lg:px-16 pt-10 md:pt-14 pb-24">
 
                 {/* Back link */}
@@ -87,7 +132,7 @@ export default function CaseStudy({ project }: { project: Project }) {
 
                 {/* Try it — only for projects that ship something installable */}
                 {project.download && (
-                    <motion.section {...fadeIn} className="border-t border-border py-10 md:py-14 max-w-5xl">
+                    <motion.section id="try-it" {...fadeIn} className="border-t border-border py-10 md:py-14 max-w-5xl">
                         <p className="text-xs font-mono uppercase tracking-[0.2em] text-primary mb-8">Try it</p>
 
                         <div className="rounded-xl border border-border bg-card/30 p-6 md:p-8">
@@ -153,7 +198,7 @@ export default function CaseStudy({ project }: { project: Project }) {
 
                 {/* Try it — for anything hosted, where the whole install step is a link */}
                 {project.tryIt && (
-                    <motion.section {...fadeIn} className="border-t border-border py-10 md:py-14 max-w-5xl">
+                    <motion.section id="try-it" {...fadeIn} className="border-t border-border py-10 md:py-14 max-w-5xl">
                         <p className="text-xs font-mono uppercase tracking-[0.2em] text-primary mb-8">Try it</p>
 
                         <div className="rounded-xl border border-border bg-card/30 p-6 md:p-8">
@@ -210,6 +255,7 @@ export default function CaseStudy({ project }: { project: Project }) {
 
                 {/* Overview */}
                 <motion.section
+                    id="overview"
                     {...fadeIn}
                     className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-4 md:gap-12 border-t border-border py-10 md:py-14 max-w-5xl"
                 >
@@ -225,7 +271,7 @@ export default function CaseStudy({ project }: { project: Project }) {
 
                 {/* Media gallery */}
                 {media && media.length > 0 && (
-                    <motion.section {...fadeIn} className="border-t border-border py-10 md:py-14 max-w-5xl">
+                    <motion.section id="screens" {...fadeIn} className="border-t border-border py-10 md:py-14 max-w-5xl">
                         <p className="text-xs font-mono uppercase tracking-[0.2em] text-primary mb-8">Screens</p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
                             {media.map((item, i) => (
@@ -268,6 +314,7 @@ export default function CaseStudy({ project }: { project: Project }) {
                 {details.sections.map((section, i) => (
                     <motion.section
                         key={i}
+                        id={sectionIds[i]}
                         {...fadeIn}
                         className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-4 md:gap-12 border-t border-border py-10 md:py-14 max-w-5xl"
                     >

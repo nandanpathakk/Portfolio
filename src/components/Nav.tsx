@@ -3,14 +3,14 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LINKS } from "@/components/config/links";
+import { siteSections } from "@/data/sections";
 
-const navLinks = [
-    { href: "/#about", label: "About" },
-    { href: "/#experience", label: "Experience" },
-    { href: "/#skills", label: "Skills" },
-    { href: "/#projects", label: "Projects" },
-    { href: "/#contact", label: "Contact" },
-];
+// Derived from the same registry the assistant navigates by, so a new section
+// reaches the nav and the chat together.
+const navLinks = siteSections.map(({ id, label }) => ({
+    href: `/#${id}`,
+    label,
+}));
 
 export default function Nav() {
     const [visible, setVisible] = useState(false);
