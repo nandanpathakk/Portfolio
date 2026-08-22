@@ -1,20 +1,20 @@
-import { ChatMessage, AIProviderResponse } from "./types";
-import { generateOpenAIResponse } from "./providers/openai";
-import { generateGeminiResponse } from "./providers/gemini";
+import { ChatMessage, AIStreamResult } from "./types";
+import { streamOpenAIResponse } from "./providers/openai";
+import { streamGeminiResponse } from "./providers/gemini";
 import { AI_CONFIG } from "@/config/ai";
 
-export async function generateAIResponse(
+export async function streamAIResponse(
     systemPrompt: string,
     messages: ChatMessage[]
-): Promise<AIProviderResponse> {
+): Promise<AIStreamResult> {
     const provider = AI_CONFIG.provider || "gemini"
 
     if (provider === "gemini") {
-        return generateGeminiResponse(systemPrompt, messages);
+        return streamGeminiResponse(systemPrompt, messages);
     }
 
     if (provider === "openai") {
-        return generateOpenAIResponse(systemPrompt, messages);
+        return streamOpenAIResponse(systemPrompt, messages);
     }
 
     return {
@@ -23,4 +23,4 @@ export async function generateAIResponse(
     };
 }
 
-export type { ChatMessage, AIProviderResponse };
+export type { ChatMessage, AIStreamResult };

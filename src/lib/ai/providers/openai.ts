@@ -1,4 +1,33 @@
-import { ChatMessage, AIProviderResponse } from "../types";
+import { ChatMessage, AIProviderResponse, AIStreamResult } from "../types";
+
+/**
+ * The fallback provider, adapted to the streaming contract by delivering the
+ * finished reply as a single delta. Real token streaming isn't worth an SSE
+ * parser here — Gemini is the configured provider, and this path exists so
+ * flipping `AI_CONFIG.provider` keeps working.
+ */
+export async function streamOpenAIResponse(
+    systemPrompt: string,
+    messages: ChatMessage[],
+): Promise<AIStreamResult> {
+    const result = await generateOpenAIResponse(systemPrompt, messages);
+
+    if (result.error || !result.reply) {
+        return {
+            error: result.error ?? "OpenAI returned no text.",
+            status: result.status ?? 502,
+            providerStatus: result.providerStatus,
+        };
+    }
+
+    const reply = result.reply;
+
+    return {
+        stream: (async function* () {
+            yield reply;
+        })(),
+    };
+}
 
 export async function generateOpenAIResponse(
     systemPrompt: string,

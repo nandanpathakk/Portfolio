@@ -25,6 +25,29 @@ export const projectsData: Project[] = [
             ],
         },
         image: "/images/doodle-collab.png",
+        // Assistant may show these when a reply mentions Doodle.
+        chatMedia: {
+            enabled: true,
+            max: 3,
+            aspect: "landscape",
+            images: [
+                {
+                    type: "image",
+                    url: "/images/doodle-collab.png",
+                    caption: "Three people in one room — live cursors and a peer's stroke mid-flight.",
+                },
+                {
+                    type: "image",
+                    url: "/images/doodle-board.png",
+                    caption: "The canvas: shapes, arrows, freehand and text, rendered hand-drawn.",
+                },
+                {
+                    type: "image",
+                    url: "/images/doodle-tools.png",
+                    caption: "Light theme with the styling panel — colour, width, sloppiness, edges.",
+                },
+            ],
+        },
         media: [
             {
                 type: "image",
@@ -152,6 +175,29 @@ export const projectsData: Project[] = [
             releaseUrl: "https://github.com/nandanpathakk/Nudge/releases/tag/v0.1.0",
         },
         image: "/images/nudge_1.jpeg",
+        // Assistant may show these when a reply mentions Nudge.
+        chatMedia: {
+            enabled: true,
+            max: 3,
+            aspect: "portrait",
+            images: [
+                {
+                    type: "image",
+                    url: "/images/nudge_4.jpeg",
+                    caption: "Say it or type it, in Hindi or English.",
+                },
+                {
+                    type: "image",
+                    url: "/images/nudge_7.jpeg",
+                    caption: "One step at a time — Nudge points, the user taps.",
+                },
+                {
+                    type: "image",
+                    url: "/images/nudge_8.jpeg",
+                    caption: "Done, in plain words.",
+                },
+            ],
+        },
         media: [
             { type: "image", url: "/images/nudge_1.jpeg" },
             { type: "image", url: "/images/nudge_2.jpeg" },
@@ -236,6 +282,7 @@ export const projectsData: Project[] = [
         link: "#",
         github: "#",
         image: "/images/Halt.png",
+        chatMedia: { enabled: false },
         comingSoon: true,
     },
     {
@@ -247,6 +294,7 @@ export const projectsData: Project[] = [
             { label: "Server", url: "https://github.com/nandanpathakk/chessling-server" }
         ],
         image: "/images/Chessling_home.jpg",
+        chatMedia: { enabled: false },
         media: [
             { type: "image", url: "/images/Chessling_home.jpg" },
             { type: "image", url: "/images/Chessling_board.jpg" },

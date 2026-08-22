@@ -41,6 +41,23 @@ export interface ProjectTryIt {
     steps?: string[];  // how to actually use it
 }
 
+/**
+ * Whether — and what — the portfolio assistant may show as photos when a reply
+ * mentions this project. Off unless a project opts in.
+ */
+export interface ProjectChatMedia {
+    /** The switch. No images are ever shown for a project unless this is true. */
+    enabled: boolean;
+    /** How many images at most, when this is the only project in the reply. Default 3. */
+    max?: number;
+    /** Explicit picks. Falls back to the project's `media` images, then `image`. */
+    images?: MediaItem[];
+    /** Frame shape for the thumbnails — phone screenshots want "portrait". */
+    aspect?: 'landscape' | 'portrait' | 'square';
+    /** How the image sits in that frame. Default "cover". */
+    fit?: 'cover' | 'contain';
+}
+
 export interface Project {
     title: string;
     slug?: string;
@@ -52,8 +69,19 @@ export interface Project {
     tryIt?: ProjectTryIt;
     image?: string;
     media?: MediaItem[];
+    chatMedia?: ProjectChatMedia;
     comingSoon?: boolean;
     details?: ProjectDetails;
+}
+
+/** A section of the single-page site the assistant can point a visitor at. */
+export interface SiteSection {
+    /** The DOM id, and the anchor the chip links to. */
+    id: string;
+    /** Chip label. */
+    label: string;
+    /** What lives here — told to the model so it can pick the right one. */
+    hint: string;
 }
 
 export interface Experience {
