@@ -275,6 +275,87 @@ export const projectsData: Project[] = [
         },
     },
     {
+        title: "Toss",
+        slug: "toss",
+        description:
+            "Back your view. Toss brings prediction markets to your phone: discover a question, choose YES or NO, and see the rules and full cost before you commit. Built on Panta for Solana, with your wallet in your control.",
+        tags: ["Hackathon project", "Mobile app", "Prediction markets", "Solana", "Panta"],
+        link: "https://tossitup.vercel.app/",
+        demo: {
+            url: "https://www.youtube.com/watch?v=K4RLt73w9IU",
+            youtubeId: "K4RLt73w9IU",
+        },
+        tryIt: {
+            url: "https://tossitup.vercel.app/",
+            heading: "Meet Toss.",
+            label: "Visit Toss",
+            meta: "Mobile app · Coming soon · Built on Panta",
+            note: "Explore the product and see how Toss brings prediction markets to your phone. The website introduces the app; it does not place trades or move funds.",
+        },
+        image: "/images/toss/cover.jpg",
+        media: [
+            { type: "image", url: "/images/toss/cover.jpg", caption: "Toss — Back your view. Built on Panta." },
+            { type: "image", url: "/images/toss/discover.webp", caption: "Discover live prediction markets and explore YES and NO outcomes." },
+            { type: "image", url: "/images/toss/review.webp", caption: "Review a trade before confirming it." },
+        ],
+        chatMedia: {
+            enabled: true,
+            max: 2,
+            aspect: "portrait",
+            fit: "contain",
+            images: [
+                { type: "image", url: "/images/toss/discover.webp", caption: "Toss market discovery." },
+                { type: "image", url: "/images/toss/review.webp", caption: "Toss trade review." },
+            ],
+        },
+        details: {
+            tagline: "Back your view. Discover a market, understand the call, and take a side — from your phone, with your wallet in your control.",
+            year: "2026",
+            role: "Product & mobile development",
+            status: "Hackathon product · Coming soon",
+            stack: ["React Native", "TypeScript", "Solana", "Panta", "Privy"],
+            overview: [
+                "People have a view on what happens next — in crypto, sport, and the world around them. Toss gives Solana users a mobile way to act on that view: find a prediction market, understand the question, and choose YES or NO.",
+                "The experience is built around what matters before committing money: clear rules, the full cost up front, and control of your own wallet. Discovery, trade review, and positions belong in one place, so following a prediction feels natural on a phone.",
+                "Toss is an independent, unofficial app built on Panta and created for a hackathon. The mobile app is coming soon; the website and demo introduce the experience.",
+            ],
+            sections: [
+                {
+                    label: "The opportunity",
+                    title: "Solana has the users. Give them a place to act.",
+                    body: [
+                        "Prediction markets turn a view about the future into a concrete choice. For someone already using Solana, that choice should be accessible from the phone they use every day, with a wallet they control.",
+                        "Toss brings the journey together: discover a question worth following, understand how it resolves, review a position, and keep track of it afterward. The product starts with the user's decision.",
+                    ],
+                },
+                {
+                    label: "The experience",
+                    title: "Find your market. Make your call.",
+                    body: [
+                        "Start with discovery. Browse live markets, open a question, and explore its YES and NO outcomes, prices, and activity. The aim is to help people understand what they are taking a position on before asking them to commit.",
+                        "Review the trade with the rules and full cost visible, then decide whether to proceed. Wallet balances and positions give users somewhere to return to as the market develops.",
+                    ],
+                },
+                {
+                    label: "User control",
+                    title: "Your wallet. Your call.",
+                    body: [
+                        "Toss is designed around non-custodial participation: users sign with their own wallet and keep control of their keys. Understanding the market and approving a transaction are deliberate steps in the experience.",
+                        "The product's safety approach includes transaction simulation and one-time approvals. These checks support an informed decision; prediction markets still involve risk, and taking a position does not guarantee a return.",
+                    ],
+                },
+                {
+                    label: "Built on Panta",
+                    title: "A place to participate — and to create",
+                    body: [
+                        "Panta brings prediction markets to Solana, including the ability to create a market and earn from the activity it attracts. Toss builds a mobile experience around that foundation, bringing discovery, participation, and market creation into the same product.",
+                        "The idea is simple: let people back a view they already hold, understand the commitment, and stay in control throughout.",
+                    ],
+                },
+            ],
+        },
+    },
+    {
         title: "Halt",
         description:
             "Rust-based safety layer that monitors every command executed by you or your AI tools in your terminal, flags suspicious behaviour, and warns you before anything risky runs on your machine.",

@@ -279,6 +279,17 @@ export default function Projects() {
                                     ))}
                                 </div>
 
+                                {project.demo && (
+                                    <a
+                                        href={project.demo.url}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="relative z-20 mt-5 inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-primary hover:underline"
+                                    >
+                                        Watch demo <ArrowUpRight className="w-3.5 h-3.5" />
+                                    </a>
+                                )}
+
                                 {project.slug && project.details && (
                                     <Link
                                         href={`/projects/${project.slug}`}

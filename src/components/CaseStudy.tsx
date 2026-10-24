@@ -46,13 +46,14 @@ export default function CaseStudy({ project }: { project: Project }) {
         () => [
             ...(hasTryIt ? [{ id: "try-it", label: "Try it" }] : []),
             { id: "overview", label: "Overview" },
+            ...(project.demo ? [{ id: "demo", label: "Demo" }] : []),
             ...(media?.length ? [{ id: "screens", label: "Screens" }] : []),
             ...details.sections.map((section, i) => ({
                 id: sectionIds[i],
                 label: section.label,
             })),
         ],
-        [hasTryIt, media, details.sections, sectionIds],
+        [hasTryIt, media, details.sections, sectionIds, project.demo],
     );
 
     const fadeIn = {
@@ -268,6 +269,26 @@ export default function CaseStudy({ project }: { project: Project }) {
                         ))}
                     </div>
                 </motion.section>
+
+                {project.demo && (
+                    <motion.section id="demo" {...fadeIn} className="border-t border-border py-10 md:py-14 max-w-5xl">
+                        <p className="text-xs font-mono uppercase tracking-[0.2em] text-primary mb-8">See it in action</p>
+                        <div className="relative aspect-video border border-border bg-card/30">
+                            <iframe
+                                src={`https://www.youtube-nocookie.com/embed/${project.demo.youtubeId}`}
+                                title={`${project.title} product demo`}
+                                loading="lazy"
+                                allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowFullScreen
+                                referrerPolicy="strict-origin-when-cross-origin"
+                                className="absolute inset-0 w-full h-full border-0"
+                            />
+                        </div>
+                        <a href={project.demo.url} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-2 text-xs font-mono text-primary hover:underline">
+                            Watch on YouTube <ArrowUpRight className="w-3.5 h-3.5" />
+                        </a>
+                    </motion.section>
+                )}
 
                 {/* Media gallery */}
                 {media && media.length > 0 && (

@@ -64,6 +64,7 @@ export interface Project {
     description: string;
     tags: string[];
     link?: string;
+    demo?: { url: string; youtubeId: string };
     github?: string | Array<{ label: string; url: string }>;
     download?: ProjectDownload;
     tryIt?: ProjectTryIt;

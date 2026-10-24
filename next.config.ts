@@ -5,10 +5,9 @@ const isDev = process.env.NODE_ENV === "development";
 /**
  * Content Security Policy.
  *
- * Everything the site loads is same-origin: fonts are self-hosted by
- * next/font at build time, images live in /public, and the only network call
- * is to our own /api/ai-about. So the policy is 'self' plus the two
- * unavoidable exceptions below, and nothing else.
+ * Fonts and images are same-origin, and the assistant calls /api/ai-about.
+ * Product demos may embed YouTube's privacy-enhanced player; only that
+ * external frame origin is allowed.
  *
  * The dev-only allowances exist because webpack's hot reloader evaluates code
  * at runtime and talks over a websocket. They must never reach production.
@@ -37,8 +36,8 @@ const csp = [
   "worker-src 'self' blob:",
   "manifest-src 'self'",
 
-  // Nothing is embedded, and nothing may embed us.
-  "frame-src 'none'",
+  // Allow the privacy-enhanced YouTube player. Other sites may not embed us.
+  "frame-src https://www.youtube-nocookie.com",
   "child-src 'none'",
   "object-src 'none'",
   "frame-ancestors 'none'",
