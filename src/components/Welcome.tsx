@@ -26,7 +26,7 @@ export default function Welcome() {
     const nameSize = "clamp(3.2rem, 12vw, 11rem)";
 
     return (
-        <section className="min-h-screen flex flex-col relative overflow-hidden">
+        <section className="min-h-screen max-lg:min-h-svh flex flex-col relative overflow-hidden">
             <Meteors />
 
             {/* Amber ambient glow */}
@@ -40,10 +40,10 @@ export default function Welcome() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: reducedMotion ? 0 : 0.3, duration: reducedMotion ? 0 : 0.8 }}
-                className="flex items-center justify-between px-6 md:px-10 lg:px-16 pt-10 md:pt-14"
+                className="flex items-center justify-between max-sm:flex-wrap max-sm:gap-3 px-6 md:px-10 lg:px-16 pt-10 md:pt-14"
             >
                 <span className="section-label">Portfolio · {new Date().getFullYear()}</span>
-                <span className="text-xs font-mono uppercase tracking-[0.3em] text-muted-foreground/50">
+                <span className="text-xs font-mono uppercase tracking-[0.3em] max-sm:tracking-[0.15em] text-muted-foreground/50">
                     Based in India
                 </span>
             </motion.div>
@@ -168,7 +168,7 @@ export default function Welcome() {
                     >
                         <p className="text-base md:text-lg text-muted-foreground mb-6 max-w-xs leading-relaxed">
                             Developer.<br />
-                            I build things that work.
+                            Good products. Good code.
                         </p>
                         <div className="flex items-center gap-6">
                             <a

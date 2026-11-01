@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { LINKS } from "@/components/config/links";
+import { profileData } from "@/data/profile";
 
 export default function Contact() {
     const reducedMotion = useReducedMotion();
@@ -33,13 +34,17 @@ export default function Contact() {
                     <p className="section-label mb-5">Contact</p>
 
                     <h2
-                        className="text-5xl md:text-7xl lg:text-8xl font-normal leading-[1.0] mb-10 md:mb-14 max-w-3xl"
+                        className="text-5xl md:text-7xl lg:text-8xl font-normal leading-[1.0] mb-6 max-w-3xl"
                         style={{ fontFamily: "var(--font-elegant), serif" }}
                     >
                         Let&apos;s build<br />
                         something<br />
                         <em>great.</em>
                     </h2>
+
+                    <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-xl mb-10 md:mb-14">
+                        {profileData.opportunityStatement}
+                    </p>
 
                     {/* Primary CTA — email as large text link */}
                     <motion.a
@@ -48,9 +53,9 @@ export default function Contact() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: reducedMotion ? 0 : 0.6, delay: reducedMotion ? 0 : 0.15 }}
-                        className="group inline-flex items-center gap-4 text-xl md:text-2xl lg:text-3xl text-muted-foreground hover:text-primary transition-colors duration-300 mb-12 md:mb-16"
+                        className="group inline-flex max-w-full items-center gap-4 max-sm:gap-2 text-xl max-sm:text-base md:text-2xl lg:text-3xl text-muted-foreground hover:text-primary transition-colors duration-300 mb-12 md:mb-16"
                     >
-                        <span className="border-b border-muted-foreground/30 group-hover:border-primary transition-colors duration-300 pb-1">
+                        <span className="min-w-0 max-lg:break-all border-b border-muted-foreground/30 group-hover:border-primary transition-colors duration-300 pb-1">
                             {LINKS.EMAIL}
                         </span>
                         <ArrowUpRight

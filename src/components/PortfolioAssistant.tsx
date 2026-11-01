@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect, type CSSProperties } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Search, Sparkles, X, ArrowUpRight, ArrowDown } from "lucide-react";
 import { Markdown } from "@/components/ui/Markdown";
+import { assistantQuestions } from "@/data/assistant-questions";
 
 type Role = "user" | "assistant";
 
@@ -162,7 +163,8 @@ function SuggestionPanel({
       exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: 8 }}
       transition={{ duration: reducedMotion ? 0 : 0.18, ease: "easeOut" }}
       id="assistant-suggestions"
-      className="mb-2.5 flex flex-col gap-1.5"
+      className="assistant-suggestions mb-2.5 flex flex-col gap-1.5"
+      data-lenis-prevent
       role="listbox"
       aria-label="Suggested questions"
     >
@@ -204,19 +206,10 @@ function SuggestionPanel({
 const createId = () => `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
 /**
- * Ordered as a first impression: the opening three each demonstrate something
- * the assistant can do that a plain chat box cannot — the first two return
- * project photos, the third answers and then offers to scroll you there.
+ * The opening three introduce the work, product thinking, and experience.
+ * More specific prompts are available as the visitor types.
  */
-const SUGGESTIONS = [
-  "What projects has Nandan built?",
-  "Tell me about Doodle.",
-  "Where has he worked?",
-  "What's his tech stack?",
-  "How is Nudge different from a normal assistant?",
-  "What is he like to work with?",
-  "How do I get in touch?",
-];
+const SUGGESTIONS = assistantQuestions.map((item) => item.question);
 
 /** How many to offer at once. Three fits above the bar on a phone. */
 const SUGGESTION_COUNT = 3;
@@ -251,6 +244,34 @@ export function PortfolioAssistant() {
   const [isFocused, setIsFocused] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [shortcutKey, setShortcutKey] = useState("");
+
+  const [touchViewport, setTouchViewport] = useState<CSSProperties>();
+  useEffect(() => {
+    const viewport = window.visualViewport;
+    const devices = window.matchMedia("(max-width: 1023px), (pointer: coarse)");
+    const update = () => {
+      if (!devices.matches) { setTouchViewport(undefined); return; }
+      if (viewport && viewport.scale !== 1) return;
+      const height = viewport?.height ?? window.innerHeight;
+      const top = viewport?.offsetTop ?? 0;
+      setTouchViewport({
+        "--assistant-vh": `${height}px`,
+        "--assistant-top": `${top}px`,
+        "--assistant-bottom": `${Math.max(0, window.innerHeight - height - top)}px`,
+      } as CSSProperties);
+    };
+    update();
+    viewport?.addEventListener("resize", update);
+    viewport?.addEventListener("scroll", update);
+    window.addEventListener("resize", update);
+    devices.addEventListener("change", update);
+    return () => {
+      viewport?.removeEventListener("resize", update);
+      viewport?.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+      devices.removeEventListener("change", update);
+    };
+  }, []);
 
   const suggestions = matchingSuggestions(input);
   // Only before the first question: once there's a thread, focusing the bar
@@ -508,7 +529,7 @@ export function PortfolioAssistant() {
     isLoading && messages[messages.length - 1]?.role !== "assistant";
 
   return (
-    <div className="fixed inset-x-0 bottom-6 z-40 flex justify-center pointer-events-none">
+    <div style={touchViewport} className="assistant-shell fixed inset-x-0 bottom-6 z-40 flex justify-center pointer-events-none">
       <div className="w-full max-w-xl px-4 sm:px-0 pointer-events-auto">
         {/* Chat popup — centered with subtle ambient glow */}
         <AnimatePresence>
@@ -539,14 +560,14 @@ export function PortfolioAssistant() {
                   : { opacity: 0, y: 20, scale: 0.96 }
               }
               transition={{ duration: reducedMotion ? 0 : 0.22, ease: "easeOut" }}
-              className="pointer-events-auto fixed inset-x-4 sm:inset-x-0 sm:left-1/2 sm:-translate-x-1/2 top-1/2 -translate-y-1/2 w-auto sm:w-full sm:max-w-2xl"
+              className="assistant-panel pointer-events-auto fixed inset-x-4 sm:inset-x-0 sm:left-1/2 sm:-translate-x-1/2 top-1/2 -translate-y-1/2 w-auto sm:w-full sm:max-w-2xl"
             >
               <div className="relative">
                 {/* Subtle glow */}
                 <div className="pointer-events-none absolute -inset-8 rounded-[32px] bg-black/40 blur-3xl opacity-80" />
                 <div className="pointer-events-none absolute -inset-4 rounded-[28px] bg-primary/20 blur-2xl opacity-70" />
 
-                <div className="relative h-[min(78vh,620px)] rounded-2xl bg-card/95 backdrop-blur-2xl border border-white/[0.09] ring-1 ring-black/40 shadow-2xl shadow-black/60 flex flex-col overflow-hidden">
+                <div className="assistant-window relative h-[min(78vh,620px)] rounded-2xl bg-card/95 backdrop-blur-2xl border border-white/[0.09] ring-1 ring-black/40 shadow-2xl shadow-black/60 flex flex-col overflow-hidden">
                   {/* Hairline of light along the top edge — lifts the panel off the page */}
                   <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
 
@@ -576,7 +597,8 @@ export function PortfolioAssistant() {
 
                   <div
                     ref={scrollRef}
-                    className="flex-1 min-h-0 overflow-y-auto px-5 py-5 space-y-5 text-sm"
+                    data-lenis-prevent
+                    className="flex-1 min-h-0 overflow-y-auto px-5 py-5 space-y-5 text-sm max-lg:overscroll-contain"
                     onScroll={(e) => {
                       const el = e.currentTarget;
                       stickToBottom.current =
@@ -589,19 +611,19 @@ export function PortfolioAssistant() {
                   >
                     {messages.length === 0 && (
                       <p className="max-w-md text-sm leading-relaxed text-muted-foreground/80 italic">
-                        Ask about projects I&apos;ve built, stacks I use day to day, or where I&apos;ve worked.
+                        Ask about my projects, product and UX decisions, technical work, or experience.
                       </p>
                     )}
                     {messages.map((message) =>
                       message.role === "user" ? (
                         <div key={message.id} className="flex justify-end">
-                          <div className="max-w-[80%] rounded-lg rounded-br-sm bg-primary px-4 py-2.5 text-sm leading-relaxed text-primary-foreground whitespace-pre-wrap">
+                          <div className="max-w-[80%] max-lg:break-words rounded-lg rounded-br-sm bg-primary px-4 py-2.5 text-sm leading-relaxed text-primary-foreground whitespace-pre-wrap">
                             {message.content}
                           </div>
                         </div>
                       ) : (
                         <div key={message.id} className="flex justify-start">
-                          <div className="w-full max-w-[92%] rounded-lg rounded-bl-sm border border-white/[0.07] bg-white/[0.035] px-4 py-3.5 text-sm text-foreground/90">
+                          <div className="w-full max-w-[92%] max-lg:[overflow-wrap:anywhere] rounded-lg rounded-bl-sm border border-white/[0.07] bg-white/[0.035] px-4 py-3.5 text-sm text-foreground/90">
                             <Markdown content={message.content} />
                             {message.galleries?.map((gallery) => (
                               <ProjectGallery
@@ -645,7 +667,7 @@ export function PortfolioAssistant() {
                     onSubmit={handleChatSubmit}
                     className="flex items-end gap-2 border-t border-white/[0.07] bg-white/[0.015] px-5 py-3.5 relative"
                   >
-                    <div className="relative flex-1">
+                    <div className="relative flex-1 min-w-0">
                       <textarea
                         ref={chatInputRef}
                         value={input}
@@ -711,7 +733,7 @@ export function PortfolioAssistant() {
             <div className="flex items-center justify-center h-7 w-7 rounded-full bg-primary/15 text-primary">
               <Search className="h-3.5 w-3.5" />
             </div>
-            <div className="relative flex-1 flex items-center">
+            <div className="relative flex-1 min-w-0 flex items-center">
               <textarea
                 ref={searchInputRef}
                 value={input}

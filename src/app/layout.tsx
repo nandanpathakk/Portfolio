@@ -14,7 +14,7 @@ const teko = Teko({ subsets: ["latin"], weight: ["400", "700"], variable: "--fon
 
 export const metadata: Metadata = {
   title: "Nandan Pathak | Developer",
-  description: "Developer who builds things — web, mobile, APIs, and AI-assisted workflows.",
+  description: "Nandan Pathak — developer building useful web and mobile products through thoughtful user experiences, full-stack engineering, and AI workflows.",
   icons: {
     icon: '/images/favicon.jpg',
   },

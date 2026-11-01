@@ -89,6 +89,10 @@ export interface Experience {
     year: string;
     role: string;
     company: string;
+    client?: {
+        name: string;
+        description: string;
+    };
     description: string;
     bullets?: string[];
     tech?: string[];

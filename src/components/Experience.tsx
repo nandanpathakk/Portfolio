@@ -37,7 +37,7 @@ export default function Experience() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-40px" }}
                             transition={{ duration: reducedMotion ? 0 : 0.5, delay: reducedMotion ? 0 : i * 0.1 }}
-                            className="group grid grid-cols-1 md:grid-cols-[200px_1fr] gap-4 md:gap-12 border-t border-border py-8 md:py-12 hover:border-primary/40 transition-colors duration-500"
+                            className="group grid grid-cols-1 md:grid-cols-[200px_1fr] md:max-lg:grid-cols-[200px_minmax(0,1fr)] gap-4 md:gap-12 border-t border-border py-8 md:py-12 hover:border-primary/40 transition-colors duration-500"
                         >
                             {/* Left: index + year */}
                             <div className="flex md:flex-col gap-4 md:gap-2 items-center md:items-start">

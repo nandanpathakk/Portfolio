@@ -10,9 +10,9 @@ import { SiteSection } from "@/types";
  */
 export const siteSections: SiteSection[] = [
     {
-        id: "about",
-        label: "About",
-        hint: "who he is and how he works",
+        id: "projects",
+        label: "Projects",
+        hint: "projects and case studies covering user problems, UX decisions, tradeoffs and technical work",
     },
     {
         id: "experience",
@@ -20,18 +20,18 @@ export const siteSections: SiteSection[] = [
         hint: "jobs, companies, and what he shipped at each",
     },
     {
-        id: "skills",
-        label: "Skills",
-        hint: "languages, frameworks and tools, grouped",
+        id: "about",
+        label: "About",
+        hint: "who he is and how he approaches building useful products",
     },
     {
-        id: "projects",
-        label: "Projects",
-        hint: "the things he has built, with links and case studies",
+        id: "skills",
+        label: "Skills",
+        hint: "product and UX capabilities, languages, frameworks and tools, grouped",
     },
     {
         id: "contact",
         label: "Contact",
-        hint: "how to reach him",
+        hint: "how to reach him and his interest in developer and product management roles",
     },
 ];

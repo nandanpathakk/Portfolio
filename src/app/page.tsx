@@ -20,10 +20,10 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background selection:bg-primary/20 selection:text-primary">
       <Welcome />
-      <About />
-      <Experience />
-      <Skills />
       <Projects />
+      <Experience />
+      <About />
+      <Skills />
       <Terminal />
       <Contact />
       <Footer />

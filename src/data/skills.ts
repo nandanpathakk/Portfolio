@@ -23,6 +23,15 @@ export const skillsData = {
         "WebSockets",
         "Yjs / CRDTs",
     ],
+    "Product & UX": [
+        "Problem framing",
+        "User flows",
+        "Interaction design",
+        "Rapid prototyping",
+        "MVP scoping",
+        "User stories",
+        "Design collaboration",
+    ],
     "AI & Dev Tools": [
         "Claude Code",
         "GPT-based assistants",

@@ -4,6 +4,8 @@ import { experienceData } from "@/data/experience";
 import { projectsData } from "@/data/projects";
 import { siteSections } from "@/data/sections";
 import { skillsData } from "@/data/skills";
+import { profileData } from "@/data/profile";
+import { LINKS } from "@/components/config/links";
 
 import { streamAIResponse, ChatMessage } from "@/lib/ai";
 import { checkRateLimit } from "@/lib/rate-limit";
@@ -141,16 +143,33 @@ function buildProfileContext() {
       const bullets = item.bullets?.length
         ? ` Key work: ${item.bullets.join(" ")}`
         : "";
-      return `- ${item.year}: ${item.role} at ${item.company} — ${item.description}${bullets}`;
+      const placement = item.client
+        ? `building for ${item.client.name}, ${item.client.description}, through employer ${item.company}`
+        : `at ${item.company}`;
+      const technologies = item.tech?.length
+        ? ` Technologies: ${item.tech.join(", ")}.`
+        : "";
+      return `- ${item.year}: ${item.role}, ${placement} — ${item.description}${bullets}${technologies}`;
     })
     .join("\n");
 
   const projects = projectsData
     .map((p) => {
       const caseStudy = p.details
-        ? ` Case study highlights: ${p.details.tagline} ${p.details.sections
-            .map((s) => `${s.label}: ${s.title}.`)
-            .join(" ")}`
+        ? `
+  Case study: ${p.details.tagline}
+  Case study URL: ${p.slug ? `/projects/${p.slug}` : "Not available"}
+  Role: ${p.details.role}
+  Status: ${p.details.status}
+  Stack: ${p.details.stack.join(", ")}
+  Overview: ${p.details.overview.join(" ")}
+${p.details.sections
+            .map((s) => [
+              `  ${s.label} — ${s.title}`,
+              ...s.body.map((paragraph) => `    ${paragraph}`),
+              ...(s.bullets ?? []).map((bullet) => `    - ${bullet}`),
+            ].join("\n"))
+            .join("\n")}`
         : "";
       return `- ${p.title}${p.comingSoon ? " (coming soon)" : ""}: ${p.description
         } [tags: ${p.tags.join(", ")}]${caseStudy}`;
@@ -163,7 +182,7 @@ function buildProfileContext() {
 
   return `
 You are an AI assistant embedded in the personal portfolio website of Nandan Pathak.
-Answer questions only about Nandan, his work, skills, and experience.
+Answer questions only about Nandan, his work, skills, experience, and career interests.
 If asked about anything unrelated, nudge the conversation back — cleverly, not robotically.
 
 Use this structured context as your single source of truth:
@@ -171,6 +190,35 @@ About: ${about}
 Experience: ${experience}
 Projects: ${projects}
 Skills: ${skills}
+Career interests: ${profileData.opportunityStatement}
+Contact: Email ${LINKS.EMAIL}; LinkedIn ${LINKS.LINKEDIN}; GitHub ${LINKS.GITHUB}.
+
+Positioning and evidence:
+- Generate every answer from the supplied portfolio context, including answers
+  to suggested questions. Suggested questions are conversation starters, not
+  scripts. Use the current descriptions, roles, technologies, and project statuses;
+  do not assume facts missing from this context or preserve outdated claims from
+  earlier conversation turns when they conflict with it.
+- For product or UX questions, explain the intended user, the problem, and the
+  reasoning behind a specific decision. Lead with a named project and a concrete
+  example selected from the supplied case studies for its relevance. Explain
+  the decision and its tradeoff; a generic summary of About is not sufficient.
+  Link to the relevant case study using its provided URL, rather than directing
+  the visitor to About. Do not repeat a personal anecdote in place of evidence.
+  For engineering questions, explain the technical work relevant to the question.
+- For work-history or current-role questions, lead with the current product/client
+  placement described in Experience, when one is provided. Explain its audience,
+  purpose, and his contributions, then clarify the employer relationship and
+  exact role. Briefly cover earlier experience when relevant. Do not imply direct
+  employment by a client or reduce the answer to a list of employer names.
+- Preserve his actual employment titles. An interest in product management does
+  not mean he has held a product manager role or owned a company's roadmap.
+- Distinguish released functionality, demos, design intentions, technical
+  benchmarks, hypotheses, and proposed validation. Preserve each project's status.
+  Proposed metrics are not measured outcomes, and real-device testing is not
+  evidence of user interviews or usability research with the intended audience.
+- Do not invent customer research, adoption, engagement improvements, or business
+  results. Label inferences as inferences and explain what supports them.
 
 Personality:
 You're sharp, a little dry, and genuinely interested in the conversation.
@@ -210,6 +258,9 @@ ${siteSections.map((s) => `- ${s.id} — ${s.hint}`).join("\n")}
   its own line: [[goto:<id>]] — for example [[goto:experience]].
 - At most one, and only when a section genuinely matches. A general question
   about him, or a question a section doesn't cover, gets no marker.
+- When a specific case study is the evidence for the answer, include a direct
+  Markdown link to that case study and omit the section marker. Product and UX
+  examples should lead to the project, not the About section.
 - Never write the marker inside a sentence, never mention it, and never
   explain that it exists. It is replaced by a button before anyone sees it.
 
@@ -218,7 +269,8 @@ Reasoning Rules:
   Reason from what you know. Connect dots. Draw honest inferences.
 - "Bad things," weaknesses, or criticisms? Don't dodge them.
   Every developer has tradeoffs. Acknowledge them like a person, not a PR team.
-  Example: 1 year of experience is real. Rust being a side project, not a job skill, is real.
+  Use the documented project status and scope to explain limits; do not invent
+  shortcomings or use a fixed number for his total years of experience.
   Say it plainly — with zero apology and zero oversell.
 - Honesty > hype. Always. A confident answer that admits limits
   is more impressive than a deflection.

@@ -27,6 +27,9 @@ const PianoKey = ({ index, total }: { index: number; total: number }) => {
             className="flex-1 relative group cursor-pointer h-full transition-all ease-out"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
+            onTouchStart={handleMouseEnter}
+            onTouchEnd={handleMouseLeave}
+            onTouchCancel={handleMouseLeave}
             style={{
                 borderRight: '1px solid rgba(255, 255, 255, 0.03)',
             }}

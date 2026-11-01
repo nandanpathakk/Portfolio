@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LINKS } from "@/components/config/links";
 import { siteSections } from "@/data/sections";
+import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 // Derived from the same registry the assistant navigates by, so a new section
 // reaches the nav and the chat together.
@@ -14,6 +16,19 @@ const navLinks = siteSections.map(({ id, label }) => ({
 
 export default function Nav() {
     const [visible, setVisible] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
+    const pathname = usePathname();
+
+    useEffect(() => { setMenuOpen(false); }, [pathname]);
+
+    useEffect(() => {
+        if (!menuOpen) return;
+        const closeOnEscape = (event: KeyboardEvent) => {
+            if (event.key === "Escape") setMenuOpen(false);
+        };
+        window.addEventListener("keydown", closeOnEscape);
+        return () => window.removeEventListener("keydown", closeOnEscape);
+    }, [menuOpen]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -43,7 +58,7 @@ export default function Nav() {
                         </a>
 
                         {/* Nav Links with animated amber underlines */}
-                        <div className="hidden md:flex items-center gap-8">
+                        <div className="hidden lg:flex items-center gap-8">
                             {navLinks.map((link) => (
                                 <a
                                     key={link.href}
@@ -58,6 +73,16 @@ export default function Nav() {
 
                         {/* Social icon links */}
                         <div className="flex items-center gap-5">
+                            <button
+                                type="button"
+                                className="lg:hidden inline-flex h-11 w-11 items-center justify-center text-muted-foreground"
+                                aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+                                aria-expanded={menuOpen}
+                                aria-controls="mobile-navigation"
+                                onClick={() => setMenuOpen(open => !open)}
+                            >
+                                {menuOpen ? <X size={20} /> : <Menu size={20} />}
+                            </button>
                             <a
                                 href={LINKS.RESUME}
                                 target="_blank"
@@ -87,6 +112,16 @@ export default function Nav() {
                             </a>
                         </div>
                     </div>
+                    {menuOpen && (
+                        <div id="mobile-navigation" className="lg:hidden border-t border-border bg-background px-6 py-3 max-h-[70dvh] overflow-y-auto" data-lenis-prevent>
+                            {navLinks.map(link => (
+                                <a key={link.href} href={link.href} onClick={() => setMenuOpen(false)} className="flex min-h-11 items-center text-sm text-muted-foreground hover:text-primary">
+                                    {link.label}
+                                </a>
+                            ))}
+                            <a href={LINKS.RESUME} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)} className="flex min-h-11 items-center text-sm text-primary">Resume ↗</a>
+                        </div>
+                    )}
                 </motion.nav>
             )}
         </AnimatePresence>

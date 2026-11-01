@@ -7,10 +7,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { projectsData } from "@/data/projects";
 import { Project } from "@/types";
+import { useSwipe } from "@/hooks/useSwipe";
 
 function ProjectMediaCarousel({ project }: { project: Project }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const media = project.media;
+    const reducedMotion = useReducedMotion();
+    const swipe = useSwipe(direction => {
+        if (media && media.length > 1) {
+            setCurrentIndex(index => (index + (direction === "left" ? 1 : -1) + media.length) % media.length);
+        }
+    });
 
     if (!media || media.length === 0) {
         if (!project.image) {
@@ -54,14 +61,20 @@ function ProjectMediaCarousel({ project }: { project: Project }) {
     };
 
     return (
-        <div className="h-44 sm:h-48 relative bg-card z-10 group/carousel overflow-hidden rounded-t-xl">
+        <div
+            {...swipe}
+            role="region"
+            aria-roledescription="carousel"
+            aria-label={`${project.title} photos`}
+            className="project-carousel h-44 sm:h-48 relative bg-card z-10 group/carousel overflow-hidden rounded-t-xl"
+        >
             <AnimatePresence mode="wait">
                 <motion.div
                     key={currentIndex}
-                    initial={{ opacity: 0, scale: 1.05 }}
+                    initial={{ opacity: 0, scale: reducedMotion ? 1 : 1.05 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
+                    exit={{ opacity: 0, scale: reducedMotion ? 1 : 0.95 }}
+                    transition={{ duration: reducedMotion ? 0 : 0.4, ease: "easeOut" }}
                     className="absolute inset-0 w-full h-full flex items-center justify-center bg-black/10"
                 >
                     {/* Blurred background for premium aspect ratio filling */}
@@ -110,21 +123,24 @@ function ProjectMediaCarousel({ project }: { project: Project }) {
                 <>
                     <button
                         onClick={prev}
-                        className="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-black/40 text-white opacity-0 group-hover/carousel:opacity-100 transition-opacity z-20 hover:bg-black/80 backdrop-blur-sm"
+                        className="carousel-arrow absolute left-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-black/40 text-white opacity-0 group-hover/carousel:opacity-100 transition-opacity z-20 hover:bg-black/80 backdrop-blur-sm"
                         aria-label="Previous image"
                     >
                         <ChevronLeft className="w-5 h-5" />
                     </button>
                     <button
                         onClick={next}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-black/40 text-white opacity-0 group-hover/carousel:opacity-100 transition-opacity z-20 hover:bg-black/80 backdrop-blur-sm"
+                        className="carousel-arrow absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-black/40 text-white opacity-0 group-hover/carousel:opacity-100 transition-opacity z-20 hover:bg-black/80 backdrop-blur-sm"
                         aria-label="Next image"
                     >
                         <ChevronRight className="w-5 h-5" />
                     </button>
-                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
+                    <div className="carousel-pagination absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
                         {media.map((_, idx) => (
-                            <div
+                            <button
+                                type="button"
+                                aria-label={`Show ${project.title} photo ${idx + 1}`}
+                                aria-pressed={idx === currentIndex}
                                 key={idx}
                                 onClick={(e) => {
                                     e.preventDefault();
@@ -165,8 +181,8 @@ export default function Projects() {
                     >
                         Selected<br /><em>projects.</em>
                     </h2>
-                    <p className="text-muted-foreground/60 italic text-sm mb-16">
-                        There&apos;s more, just not here yet. Patience is a virtue, apparently
+                    <p className="text-muted-foreground text-sm leading-relaxed max-w-2xl mb-16">
+                        A selection of things I&apos;ve built, the problems they address, and the decisions behind the experience.
                     </p>
                 </motion.div>
 
@@ -193,7 +209,7 @@ export default function Projects() {
 
                             {/* Content */}
                             <div className="relative z-10 p-5 md:p-6">
-                                <div className="flex justify-between items-start mb-3">
+                                <div className="flex justify-between items-start mb-3 max-lg:flex-wrap max-lg:gap-3">
                                     <div className="flex flex-col gap-1">
                                         <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
                                             {project.title}
@@ -205,7 +221,7 @@ export default function Projects() {
                                         )}
                                     </div>
                                     {!project.comingSoon && (
-                                        <div className="flex gap-2 shrink-0 ml-2 relative z-20">
+                                        <div className="project-actions flex gap-2 shrink-0 ml-2 relative z-20 max-lg:ml-0 max-lg:flex-wrap">
                                             {/* Installable build — the one action a visitor
                                                 can take right now, so it leads. */}
                                             {project.download && (

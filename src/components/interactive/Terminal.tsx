@@ -4,6 +4,10 @@ import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Terminal as TerminalIcon } from "lucide-react";
 import { LINKS } from "../config/links";
+import { profileData } from "@/data/profile";
+import { projectsData } from "@/data/projects";
+import { experienceData } from "@/data/experience";
+import { skillsData } from "@/data/skills";
 
 interface Command {
     command: string;
@@ -60,9 +64,9 @@ export default function Terminal() {
                     <span className="text-primary">about</span><span className="text-muted-foreground">Who is Nandan?</span>
                     <span className="text-primary">fetch</span><span className="text-muted-foreground">System info card</span>
                     <span className="text-primary">stack</span><span className="text-muted-foreground">Full stack breakdown by layer</span>
-                    <span className="text-primary">skills</span><span className="text-muted-foreground">Tech I work with</span>
+                    <span className="text-primary">skills</span><span className="text-muted-foreground">Engineering, product &amp; UX</span>
                     <span className="text-primary">experience</span><span className="text-muted-foreground">Work history</span>
-                    <span className="text-primary">projects</span><span className="text-muted-foreground">Things I&apos;ve built</span>
+                    <span className="text-primary">projects</span><span className="text-muted-foreground">Products, problems &amp; case studies</span>
                     <span className="text-primary">ls</span><span className="text-muted-foreground">List portfolio sections</span>
                     <span className="text-primary">git log</span><span className="text-muted-foreground">Commit history</span>
                     <span className="text-primary">contact</span><span className="text-muted-foreground">Ping me</span>
@@ -79,8 +83,10 @@ export default function Terminal() {
                     <span className="text-muted-foreground"> — developer based in India.</span>
                 </p>
                 <p className="text-muted-foreground text-sm leading-relaxed max-w-lg">
-                    I build things — UIs, APIs, databases, real-time systems, mobile apps.
-                    If it can be coded and shipped, I&apos;m probably into it.
+                    {profileData.summary}
+                </p>
+                <p className="text-muted-foreground text-sm leading-relaxed max-w-lg">
+                    {profileData.opportunityStatement}
                 </p>
             </div>
         ),
@@ -96,6 +102,8 @@ export default function Terminal() {
                     <span className="text-muted-foreground">india 🇮🇳</span>
                     <span className="text-primary">builds</span>
                     <span className="text-muted-foreground">web apps · mobile apps · APIs · CLIs</span>
+                    <span className="text-primary">focus</span>
+                    <span className="text-muted-foreground">useful products · user experience · engineering</span>
                     <span className="text-primary">languages</span>
                     <span className="text-muted-foreground">typescript · javascript · c#</span>
                     <span className="text-primary">stack</span>
@@ -154,38 +162,50 @@ export default function Terminal() {
 
         skills: (
             <div className="space-y-2 text-sm">
-                <p className="text-muted-foreground text-xs mb-2">Run <span className="text-primary">stack</span> for the full breakdown, or:</p>
-                <div className="flex flex-wrap gap-1.5">
-                    {["React", "Next.js", "TypeScript", "Node.js", ".NET", "PostgreSQL", "MongoDB", "Docker", "Azure", "Prisma", "Supabase", "Tailwind"].map(s => (
-                        <Tag key={s}>{s}</Tag>
-                    ))}
-                </div>
+                <p className="text-muted-foreground text-xs mb-2">Engineering, product and UX capabilities:</p>
+                {Object.entries(skillsData).map(([group, skills]) => (
+                    <div key={group}>
+                        <p className="text-muted-foreground text-xs mb-1.5 uppercase tracking-widest">{group}</p>
+                        <div className="flex flex-wrap gap-1.5">
+                            {skills.map(skill => <Tag key={skill}>{skill}</Tag>)}
+                        </div>
+                    </div>
+                ))}
             </div>
         ),
 
         experience: (
-            <div className="text-sm space-y-1">
-                <p className="text-muted-foreground">Work history lives in the Experience section above ↑</p>
-                <p className="text-muted-foreground/50 text-xs">Scroll up or click &apos;Experience&apos; in the nav.</p>
+            <div className="text-sm space-y-3">
+                {experienceData.map(item => (
+                    <div key={`${item.company}-${item.role}`} className="space-y-1">
+                        <p className="text-foreground">{item.client?.name ?? item.company}</p>
+                        <p className="text-muted-foreground text-xs">
+                            {item.role} · {item.year}{item.client ? ` · through ${item.company}` : ""}
+                        </p>
+                        <p className="text-muted-foreground">{item.description}</p>
+                    </div>
+                ))}
+                <a href="#experience" className="text-primary hover:underline">See full experience ↑</a>
             </div>
         ),
 
         projects: (
             <div className="space-y-2 text-sm">
-                <p className="text-muted-foreground">Three things I&apos;ve shipped:</p>
+                <p className="text-muted-foreground">Products and problems I&apos;ve explored:</p>
                 <div className="space-y-2">
-                    <div className="grid grid-cols-[70px_1fr] gap-2">
-                        <span className="text-primary">Doodle</span>
-                        <span className="text-muted-foreground">Canvas drawing tool — Next.js, Zustand, HTML Canvas</span>
-                    </div>
-                    <div className="grid grid-cols-[70px_1fr] gap-2">
-                        <span className="text-primary">Peg</span>
-                        <span className="text-muted-foreground">AI-powered GitHub issue estimator — OpenAI API, Supabase</span>
-                    </div>
-                    <div className="grid grid-cols-[70px_1fr] gap-2">
-                        <span className="text-primary">Chatbox</span>
-                        <span className="text-muted-foreground">Real-time chat — Next.js, Pusher, WebSockets</span>
-                    </div>
+                    {projectsData.map(project => (
+                        <div key={project.title} className="space-y-1">
+                            {project.slug && project.details ? (
+                                <a href={`/projects/${project.slug}`} className="text-primary hover:underline">{project.title} ↗</a>
+                            ) : (
+                                <span className="text-primary">{project.title}</span>
+                            )}
+                            <p className="text-muted-foreground">{project.description}</p>
+                            {(project.details?.status || project.comingSoon) && (
+                                <p className="text-muted-foreground/60 text-xs">{project.details?.status ?? "Coming soon"}</p>
+                            )}
+                        </div>
+                    ))}
                 </div>
                 <p className="text-muted-foreground/50 text-xs mt-1">Scroll to &apos;Selected Work&apos; for details ↑</p>
             </div>
@@ -195,10 +215,10 @@ export default function Terminal() {
             <div className="text-sm font-mono space-y-0.5">
                 <p className="text-muted-foreground text-xs mb-1">total 6</p>
                 {[
+                    { name: "projects/", desc: "problems, decisions and what I built" },
+                    { name: "experience/", desc: "teams, products and contributions" },
                     { name: "about/", desc: "the human behind the code" },
-                    { name: "experience/", desc: "companies I've shipped at" },
-                    { name: "skills/", desc: "things I actually know" },
-                    { name: "projects/", desc: "stuff I built and shipped" },
+                    { name: "skills/", desc: "engineering, product and UX" },
                     { name: "terminal/", desc: "you are here 📍" },
                     { name: "contact/", desc: "let's talk" },
                 ].map(({ name, desc }) => (
@@ -257,9 +277,9 @@ export default function Terminal() {
         "cat README.md": (
             <div className="text-sm space-y-1.5 max-w-md">
                 <p className="text-foreground font-bold"># nandan-pathak</p>
-                <p className="text-muted-foreground">Developer. Builds things — apps, APIs, tools, whatever needs building.</p>
-                <p className="text-muted-foreground">**Stack:** React · Next.js · Node.js · .NET · PostgreSQL · React Native</p>
-                <p className="text-muted-foreground">**Builds:** web, mobile, backend, realtime systems</p>
+                <p className="text-muted-foreground">Developer. {profileData.summary}</p>
+                <p className="text-muted-foreground"><strong>Product &amp; UX:</strong> {skillsData["Product & UX"].join(" · ")}</p>
+                <p className="text-muted-foreground">{profileData.opportunityStatement}</p>
                 <p className="text-primary text-xs mt-1">See also: fetch, stack, projects</p>
             </div>
         ),
@@ -533,8 +553,11 @@ export default function Terminal() {
                     {/* Body */}
                     <div
                         ref={terminalRef}
+                        data-lenis-prevent
                         className="p-4 md:p-6 h-[300px] sm:h-[340px] md:h-[420px] overflow-y-auto font-mono text-sm"
-                        onClick={() => inputRef.current?.focus()}
+                        onClick={() => {
+                            if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) inputRef.current?.focus();
+                        }}
                         onWheel={(e) => e.stopPropagation()}
                     >
                         {history.map((entry, i) => (
@@ -564,7 +587,8 @@ export default function Terminal() {
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
                                 onKeyDown={handleKeyDown}
-                                className="bg-transparent border-none outline-none text-foreground flex-1 ml-0.5 font-mono caret-primary"
+                                aria-label="Terminal command"
+                                className="bg-transparent border-none outline-none text-foreground flex-1 min-w-0 max-lg:text-base ml-0.5 font-mono caret-primary"
                                 spellCheck={false}
                                 autoComplete="off"
                                 autoCorrect="off"

@@ -4,15 +4,19 @@ export const experienceData: Experience[] = [
     {
         year: "Jun 2025 - Present",
         role: "Associate Software Developer",
-        company: "Udaan Solutions",
+        company: "Udaan IT Solutions",
+        client: {
+            name: "SlicedHealth",
+            description: "a US-based healthcare SaaS product",
+        },
         description:
-            "Embedded with the product team at SlicedHealth, a US-based healthcare SaaS platform - building full-stack features across web and mobile for insurance claims recovery, processing workflows, and hospital billing.",
+            "Embedded with the product team at SlicedHealth, a US-based healthcare SaaS platform, building web and mobile features that help healthcare teams manage insurance claims recovery, processing workflows, and hospital billing.",
         bullets: [
-            "Built MCP servers and a Claude connector for the platform, so users can drive the app's major features - claims, workflows, reports - directly from Claude in natural language.",
-            "Built and integrated AI-powered features using OpenAI and Anthropic APIs, enabling automation and smarter workflows across web and mobile.",
-            "Design and optimize scalable REST APIs in .NET (C#) with MySQL and PostgreSQL, achieving 40% faster load times.",
-            "Work in Agile sprints with stakeholders on a live product roadmap - translating user stories into production features, with unit and integration testing before QA handoff.",
-            "Refactor and debug production systems to improve maintainability, stability, and scalability.",
+            "Work with stakeholders in Agile sprints to translate user stories from a live product roadmap into features, with unit and integration testing before QA handoff.",
+            "Built MCP servers and a Claude connector so users can access claims, workflows, and reports through natural language, offering another way to work with the platform.",
+            "Integrated OpenAI and Anthropic APIs to automate steps in web and mobile workflows.",
+            "Optimized REST APIs in .NET (C#) with MySQL and PostgreSQL, achieving 40% faster load times and reducing waits in the product experience.",
+            "Refactor and debug production systems to keep everyday workflows reliable and the codebase maintainable as the product grows.",
         ],
         tech: ["Next.js", "React Native", ".NET (C#)", "Node.js", "MySQL", "PostgreSQL", "AWS", "Azure", "MCP"],
     },
@@ -21,11 +25,11 @@ export const experienceData: Experience[] = [
         role: "Full-Stack Developer Intern",
         company: "SHDPIXEL",
         description:
-            "Full end-to-end product delivery - from feature design with the design team through deployment.",
+            "Worked with the design team to deliver PWA and e-commerce experiences, contributing from feature design through development and deployment.",
         bullets: [
-            "Built responsive PWA and e-commerce UIs with Next.js and Tailwind CSS, backed by RESTful APIs in Node.js and Express.",
-            "Delivered onboarding, referral, and rewards features that drove measurable growth in sign-ups and engagement.",
-            "Built admin dashboards for user and content management.",
+            "Delivered onboarding, referral, and rewards flows to help users get started, invite others, and redeem rewards.",
+            "Built responsive interfaces with Next.js and Tailwind CSS, connecting user journeys to REST APIs in Node.js and Express.",
+            "Built admin dashboards that bring user and content management into one place for day-to-day operations.",
         ],
         tech: ["Next.js", "TypeScript", "Tailwind CSS", "Node.js", "Express.js"],
     },

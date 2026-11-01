@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { aboutItems } from "@/data/about";
 import { LucideIcon } from "lucide-react";
 
@@ -65,37 +65,28 @@ const Card = ({
 // ─── Mobile: horizontal scroll ────────────────────────────────────────────────
 
 function MobileAbout() {
-    const targetRef = useRef<HTMLDivElement>(null);
-    const { scrollYProgress } = useScroll({ target: targetRef });
-    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-85%"]);
-
     return (
-        <section ref={targetRef} className="relative h-[400vh] bg-background">
-            <div className="sticky top-0 h-screen flex items-center overflow-hidden">
-                <motion.div style={{ x }} className="flex gap-3 sm:gap-4 px-4 sm:px-6 items-center">
-                    {/* Intro card */}
-                    <div className="min-w-[88vw] sm:min-w-[85vw] h-[52vh] flex flex-col justify-center p-5 sm:p-6">
-                        <p className="section-label mb-4">About</p>
-                        <h2
-                            className="text-4xl sm:text-5xl font-normal mb-5 leading-tight"
-                            style={{ fontFamily: "var(--font-elegant), serif" }}
-                        >
-                            About<br /><em>Me.</em>
-                        </h2>
-                        <p className="text-base text-muted-foreground leading-relaxed font-light">
-                            I like building things for the internet.
-                        </p>
-                    </div>
-                    {/* Cards — no scroll focus on mobile horizontal scroll, hover only */}
-                    {aboutItems.map((item, i) => (
-                        <Card
-                            key={i}
-                            item={item}
-                            index={i}
-                            className="min-w-[88vw] sm:min-w-[85vw] h-[52vh] justify-end"
-                        />
-                    ))}
-                </motion.div>
+        <section className="py-16 bg-background">
+            <div className="px-6 md:px-10 mb-8">
+                <p className="section-label mb-4">About</p>
+                <h2 className="text-4xl sm:text-5xl font-normal mb-5 leading-tight" style={{ fontFamily: "var(--font-elegant), serif" }}>
+                    About<br /><em>Me.</em>
+                </h2>
+                <p className="text-base text-muted-foreground leading-relaxed font-light max-w-xl">
+                    I care about what a product helps people do, how it feels to use, and the code that makes it work.
+                </p>
+                <p className="text-xs text-muted-foreground/70 mt-5">Swipe to explore →</p>
+            </div>
+            <div
+                role="region"
+                aria-label="About Nandan — scroll horizontally for more cards"
+                tabIndex={0}
+                data-lenis-prevent
+                className="flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-px-6 px-6 md:px-10 pb-4 overscroll-x-contain"
+            >
+                {aboutItems.map((item, i) => (
+                    <Card key={item.title} item={item} index={i} className="flex-none w-[82vw] sm:w-[60vw] snap-start" />
+                ))}
             </div>
         </section>
     );
@@ -154,7 +145,7 @@ function DesktopAbout({ reducedMotion }: { reducedMotion: boolean | null }) {
                                 About<br /><em>Me.</em>
                             </h2>
                             <p className="text-base md:text-lg text-muted-foreground leading-relaxed font-light max-w-xs">
-                                I like building things for the internet.
+                                I care about what a product helps people do, how it feels to use, and the code that makes it work.
                             </p>
                         </motion.div>
                     </div>
@@ -193,11 +184,11 @@ export default function About() {
     return (
         <div id="about">
             {/* Mobile only */}
-            <div className="block md:hidden">
+            <div className="block lg:hidden">
                 <MobileAbout />
             </div>
             {/* Desktop only */}
-            <div className="hidden md:block">
+            <div className="hidden lg:block">
                 <DesktopAbout reducedMotion={reducedMotion} />
             </div>
         </div>

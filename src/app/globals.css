@@ -230,3 +230,61 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Touch affordances: no changes to mouse/trackpad laptop styles. */
+@media (hover: none) and (pointer: coarse) {
+  .project-carousel { touch-action: pan-y pinch-zoom; }
+  .carousel-arrow { opacity: 1; min-width: 44px; min-height: 44px; }
+  .carousel-pagination { gap: 0; bottom: 0; }
+  .carousel-pagination button {
+    position: relative;
+    width: 28px;
+    height: 36px;
+    border-radius: 0;
+    background: transparent;
+  }
+  .carousel-pagination button::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.5);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .carousel-pagination button[aria-pressed="true"]::after {
+    width: 12px;
+    background: white;
+  }
+  .project-actions a { min-height: 44px; min-width: 44px; justify-content: center; }
+}
+
+/* Keep every desktop breakpoint intact; adapt phones and tablets only. */
+@media (max-width: 1023px), (hover: none) and (pointer: coarse) {
+  .assistant-shell {
+    bottom: calc(var(--assistant-bottom, 0px) + max(12px, env(safe-area-inset-bottom)));
+  }
+  .assistant-panel {
+    top: calc(var(--assistant-top, 0px) + var(--assistant-vh, 100dvh) / 2);
+  }
+  .assistant-window {
+    height: min(calc(var(--assistant-vh, 100dvh) - 32px), 620px);
+  }
+  .assistant-window > form { flex-shrink: 0; }
+  .assistant-shell textarea { font-size: 16px; }
+  .assistant-shell button { min-width: 44px; min-height: 44px; }
+  .assistant-suggestions {
+    max-height: min(45dvh, calc(var(--assistant-vh, 100dvh) - 100px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  #skills button { min-height: 44px; }
+  #skills .grid > * { min-width: 0; overflow-wrap: anywhere; }
+  footer { padding-bottom: calc(80px + env(safe-area-inset-bottom)); }
+}
+
+@media (max-width: 639px) {
+  #contact h2 { font-size: clamp(2.5rem, 11vw, 3rem); }
+}

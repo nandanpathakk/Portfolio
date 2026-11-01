@@ -258,7 +258,7 @@ export default function CaseStudy({ project }: { project: Project }) {
                 <motion.section
                     id="overview"
                     {...fadeIn}
-                    className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-4 md:gap-12 border-t border-border py-10 md:py-14 max-w-5xl"
+                    className="grid grid-cols-1 md:grid-cols-[200px_1fr] md:max-lg:grid-cols-[200px_minmax(0,1fr)] gap-4 md:gap-12 border-t border-border py-10 md:py-14 max-w-5xl"
                 >
                     <p className="text-xs font-mono uppercase tracking-[0.2em] text-primary">Overview</p>
                     <div className="space-y-5 max-w-2xl">
@@ -337,7 +337,7 @@ export default function CaseStudy({ project }: { project: Project }) {
                         key={i}
                         id={sectionIds[i]}
                         {...fadeIn}
-                        className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-4 md:gap-12 border-t border-border py-10 md:py-14 max-w-5xl"
+                        className="grid grid-cols-1 md:grid-cols-[200px_1fr] md:max-lg:grid-cols-[200px_minmax(0,1fr)] gap-4 md:gap-12 border-t border-border py-10 md:py-14 max-w-5xl"
                     >
                         <div className="flex md:flex-col gap-4 md:gap-2 items-center md:items-start">
                             <span className="text-xs font-mono text-primary">0{i + 1}</span>
@@ -395,7 +395,7 @@ export default function CaseStudy({ project }: { project: Project }) {
                             <ArrowUpRight className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
                         </a>
                     </div>
-                    <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-6 max-lg:flex-wrap">
                         {project.tryIt && (
                             <a
                                 href={project.tryIt.url}

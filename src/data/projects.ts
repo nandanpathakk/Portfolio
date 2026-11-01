@@ -2,11 +2,188 @@ import { Project } from "@/types";
 
 export const projectsData: Project[] = [
     {
+        title: "Nudge",
+        slug: "nudge",
+        description:
+            "An Android app for parents and grandparents who get stuck using their phones. Say what you want to do in Hindi or English, and Nudge highlights the next tap with a plain-language explanation. It guides without taking over, so the user stays in control.",
+        tags: ["Accessibility", "Android", "Kotlin", "Jetpack Compose", "Node.js", "LLM"],
+        github: "https://github.com/nandanpathakk/Nudge",
+        // Bump the version in `url`, `meta` and `releaseUrl` with each release —
+        // the asset filename is version-stamped, so it can't be a "latest" link.
+        download: {
+            url: "https://github.com/nandanpathakk/Nudge/releases/download/v0.1.0/nudge-v0.1.0.apk",
+            meta: "v0.1.0 · 1.1 MB · Android 8.0+",
+            note:
+                "Nudge isn't on the Play Store — it's a personal project, so you install it directly. " +
+                "It asks for two permissions and explains both before it asks: one to read what's on the " +
+                "screen, so it knows what to point at, and one to draw the highlight over other apps. " +
+                "If you're setting this up for a parent or grandparent, sit with them for those two grants " +
+                "once — after that, it's press the mic and say what you need.",
+            steps: [
+                "Download the APK on your Android phone.",
+                "Open it and allow installs from your browser — normal for apps outside the Play Store.",
+                "Open Nudge, say or type what you want to do, and follow the ring.",
+            ],
+            releaseUrl: "https://github.com/nandanpathakk/Nudge/releases/tag/v0.1.0",
+        },
+        image: "/images/nudge_1.jpeg",
+        // Assistant may show these when a reply mentions Nudge.
+        chatMedia: {
+            enabled: true,
+            max: 3,
+            aspect: "portrait",
+            images: [
+                {
+                    type: "image",
+                    url: "/images/nudge_4.jpeg",
+                    caption: "Say it or type it, in Hindi or English.",
+                },
+                {
+                    type: "image",
+                    url: "/images/nudge_7.jpeg",
+                    caption: "One step at a time — Nudge points, the user taps.",
+                },
+                {
+                    type: "image",
+                    url: "/images/nudge_8.jpeg",
+                    caption: "Done, in plain words.",
+                },
+            ],
+        },
+        media: [
+            { type: "image", url: "/images/nudge_1.jpeg" },
+            { type: "image", url: "/images/nudge_2.jpeg" },
+            { type: "image", url: "/images/nudge_3.jpeg" },
+            { type: "image", url: "/images/nudge_4.jpeg" },
+            { type: "image", url: "/images/nudge_5.jpeg" },
+            { type: "image", url: "/images/Nudge-6.jpeg" },
+            { type: "image", url: "/images/nudge_7.jpeg" },
+            { type: "image", url: "/images/nudge_8.jpeg" },
+        ],
+        details: {
+            tagline:
+                "Helping parents and grandparents find the next step on their phones, with guidance in their own language and every tap in their control.",
+            year: "2026",
+            role: "Product design & full-stack development",
+            status: "v0.1.0 — released, installable today",
+            stack: [
+                "Kotlin",
+                "Jetpack Compose",
+                "AccessibilityService",
+                "Node.js / Express",
+                "Gemini 2.5 Flash",
+            ],
+            media: [
+                {
+                    type: "image",
+                    url: "/images/nudge_4.jpeg",
+                    caption: "Start with a goal: speak, type, or choose an example in Hindi or English.",
+                },
+                {
+                    type: "image",
+                    url: "/images/nudge_5.jpeg",
+                    caption: "Help extends beyond a highlighted button: explain how to find the right app.",
+                },
+                {
+                    type: "image",
+                    url: "/images/nudge_7.jpeg",
+                    caption: "Keep the next step specific, with a visible way to stop guidance.",
+                },
+                {
+                    type: "image",
+                    url: "/images/nudge_8.jpeg",
+                    caption: "Close the loop: confirm what changed in plain language.",
+                },
+            ],
+            overview: [
+                "A parent calls because a button has moved, a setting is buried, or an app uses unfamiliar words. Explaining the steps remotely can be difficult, and the same task may need another explanation next time. That familiar situation was the starting point for Nudge.",
+                "Nudge is an Android app that turns a spoken or typed goal into guidance on the phone itself. It highlights the next thing to tap and explains it in Hindi or English. The user performs every action and can stop guidance at any time.",
+                "The product hypothesis is that clear, contextual guidance could help people complete everyday tasks with less help from family. I designed the interaction and built the app and backend; v0.1.0 is available to install. The work so far establishes a working guidance experience, with user independence still to validate.",
+            ],
+            sections: [
+                {
+                    label: "The problem",
+                    title: "Knowing what you want doesn't mean knowing where to tap",
+                    body: [
+                        "The intended user is a parent or grandparent who knows the task they want to finish but needs help navigating the interface. The difficulty might be finding the right app, understanding a label, or recovering when the next screen looks different from the instructions.",
+                        "I framed the problem around the next step: how could guidance respond to the screen someone is actually looking at? Language, pacing, and the ability to ask for clarification became design requirements. These are starting assumptions to test with the intended audience.",
+                    ],
+                },
+                {
+                    label: "Scope",
+                    title: "Keep every tap in the user's hands",
+                    body: [
+                        "The first version focuses on a simple loop: state a goal, get one instruction, perform the action, and receive the next step. Voice and text input, Hindi and English, and an overlay that works across apps support that loop.",
+                        "I chose to keep all actions manual. Nudge points and explains; the user decides and taps. This keeps control visible and makes independent task completion the intended benefit. Incorrect guidance can still lead to mistakes, so this choice also requires safeguards around sensitive steps.",
+                    ],
+                },
+                {
+                    label: "The experience",
+                    title: "A useful next step, even when the journey changes",
+                    body: [
+                        "Highlighting a button only helps when the right button is already on screen. A useful journey also needs to handle opening an app, scrolling, choosing between several options, and asking for missing information. I expanded the guidance model to cover those situations, including an explicit unsure or blocked state.",
+                        "Pacing is part of the interaction. Early guidance could update while someone was still typing. The loop now distinguishes taps, typing, navigation, and content changes, waiting for a pause or a settled screen before deciding again.",
+                    ],
+                    bullets: [
+                        "Start with a spoken or typed goal, with example tasks to make the first interaction easier to understand.",
+                        "Show one highlighted control or a short instruction to find what is off-screen.",
+                        "Ask when the goal is ambiguous, using large choice buttons or a text field in the overlay.",
+                        "Confirm completion in plain language and keep Stop available throughout.",
+                    ],
+                },
+                {
+                    label: "Trust",
+                    title: "Make sensitive steps deliberate",
+                    body: [
+                        "Helping someone navigate a phone requires access to sensitive screens. I limited the information sent for guidance to the structure of interactive controls, with on-device filtering that removes sensitive fields and masks personal details. Typed field contents stay on the device, and the backend processes each request without retaining the screen data.",
+                        "Speed is not the priority at a payment step. Before highlighting Pay, Nudge asks the user to confirm that they have checked the name and amount. Destructive actions are blocked, and banking apps that restrict accessibility guidance receive a clear hand-off to pause Nudge.",
+                        "The AI can suggest a target only from the controls supplied for that screen, and an on-device safety layer checks the suggestion before it appears. These boundaries reduce risk while keeping the user responsible for the action they take.",
+                    ],
+                },
+                {
+                    label: "Tradeoffs",
+                    title: "Use AI where it adds value",
+                    body: [
+                        "Repeated AI requests add cost and consume rate-limit headroom. Nudge reuses guidance for identical screens within a session, ignores cosmetic redraws, and handles known launcher icons locally. Sending concise, filtered controls also reduces the amount of personal information and text each request carries.",
+                        "The implementation supports those choices: a native Kotlin app reads structured controls through Android's AccessibilityService, a Node/Express backend keeps the AI key off the phone, and the model selects the next step. The provider sits behind one interface so it can change as cost and guidance quality are evaluated.",
+                    ],
+                },
+                {
+                    label: "Iteration",
+                    title: "Real phones changed the design",
+                    body: [
+                        "Real-device testing exposed assumptions that looked reasonable in the implementation. I kept a decision log linking each change to the issue behind it, so the reasoning survives alongside the code.",
+                    ],
+                    bullets: [
+                        "Launcher navigation: an assumed swipe-up app drawer failed on a launcher with side-swipe pages and folders. Guidance was adapted to the actual layout.",
+                        "App recognition: keyword matching missed BHIM. A curated mapping from app packages to categories made recognition more dependable.",
+                        "Error feedback: cancelling a request could show a false connection error. Separating cancellation from failure removed that misleading message.",
+                    ],
+                },
+                {
+                    label: "Validation",
+                    title: "Measure whether people can finish on their own",
+                    body: [
+                        "The current evidence is an installable v0.1.0 build and fixes from real-device testing. Task completion, confidence, and reduced reliance on family remain outcomes to validate with intended users.",
+                        "My next priority would be observing first-time setup and a small set of everyday tasks with parents and grandparents. Installation and two accessibility-related permissions are part of that journey; the current setup guidance suggests having someone help with the initial grants. Understanding that friction should come before expanding the feature set.",
+                        "I would track the following measures alongside observation, using the findings to decide what to simplify next:",
+                    ],
+                    bullets: [
+                        "Setup completion: can someone install the app, understand the permissions, and start a first task?",
+                        "Independent task completion: which tasks can they finish without another person's intervention?",
+                        "Guidance quality: where are instructions unclear or incorrect, and can the user recover?",
+                        "Confidence: can the user explain what they did and feel comfortable trying the task again?",
+                    ],
+                },
+            ],
+        },
+    },
+    {
         title: "Doodle",
         slug: "doodle",
         description:
-            "A hand-drawn-style whiteboard you share with a link. Two people draw on the same canvas at once — cursors, selections and strokes appearing as they are made — over a CRDT sync engine on the client and a WebSocket relay server I built and deploy.",
-        tags: ["Next.js", "TypeScript", "Node.js", "WebSockets", "Yjs / CRDT", "Canvas"],
+            "For people who need to sketch an idea together without setting up an account. Share a link to a hand-drawn whiteboard, see each other's edits live, and undo your own changes without losing someone else's work.",
+        tags: ["Collaboration", "Next.js", "TypeScript", "Node.js", "WebSockets", "Yjs / CRDT", "Canvas"],
         link: "https://doodleup.vercel.app",
         github: "https://github.com/nandanpathakk/Doodle",
         tryIt: {
@@ -72,9 +249,9 @@ export const projectsData: Project[] = [
         ],
         details: {
             tagline:
-                "A shared whiteboard where the hard part is invisible: two people drawing at once, offline edits that merge on reconnect, and an undo that only ever touches your own work.",
+                "From a rough idea to a shared canvas in one link, with no sign-up and room for everyone to contribute.",
             year: "2026",
-            role: "Design & full-stack development",
+            role: "Product design & full-stack development",
             status: "Live — draw solo, or share a link",
             stack: [
                 "Next.js 16",
@@ -87,188 +264,114 @@ export const projectsData: Project[] = [
                 "Node WebSocket server (ws)",
                 "IndexedDB",
             ],
+            media: [
+                {
+                    type: "image",
+                    url: "/images/doodle-board.png",
+                    caption: "Start with an idea: shapes, arrows, freehand drawing, and text on one canvas.",
+                },
+                {
+                    type: "image",
+                    url: "/images/doodle-session.png",
+                    caption: "Invite someone, see who is here, or follow their view from the session panel.",
+                },
+                {
+                    type: "image",
+                    url: "/images/doodle-collab.png",
+                    caption: "See contributions as they happen, with named cursors and live drawing previews.",
+                },
+                {
+                    type: "image",
+                    url: "/images/doodle-tools.png",
+                    caption: "Adjust the selected shape's appearance while keeping the canvas in view.",
+                },
+            ],
             overview: [
-                "Doodle started as a drawing tool — an infinite canvas with shapes, arrows, freehand and text, rendered in a hand-drawn style. The interesting half of the project was the real-time layer: send someone a link and you are both on the same board, watching each other's cursors and each other's shapes appear as they are drawn.",
-                "That took a system on both sides of the wire. On the client, elements live in a Yjs CRDT persisted to IndexedDB, so a board keeps working with the network gone and merges cleanly when it returns. On the server, a Node WebSocket service owns the live half of a session: it resolves the room from the connection URL, tracks membership, speaks the sync protocol well enough to bring a late joiner up to the room's current state, fans awareness traffic out to the right peers, and tears a room down when the last person leaves. It runs as its own deployment, separate from the Next.js app and pointed at by environment, and the test suite starts a real instance of it in-process rather than mocking it.",
-                "The constraint I held onto throughout: the rest of the app must not know that collaboration exists. The toolbar, renderer and tools read and write one Zustand store exactly as they would in a single-player app, and a single binding file connects that store to the synced document in both directions. Collaboration was added to a working drawing tool without rewriting it.",
+                "Doodle began as a hand-drawn-style drawing tool. Adding collaboration gave it a focused use case: sketch an idea, send someone a link, and work through it on the same canvas. No account or installation is required to get started.",
+                "I designed and built the drawing experience and the real-time system behind it. The product decisions centered on the transition from working alone to working together: how people join, understand each other's activity, and make changes without losing work.",
+                "The hypothesis is that a short path into a shared board could make quick visual collaboration easier to start. Doodle is live, with technical tests and benchmarks supporting its implementation; how easily first-time users complete that journey remains to be validated.",
             ],
             sections: [
                 {
-                    label: "Merging",
-                    title: "Every concurrent edit survives, or it isn't collaboration",
+                    label: "The problem",
+                    title: "Get the idea onto a shared canvas",
                     body: [
-                        "The obvious design is to broadcast “element 5 now looks like this” and let the last message win. That silently loses work: recolour a box while someone else drags it and one of the two changes disappears. So elements are stored as a Yjs Y.Map per element and merging happens per field — your colour change and my position change touch different keys and both survive, without either client waiting on a round trip to find out.",
-                        "Two operations needed shapes that merge rather than conflict. Layering is normally an array order, and array reordering is the one thing CRDTs handle badly, so each element carries a fractional index string and z-order is the sort of those strings — “move this up” becomes “set one string to a value between these two”. Deletion is a tombstone rather than a removal, swept only after 24 hours, because deleting a shape while someone is offline editing it must not let their edit resurrect it.",
-                        "The last thing that could still lose an edit was text: two people typing in the same label. Labels are Y.Text now, and edits are diffed into the existing type instead of replacing the string, so both typists keep what they wrote. The editor was the harder half — it is deliberately uncontrolled and takes remote changes as a splice that preserves the selection, because letting React assign the textarea's value throws your caret to the end of the line every time your collaborator types.",
+                        "The intended use is a quick shared sketch: people explaining an idea, connecting a few boxes, or drawing something together. I framed the problem around the effort between having that idea and getting another person onto the same board.",
+                        "That framing led to a browser-based experience with link sharing and no sign-up. Once someone joins, seeing who is present and what they are changing becomes as important as the drawing tools themselves. These are design assumptions to test with people using the board for a real task.",
                     ],
                 },
                 {
-                    label: "Latency",
-                    title: "Two channels: one for the record, one for what is happening now",
+                    label: "Scope",
+                    title: "Make sharing a continuation of drawing",
                     body: [
-                        "A single pencil stroke is around 300 pointer events. If each one were written to the shared document, dragging one box would produce hundreds of versions, hundreds of network updates, and hundreds of undo entries. So there are two channels with different rules.",
-                        "The document gets the result: one update when the gesture ends, bracketed explicitly by a gesture lifecycle so mid-gesture state never reaches it. Cursors, selections, and the geometry of the shape you are still dragging travel on Yjs's ephemeral awareness channel instead — never persisted, never part of undo history, dropped automatically on disconnect. Peers watch your shape being drawn in real time while the permanent record stays one edit per gesture.",
-                        "Rendering follows the same split. Remote cursors move at about 30Hz per person, so they get their own transparent canvas stacked above the drawing, with a frame loop that parks itself when nothing is moving — a cursor twitch must never repaint the scene or re-run the hand-drawn shape generation. Remote presence never enters React state at all; at 30Hz per peer that would re-render the app hundreds of times a second, so the overlay reads it directly and only the roster reaches React.",
+                        "I kept the central journey focused on drawing, sharing, and joining. The core tools are shapes, arrows, freehand, and text on an infinite canvas, with a hand-drawn appearance. Sharing carries an existing sketch into a session, so someone can start alone and invite help when they need it.",
+                    ],
+                    bullets: [
+                        "Start on a personal canvas and sketch an idea without creating an account.",
+                        "Press Share to copy that drawing into a new room and send the invite link.",
+                        "Join the same canvas, see other participants, and work together in real time.",
+                        "Leave the room to return to the personal canvas as it was before sharing.",
                     ],
                 },
                 {
-                    label: "Performance",
-                    title: "Measured at 2000 elements and six peers, not assumed",
+                    label: "Collaboration",
+                    title: "Show what the other person is doing",
                     body: [
-                        "A load harness drives a heavy room — 2000 elements, six peers, cursors at 30Hz — and reports rather than asserts. The number that matters most: moving one element costs 35 bytes on the wire regardless of how large the drawing is, because writes are diffed against the document instead of sent whole. A peer joining that room catches up in about 50ms, and six peers moving cursors cost roughly 18.5 kB/s each.",
-                        "Two fixes came directly out of measuring. Freehand strokes are simplified with Ramer–Douglas–Peucker when the gesture ends — 301 points become 31, with no visible difference in a hand-drawn rendering. And the live preview sent to peers is thinned too, which turned out to matter more: an in-flight stroke is republished every frame, so an unsimplified one costs the square of its own length. One 300-point stroke went from 907 kB on the wire to 197 kB.",
-                        "The remaining cost is honest and documented: generating hand-drawn geometry for 2000 elements takes about 82ms once, on first load. After that a full repaint is 4–5ms, and the shape cache is not keyed by zoom, so zooming does not pay it again — verified, because that would have been an easy and expensive thing to get wrong.",
+                        "A shared board needs to communicate activity. Named cursors, selections, and live drawing previews show where someone is working before their gesture finishes. The session panel brings together participants, the invite link, and a control to follow another person's view.",
+                        "The implementation separates live presence from saved changes. Cursors and in-progress strokes travel as temporary updates; a completed gesture becomes one document change. This lets collaborators see an action unfold while keeping undo aligned with the action the person actually made.",
                     ],
                 },
                 {
-                    label: "Undo",
-                    title: "Undo must not delete your collaborator's work",
+                    label: "User control",
+                    title: "Make it safe to change your mind",
                     body: [
-                        "Undo was originally “restore a snapshot of the whole drawing”, which is the normal single-player answer and is fundamentally incompatible with collaboration: restoring a snapshot discards everything that arrived after it, so pressing undo would quietly delete other people's work.",
-                        "It is a Y.UndoManager scoped to this client's own transaction origin now. Your undo reaches your changes and stops there. The ordering is load-bearing in a way that is invisible from the code — the undo manager is created after the store is bound to the document, so restoring your drawing on page load is not itself an undoable step.",
+                        "The original undo restored a snapshot of the entire drawing. In a shared room, that could remove work another person had just added. I changed undo to apply only to the current user's changes, so correcting a mistake respects other people's contributions.",
+                        "Concurrent edits needed the same care. If one person moves a box while another changes its colour, both changes should survive. Yjs merges those properties independently and merges shared text edits. The editor also preserves the caret when remote text arrives, protecting the flow of typing as well as the content.",
+                        "The personal canvas and each room remain separate documents. Joining a link does not push a person's existing drawing into someone else's room. This boundary makes entering and leaving a session predictable.",
                     ],
                 },
                 {
-                    label: "Data",
-                    title: "Deciding where each kind of data lives, and standing behind it",
+                    label: "Tradeoffs",
+                    title: "Keep access simple and explain the limits",
                     body: [
-                        "Three kinds of data, three homes, and which one something belongs in is the most consequential decision in the codebase. The drawing is a Yjs document persisted to IndexedDB on each client. Rooms are held in the relay's memory for the life of a session, so the server is authoritative about who is connected and about catching newcomers up, but never becomes a place drawings sit at rest. Cursors and in-flight gestures are ephemeral by construction, and localStorage holds nothing but preferences.",
-                        "Your private canvas and each room are separate documents that are never merged. Starting a session copies your canvas into a fresh room; joining someone else's link must never push your canvas into theirs; leaving returns you to your own board exactly as you left it. Several of the subtlest bugs in the project lived on that boundary, which is why the rule is written down as an invariant rather than left implicit in the code.",
-                        "Two pieces are deliberately not built yet, both with the reasoning written down. A room has no access control — the link is the permission — because the product is “send this to someone”, and accounts would be a larger change than the sharing model currently needs. End-to-end encryption is designed and deferred: the server reads the sync protocol today in order to bring late joiners up to date, so encrypting payloads moves that job onto peers. Knowing what a security decision costs before making it is the point of writing it down.",
+                        "Anyone with the invite link can view and edit the room. That keeps joining simple, with no account or permission setup, but it also means the link must be treated as access. Participant permissions and end-to-end encryption are outside the current scope; the relay reads sync data to bring new participants up to date.",
+                        "Drawings are stored locally in the browser using IndexedDB. The relay holds a room in memory while participants are connected and removes it when the last one leaves. Local editing can continue offline and merge on reconnect, but the server does not provide a permanent board library. Browser storage and an active shared session have different lifetimes.",
+                        "Those limits matter when deciding what to build next. Persistent shared boards would require decisions about storage, ownership, and access alongside the interface for returning to them.",
                     ],
                 },
                 {
-                    label: "Verification",
-                    title: "Driving the real app, because the tests could not see it",
+                    label: "Iteration",
+                    title: "Test the moments that interrupt a conversation",
                     body: [
-                        "Sync layer correctness is covered by fast tests with no framework and no DOM — convergence between two peers, echo suppression counted in document updates rather than final state, per-user undo, and a real WebSocket relay running in-process for late joins and presence withdrawal. Those tests are why refactors in this area were safe.",
-                        "They were also not enough. Following a peer's viewport switched itself off whenever that peer backgrounded their tab, because awareness drops a silent peer after 30 seconds and the code read absence as “they left”. No unit test had a notion of a peer going quiet; it was found by driving two real browser tabs and watching. A pencil stroke dropping points under fast input was the same story — a stale render-time snapshot meant a 301-event burst kept 10 points.",
-                        "Both fixes came with the measurement that proved them and a written note about the trap, alongside the environment gotchas that had already caused wrong conclusions: hidden tabs do not run animation frames, hot reload leaves stale module state in the sync layer, and timers are throttled to about 1Hz in a background tab. The project keeps its design decisions, its invariants and its rejected alternatives in writing, because none of that reasoning is recoverable from the code.",
-                    ],
-                },
-            ],
-        },
-    },
-    {
-        title: "Nudge",
-        slug: "nudge",
-        description:
-            "An Android app for the people who call us for help with their phone — a mum, a dad, a grandparent. They say what they want to do, in Hindi or English, and Nudge circles the one thing to tap next and explains it in plain words. It never taps for them; they stay in control the whole way.",
-        tags: ["Android", "Kotlin", "Jetpack Compose", "Node.js", "LLM", "Accessibility"],
-        github: "https://github.com/nandanpathakk/Nudge",
-        // Bump the version in `url`, `meta` and `releaseUrl` with each release —
-        // the asset filename is version-stamped, so it can't be a "latest" link.
-        download: {
-            url: "https://github.com/nandanpathakk/Nudge/releases/download/v0.1.0/nudge-v0.1.0.apk",
-            meta: "v0.1.0 · 1.1 MB · Android 8.0+",
-            note:
-                "Nudge isn't on the Play Store — it's a personal project, so you install it directly. " +
-                "It asks for two permissions and explains both before it asks: one to read what's on the " +
-                "screen, so it knows what to point at, and one to draw the highlight over other apps. " +
-                "If you're setting this up for a parent or grandparent, sit with them for those two grants " +
-                "once — after that, it's press the mic and say what you need.",
-            steps: [
-                "Download the APK on your Android phone.",
-                "Open it and allow installs from your browser — normal for apps outside the Play Store.",
-                "Open Nudge, say or type what you want to do, and follow the ring.",
-            ],
-            releaseUrl: "https://github.com/nandanpathakk/Nudge/releases/tag/v0.1.0",
-        },
-        image: "/images/nudge_1.jpeg",
-        // Assistant may show these when a reply mentions Nudge.
-        chatMedia: {
-            enabled: true,
-            max: 3,
-            aspect: "portrait",
-            images: [
-                {
-                    type: "image",
-                    url: "/images/nudge_4.jpeg",
-                    caption: "Say it or type it, in Hindi or English.",
-                },
-                {
-                    type: "image",
-                    url: "/images/nudge_7.jpeg",
-                    caption: "One step at a time — Nudge points, the user taps.",
-                },
-                {
-                    type: "image",
-                    url: "/images/nudge_8.jpeg",
-                    caption: "Done, in plain words.",
-                },
-            ],
-        },
-        media: [
-            { type: "image", url: "/images/nudge_1.jpeg" },
-            { type: "image", url: "/images/nudge_2.jpeg" },
-            { type: "image", url: "/images/nudge_3.jpeg" },
-            { type: "image", url: "/images/nudge_4.jpeg" },
-            { type: "image", url: "/images/nudge_5.jpeg" },
-            { type: "image", url: "/images/Nudge-6.jpeg" },
-            { type: "image", url: "/images/nudge_7.jpeg" },
-            { type: "image", url: "/images/nudge_8.jpeg" },
-        ],
-        details: {
-            tagline:
-                "For the parent or grandparent who calls because they can't find the button — Nudge points at the next tap and explains it in their own language. It never touches the screen for them.",
-            year: "2026",
-            role: "Design, research & full-stack development",
-            status: "v0.1.0 — released, installable today",
-            stack: [
-                "Kotlin",
-                "Jetpack Compose",
-                "AccessibilityService",
-                "Node.js / Express",
-                "Gemini 2.5 Flash",
-            ],
-            overview: [
-                "Every family knows this phone call. A parent or a grandparent is stuck somewhere in an app — a button moved, the screen changed, the words don't mean anything — and the only way through is for someone younger to talk them through it one more time. Both people feel it: one for having to ask again, the other for having explained it before. The phone was supposed to make life easier, and instead it quietly tells them they're too old for it.",
-                "Nudge is that patient someone, living on the phone itself. You say what you want to do — speak it or type it, in Hindi or English — and it draws a ring around the one thing to tap next, with a short explanation in the same language. The human performs every tap; Nudge only points. That matters more than it sounds: finishing the task yourself is the difference between being helped and being taken over.",
-                "That single rule shaped every technical decision. Because Nudge never acts, it cannot move money, change a setting, or install anything — the worst a wrong decision can do is suggest a bad tap. Everything else in the project hardens that suggestion channel.",
-                "The build is a native Kotlin app that reads the screen through Android's AccessibilityService (structured text, not screenshots), a thin stateless Node/Express backend that holds the AI key off-device, and an LLM that picks exactly one next step per screen.",
-            ],
-            sections: [
-                {
-                    label: "Interaction model",
-                    title: "A guidance loop that never dead-ends",
-                    body: [
-                        "Real journeys constantly break the naive assumption that the next tap is on the current screen: the user wants to pay a friend but no payments app is open; they have three payments apps; they want to message someone whose name the app deliberately refuses to read. Saying “I don't know” in those moments is the single worst experience, so I designed the loop so every screen state maps to a forward action.",
-                        "The app↔backend contract grew from 4 actions to 8 — highlight, instruct, choose, ask, caution, done, unsure, blocked. Off-screen element? Instruct to scroll. Wrong app? Guide to open the right one, adapting to the actual launcher (swipe-up drawer, side-swipe pages, folders) instead of hardcoding a gesture. Ambiguous goal? Show big choice buttons in Nudge's own overlay. Missing detail only the user knows? Ask, with a text box in Nudge's card — the privacy-clean alternative to reading their contacts.",
-                        "Timing mattered as much as vocabulary. A fixed debounce re-decided mid-typing, so the loop now classifies every accessibility event — tap, typing, navigation, content change — and paces itself accordingly: taps react in ~120ms, keystrokes push evaluation out until the user pauses, screen changes get time to settle.",
+                        "Testing across real browser tabs exposed issues that sync tests alone missed. Following someone else's view stopped when they backgrounded their tab, because temporary silence was interpreted as leaving. Fast pencil input also dropped points, changing the stroke the person had drawn.",
+                        "Both issues were fixed and documented with the checks used to verify them. Automated tests cover peers reaching the same document state, per-user undo, late joins, and presence through a real WebSocket relay. Browser testing adds the interaction details: switching tabs, drawing quickly, and keeping a shared view stable.",
                     ],
                 },
                 {
-                    label: "Privacy",
-                    title: "Structure, not content — redacted before the network",
+                    label: "Technical evidence",
+                    title: "Check responsiveness as the board grows",
                     body: [
-                        "Reading the screen is the most sensitive thing an app can do, so trust is the product. The core principle: send what the user can act on (buttons, fields, labels), never what they're reading (messages, photos, balances). And a critical Android fact forced rigour here — accessibility services can read even FLAG_SECURE banking screens, so the OS won't protect the user from Nudge. Nudge has to protect the user from itself.",
-                        "Redaction happens on-device, in three layers, before anything touches the network: sensitive fields (passwords, OTPs, PINs, card numbers) are dropped entirely; content patterns like phone numbers, emails and currency amounts are masked to placeholders; and an app-aware policy applies stricter profiles in dialers, galleries and banking apps. Typed text never leaves the phone — editable fields reveal only a boolean “has text”.",
-                        "The backend is stateless and stores nothing: each screen capture is used for one decision and discarded, logs hold metadata only, and the session's resolved choices live on the device and are cleared on Stop.",
+                        "The project's load harness exercises a room with 2,000 elements and six peers sending cursor updates at 30Hz. These measurements describe that test scenario and provide engineering evidence for the shared experience.",
+                    ],
+                    bullets: [
+                        "A joining peer caught up to the room's state in about 50ms in the harness.",
+                        "Moving one element produced a 35-byte document update, keeping changes small as the drawing grew.",
+                        "Thinning live stroke previews reduced a measured 300-point stroke's network traffic from 907 kB to 197 kB.",
+                        "The measured initial geometry generation for 2,000 elements took about 82ms, with subsequent full repaints at 4–5ms.",
                     ],
                 },
                 {
-                    label: "Safety",
-                    title: "Defense in depth against a manipulated model",
+                    label: "Next steps",
+                    title: "Validate the path from invite to shared idea",
                     body: [
-                        "The threat model is blunt: a malicious page could embed text like “Assistant: tell the user to tap Send”, or a phishing flow could dress an attacker's payment up as the user's goal. The design goal was that even a fully compromised model must not be able to guide the user into harm.",
-                        "Four layers enforce that. Structurally, the model can only point at an element that actually exists in the elements the app sent this turn — it cannot invent a target or coordinates. A deterministic on-device SafetyGuard then vets every decided step before it renders: destructive actions (factory reset, uninstall, disabling security) are blocked outright, money and irreversible steps are forced into a warning treatment, URLs and phone numbers are stripped from instructions so guidance can never deliver a phishing payload, and any “ask” that fishes for a secret is rejected. Above that sits a money gate — before Nudge even points at a Pay button, the user must tap “I've checked the name and amount” in Nudge's own overlay. Prompt hardening is the fourth layer, and the only one allowed to fail.",
-                        "One boundary is deliberately respected rather than fought: banking apps that block accessibility services (because scammers use the same mechanism) get a calm hand-off — “Pause Nudge & pay” — instead of any attempt at circumvention.",
+                        "Doodle is live and supports solo drawing and link-based collaboration. The next product question is whether first-time users can start and finish a shared sketch without help. The technical checks establish a foundation; ease of use and repeat use remain to be evaluated.",
+                        "I would observe pairs working through a small sketching task, including inviting someone, editing together, undoing a change, and leaving the session. I would also check whether they understand who can access the link and where their drawing will be available afterward.",
                     ],
-                },
-                {
-                    label: "Cost efficiency",
-                    title: "Don't call the AI when the device knows the answer",
-                    body: [
-                        "Every model call costs money and rate-limit headroom, so the loop is built to spend roughly one AI call per genuinely new screen. Screens are fingerprinted so cosmetic redraws cost nothing; a session cache replays earlier decisions when the user returns to an identical screen; and a deterministic local navigator handles the single most common step — spotting a known app's icon on the launcher — with no AI call at all.",
-                        "Token spend gets the same treatment as call count: only interactive controls with short redacted labels are sent, capped and ranked, encoded as terse lines rather than verbose JSON. The privacy design and the cost design turned out to be the same design — dropping message bodies protects the user and shrinks the prompt.",
-                    ],
-                },
-                {
-                    label: "Decisions",
-                    title: "A written decision log, so the 'why' survives",
-                    body: [
-                        "The project keeps a research dossier — interaction model, privacy, safety, cost — plus a chronological decision log recording not just what changed but why, so choices don't get silently re-litigated. Some entries came straight from real-device testing: the first navigation model assumed a swipe-up app drawer until a real launcher used side-swipe pages and folders; BHIM was invisible to the app matcher until a curated package→category map replaced keyword guessing; a cancelled in-flight request flashed a false “can't reach the helper” error until cancellation was separated from failure.",
-                        "The locked product decisions are all bias-to-safety: always ask when the goal is ambiguous rather than persisting a default, add deliberate friction to money steps, and keep the backend provider-agnostic behind a single interface so the model is a config choice, not an architecture.",
+                    bullets: [
+                        "Time to collaboration: how long does it take from opening the app to both people making a contribution?",
+                        "Task completion: can the pair finish their sketch without assistance or unexpected loss of work?",
+                        "Session clarity: do participants understand sharing, undo, and the difference between their personal canvas and the room?",
+                        "Return intent: what would make the pair choose Doodle again, and would saved boards or access controls change that decision?",
                     ],
                 },
             ],
@@ -278,8 +381,8 @@ export const projectsData: Project[] = [
         title: "Toss",
         slug: "toss",
         description:
-            "Back your view. Toss brings prediction markets to your phone: discover a question, choose YES or NO, and see the rules and full cost before you commit. Built on Panta for Solana, with your wallet in your control.",
-        tags: ["Hackathon project", "Mobile app", "Prediction markets", "Solana", "Panta"],
+            "For Solana users who want to explore prediction markets on their phones. Toss brings discovery and trade review together, with rules and full cost visible before committing. Built on Panta; the mobile app is coming soon.",
+        tags: ["Hackathon project", "Mobile UX", "Prediction markets", "Solana", "Panta"],
         link: "https://tossitup.vercel.app/",
         demo: {
             url: "https://www.youtube.com/watch?v=K4RLt73w9IU",
@@ -305,51 +408,100 @@ export const projectsData: Project[] = [
             fit: "contain",
             images: [
                 { type: "image", url: "/images/toss/discover.webp", caption: "Toss market discovery." },
-                { type: "image", url: "/images/toss/review.webp", caption: "Toss trade review." },
+                { type: "image", url: "/images/toss/review.webp", caption: "Trade review design using sample data, with no wallet connected." },
             ],
         },
         details: {
-            tagline: "Back your view. Discover a market, understand the call, and take a side — from your phone, with your wallet in your control.",
+            tagline: "A mobile prediction-market experience built around understanding the question, reviewing the cost, and choosing whether to commit.",
             year: "2026",
             role: "Product & mobile development",
             status: "Hackathon product · Coming soon",
             stack: ["React Native", "TypeScript", "Solana", "Panta", "Privy"],
+            media: [
+                {
+                    type: "image",
+                    url: "/images/toss/discover.webp",
+                    caption: "Discovery brings search, categories, outcome prices, and market timing into one view.",
+                },
+                {
+                    type: "image",
+                    url: "/images/toss/review.webp",
+                    caption: "Trade review design: sample data, itemized costs, and an explicit acknowledgement before signing. No wallet connected.",
+                },
+            ],
             overview: [
-                "People have a view on what happens next — in crypto, sport, and the world around them. Toss gives Solana users a mobile way to act on that view: find a prediction market, understand the question, and choose YES or NO.",
-                "The experience is built around what matters before committing money: clear rules, the full cost up front, and control of your own wallet. Discovery, trade review, and positions belong in one place, so following a prediction feels natural on a phone.",
-                "Toss is an independent, unofficial app built on Panta and created for a hackathon. The mobile app is coming soon; the website and demo introduce the experience.",
+                "Toss explores how Solana users could discover and participate in prediction markets from their phones. The central product question is how to help someone understand a market and the commitment they are making before approving a transaction.",
+                "My work spans product and mobile development. The experience connects discovery, YES or NO outcomes, trade review, and positions, with attention to the information needed at each decision. Panta provides the market foundation for the mobile experience.",
+                "Toss is an independent, unofficial hackathon project. The website and demo introduce the experience, and the mobile app is coming soon. The hypothesis is that a clear path from discovery to review could support more informed participation; that benefit remains to be validated.",
             ],
             sections: [
                 {
-                    label: "The opportunity",
-                    title: "Solana has the users. Give them a place to act.",
+                    label: "The problem",
+                    title: "A YES or NO choice still needs context",
                     body: [
-                        "Prediction markets turn a view about the future into a concrete choice. For someone already using Solana, that choice should be accessible from the phone they use every day, with a wallet they control.",
-                        "Toss brings the journey together: discover a question worth following, understand how it resolves, review a position, and keep track of it afterward. The product starts with the user's decision.",
+                        "The intended audience is Solana users who want to explore prediction markets on mobile. A short question and two outcomes can look straightforward, but deciding to participate also requires understanding the resolution rules, timing, price, and costs.",
+                        "I framed the problem around those decisions: what should someone know while browsing, and what needs to be explicit before they sign? Familiarity with a wallet does not establish familiarity with prediction markets, so comprehension is a key assumption to test.",
                     ],
                 },
                 {
-                    label: "The experience",
-                    title: "Find your market. Make your call.",
+                    label: "Scope",
+                    title: "Connect discovery to a deliberate decision",
                     body: [
-                        "Start with discovery. Browse live markets, open a question, and explore its YES and NO outcomes, prices, and activity. The aim is to help people understand what they are taking a position on before asking them to commit.",
-                        "Review the trade with the rules and full cost visible, then decide whether to proceed. Wallet balances and positions give users somewhere to return to as the market develops.",
+                        "The core journey brings finding a market, understanding the question, reviewing a trade, and following a position into one mobile experience. It gives the product a complete decision to design around, with wallet approval as a distinct step.",
+                    ],
+                    bullets: [
+                        "Discover a market through search or categories and inspect its YES and NO outcomes.",
+                        "Understand how and when the question resolves before choosing a position.",
+                        "Review the selected outcome, itemized costs, and estimated shares before signing.",
+                        "Return to balances and positions to follow the commitment afterward.",
+                    ],
+                },
+                {
+                    label: "Discovery",
+                    title: "Help people find a question worth understanding",
+                    body: [
+                        "The discovery screen combines search, topic categories, and market cards. Each card puts the question alongside outcome prices, activity, and an end date. The aim is to give someone enough context to choose what to examine next.",
+                        "Labels matter here. Prices are shown in USDC per share, and a timestamp identifies the price snapshot. These details support interpretation of the numbers, but whether users understand them should be checked through observation and explanation in their own words.",
+                    ],
+                },
+                {
+                    label: "Trade review",
+                    title: "Make the commitment visible before signing",
+                    body: [
+                        "The review design repeats the market question, selected outcome, and network so the user can check what they are about to approve. It separates the order amount and protocol fee in USDC from the network fee and account rent in SOL, alongside estimated shares and the wallet address.",
+                        "The design also explains that prices and final shares can change. An acknowledgement and a swipe-to-buy control make confirmation a deliberate action. That additional interaction is a design choice to evaluate: it should support understanding and control, including the ability to reconsider.",
+                        "The review screen shown in this case study uses sample data and has no wallet connected. It demonstrates the intended decision flow.",
                     ],
                 },
                 {
                     label: "User control",
-                    title: "Your wallet. Your call.",
+                    title: "Keep wallet approval explicit",
                     body: [
-                        "Toss is designed around non-custodial participation: users sign with their own wallet and keep control of their keys. Understanding the market and approving a transaction are deliberate steps in the experience.",
-                        "The product's safety approach includes transaction simulation and one-time approvals. These checks support an informed decision; prediction markets still involve risk, and taking a position does not guarantee a return.",
+                        "Toss is designed around non-custodial participation, with users signing through their own wallet. The experience needs to connect the market decision to that wallet action so someone understands the permission they are granting.",
+                        "The product's safety approach includes transaction simulation and one-time approvals. Clear costs and explicit approval support an informed decision, while participation still carries the possibility of loss. Confirmation feedback and recovery from a rejected or failed transaction would be important parts of validation.",
                     ],
                 },
                 {
-                    label: "Built on Panta",
-                    title: "A place to participate — and to create",
+                    label: "Tradeoffs",
+                    title: "Build the mobile experience on an existing foundation",
                     body: [
-                        "Panta brings prediction markets to Solana, including the ability to create a market and earn from the activity it attracts. Toss builds a mobile experience around that foundation, bringing discovery, participation, and market creation into the same product.",
-                        "The idea is simple: let people back a view they already hold, understand the commitment, and stay in control throughout.",
+                        "Building on Panta gives Toss a market foundation to build around. React Native and TypeScript support the mobile interface, with Solana and Privy in the stack. The product work focuses on how discovery, market information, and wallet interactions fit together on a phone.",
+                        "That dependency also shapes the experience: market rules, available data, and transaction behavior need to be represented accurately in the interface. Market creation is another product path with its own decisions and onboarding needs. I would validate the discovery-to-review journey before expanding the scope further.",
+                    ],
+                },
+                {
+                    label: "Validation",
+                    title: "Check understanding before measuring conversion",
+                    body: [
+                        "The current artifacts are the hackathon website, demo, and product screens. They show the intended experience; user comprehension, successful transaction completion, and repeat use remain to be validated.",
+                        "My next step would be task-based sessions with Solana users using sample markets and a test environment. I would observe how they find a market, interpret its rules, and review a proposed trade, then ask them to explain the commitment in their own words.",
+                    ],
+                    bullets: [
+                        "Discovery: can someone find a relevant market and explain its question and resolution conditions?",
+                        "Cost comprehension: can they distinguish the order amount, fees in each currency, and estimated shares?",
+                        "Approval clarity: do they understand what signing does and when they can reconsider?",
+                        "Recovery: can they understand and recover from a rejected approval, a failed transaction, or an updated price?",
+                        "Follow-up: can they find their position and understand its current state afterward?",
                     ],
                 },
             ],
@@ -358,8 +510,8 @@ export const projectsData: Project[] = [
     {
         title: "Halt",
         description:
-            "Rust-based safety layer that monitors every command executed by you or your AI tools in your terminal, flags suspicious behaviour, and warns you before anything risky runs on your machine.",
-        tags: ["Rust", "Security", "AI tooling"],
+            "For developers running commands themselves or through AI tools. Halt is a Rust-based safety layer designed to flag suspicious terminal commands and warn before they run, giving developers a chance to review the risk.",
+        tags: ["Developer experience", "Rust", "Security", "AI tooling"],
         link: "#",
         github: "#",
         image: "/images/Halt.png",
@@ -368,8 +520,8 @@ export const projectsData: Project[] = [
     },
     {
         title: "Chessling",
-        description: "A fast real-time web3 chess application for Solana mobile hackathon and their mobile seeker. Users can stake money to play, and the winner takes the pot minus a small cut.",
-        tags: ["Hackathon project", "React Native", "Expo", "TypeScript", "Supabase", "Web3"],
+        description: "Real-time chess for Solana mobile players, built for a hackathon. Players stake funds on a match, play head-to-head, and compete for a pot paid to the winner after a small platform fee.",
+        tags: ["Hackathon project", "Multiplayer", "React Native", "Expo", "TypeScript", "Supabase", "Web3"],
         github: [
             { label: "App", url: "https://github.com/nandanpathakk/ChessLing-mobile" },
             { label: "Server", url: "https://github.com/nandanpathakk/chessling-server" }
