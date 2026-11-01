@@ -5,6 +5,7 @@ import { ArrowRight, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
 import { LINKS } from "@/components/config/links";
 import { Meteors } from "./ui/meteors";
+import { HeroSpotlight } from "./ui/HeroSpotlight";
 
 export default function Welcome() {
     const [showHindi, setShowHindi] = useState(true);
@@ -26,21 +27,16 @@ export default function Welcome() {
     const nameSize = "clamp(3.2rem, 12vw, 11rem)";
 
     return (
-        <section className="min-h-screen max-lg:min-h-svh flex flex-col relative overflow-hidden">
+        <section className="min-h-screen max-lg:min-h-svh flex flex-col relative isolate overflow-hidden">
+            <HeroSpotlight />
             <Meteors />
-
-            {/* Amber ambient glow */}
-            <div className="absolute inset-0 -z-10 pointer-events-none">
-                <div className="absolute top-1/4 left-1/3 w-[700px] h-[500px] bg-primary/4 rounded-full blur-[160px] animate-pulse" />
-                <div className="absolute bottom-1/4 right-1/3 w-[500px] h-[400px] bg-primary/3 rounded-full blur-[140px] animate-pulse" style={{ animationDelay: "1.5s" }} />
-            </div>
 
             {/* Top metadata bar */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: reducedMotion ? 0 : 0.3, duration: reducedMotion ? 0 : 0.8 }}
-                className="flex items-center justify-between max-sm:flex-wrap max-sm:gap-3 px-6 md:px-10 lg:px-16 pt-10 md:pt-14"
+                className="relative z-10 flex items-center justify-between max-sm:flex-wrap max-sm:gap-3 px-6 md:px-10 lg:px-16 pt-10 md:pt-14"
             >
                 <span className="section-label">Portfolio · {new Date().getFullYear()}</span>
                 <span className="text-xs font-mono uppercase tracking-[0.3em] max-sm:tracking-[0.15em] text-muted-foreground/50">
@@ -49,7 +45,7 @@ export default function Welcome() {
             </motion.div>
 
             {/* Main content */}
-            <div className="flex-1 flex flex-col justify-center px-6 md:px-10 lg:px-16 py-10 md:py-16">
+            <div className="relative z-10 flex-1 flex flex-col justify-center px-6 md:px-10 lg:px-16 py-10 md:py-16">
 
                 {/*
                   Name container — stable height strategy:
@@ -236,7 +232,7 @@ export default function Welcome() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: reducedMotion ? 0 : 1.4, duration: 1 }}
-                className="flex justify-center pb-8 md:pb-10"
+                className="relative z-10 flex justify-center pb-8 md:pb-10"
             >
                 <motion.div
                     animate={reducedMotion ? {} : { y: [0, 7, 0] }}

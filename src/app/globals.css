@@ -288,3 +288,62 @@
 @media (max-width: 639px) {
   #contact h2 { font-size: clamp(2.5rem, 11vw, 3rem); }
 }
+
+/* Layered, warm-neutral corner lights. Only transforms animate. */
+.hero-spotlight {
+  --spotlight-width: clamp(280px, 44vw, 560px);
+  --spotlight-small-width: clamp(120px, 19vw, 240px);
+  --spotlight-height: 1380px;
+  --spotlight-y: -350px;
+  --spotlight-drift: clamp(24px, 4vw, 64px);
+  animation: hero-spotlight-enter 1.5s ease-out both;
+  mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+}
+
+.hero-spotlight__side { position: absolute; inset: 0; }
+.hero-spotlight__side--left { animation: hero-spotlight-left 12s ease-in-out infinite; }
+.hero-spotlight__side--right { animation: hero-spotlight-right 12s ease-in-out -6s infinite; }
+.hero-spotlight__beam { position: absolute; top: 0; height: var(--spotlight-height); }
+.hero-spotlight__beam--main {
+  width: var(--spotlight-width);
+  background: radial-gradient(68.54% 68.72% at 55.02% 31.46%, color-mix(in oklch, var(--foreground) 8%, transparent) 0%, color-mix(in oklch, var(--primary) 1.8%, transparent) 50%, transparent 80%);
+}
+.hero-spotlight__beam--middle {
+  width: var(--spotlight-small-width);
+  background: radial-gradient(50% 50% at 50% 50%, color-mix(in oklch, var(--foreground) 6%, transparent) 0%, color-mix(in oklch, var(--primary) 1.4%, transparent) 80%, transparent 100%);
+}
+.hero-spotlight__beam--outer {
+  width: var(--spotlight-small-width);
+  background: radial-gradient(50% 50% at 50% 50%, color-mix(in oklch, var(--foreground) 4%, transparent) 0%, color-mix(in oklch, var(--primary) 1%, transparent) 80%, transparent 100%);
+}
+.hero-spotlight__side--left .hero-spotlight__beam { left: 0; }
+.hero-spotlight__side--right .hero-spotlight__beam { right: 0; }
+.hero-spotlight__side--left .hero-spotlight__beam--main { transform: translateY(var(--spotlight-y)) rotate(-45deg); }
+.hero-spotlight__side--right .hero-spotlight__beam--main { transform: translateY(var(--spotlight-y)) rotate(45deg); }
+.hero-spotlight__side--left .hero-spotlight__beam--middle { transform-origin: top left; transform: rotate(-45deg) translate(5%, -50%); }
+.hero-spotlight__side--right .hero-spotlight__beam--middle { transform-origin: top right; transform: rotate(45deg) translate(-5%, -50%); }
+.hero-spotlight__side--left .hero-spotlight__beam--outer { transform-origin: top left; transform: rotate(-45deg) translate(-180%, -70%); }
+.hero-spotlight__side--right .hero-spotlight__beam--outer { transform-origin: top right; transform: rotate(45deg) translate(180%, -70%); }
+
+@keyframes hero-spotlight-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes hero-spotlight-left {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(var(--spotlight-drift)); }
+}
+@keyframes hero-spotlight-right {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(calc(-1 * var(--spotlight-drift))); }
+}
+@media (max-width: 767px) {
+  .hero-spotlight {
+    --spotlight-height: 1000px;
+    --spotlight-y: -300px;
+  }
+  .hero-spotlight__side { opacity: 0.75; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-spotlight, .hero-spotlight__side { animation: none; }
+}
