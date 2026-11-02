@@ -338,11 +338,26 @@
   50% { transform: translateX(calc(-1 * var(--spotlight-drift))); }
 }
 @media (max-width: 767px) {
+  .carousel-arrow {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    opacity: 1;
+  }
+  .carousel-arrow svg {
+    width: 18px;
+    height: 18px;
+  }
   .hero-spotlight {
+    --spotlight-width: clamp(160px, 42vw, 280px);
+    --spotlight-small-width: clamp(70px, 18vw, 120px);
     --spotlight-height: 1000px;
     --spotlight-y: -300px;
+    --spotlight-drift: 12px;
   }
-  .hero-spotlight__side { opacity: 0.75; }
+  .hero-spotlight__side { opacity: 0.42; }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-spotlight, .hero-spotlight__side { animation: none; }
