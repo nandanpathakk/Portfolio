@@ -5,6 +5,7 @@ import { ReactLenis } from "@/lib/lenis";
 import ScrollManager from "@/components/ScrollManager";
 import Nav from "@/components/Nav";
 import { PortfolioAssistant } from "@/components/PortfolioAssistant";
+import Analytics from "@/components/Analytics";
 
 // Anek is one family drawn for both Latin and Devanagari, so the name can sit
 // in both scripts without changing voice. Files live in ./fonts (SIL OFL).
@@ -66,6 +67,7 @@ export default function RootLayout({
           {children}
         </ReactLenis>
         <PortfolioAssistant />
+        <Analytics />
       </body>
     </html>
   );

@@ -36,8 +36,8 @@ export default function Welcome() {
                             </span>
                         </div>
                         <div className="flex flex-wrap gap-3">
-                            <a href="#projects" className="btn btn-solid">See the work</a>
-                            <a href={LINKS.RESUME} target="_blank" rel="noreferrer" className="btn btn-line">
+                            <a href="#projects" className="btn btn-solid" data-track="see_work_click">See the work</a>
+                            <a href={LINKS.RESUME} target="_blank" rel="noreferrer" className="btn btn-line" data-track="resume_open" data-track-from="hero">
                                 Résumé
                             </a>
                         </div>

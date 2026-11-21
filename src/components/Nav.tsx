@@ -53,6 +53,8 @@ export default function Nav() {
                             href={LINKS.RESUME}
                             target="_blank"
                             rel="noreferrer"
+                            data-track="resume_open"
+                            data-track-from="nav"
                             className="ml-2 rounded-full bg-marigold px-4 py-2 font-bold text-ink transition-transform hover:-rotate-2"
                         >
                             Résumé
@@ -89,6 +91,8 @@ export default function Nav() {
                                     href={LINKS.RESUME}
                                     target="_blank"
                                     rel="noreferrer"
+                                    data-track="resume_open"
+                                    data-track-from="nav"
                                     onClick={() => setMenuOpen(false)}
                                     className="display mt-1 flex min-h-14 items-center rounded-2xl bg-marigold px-3 text-3xl text-ink"
                                 >
