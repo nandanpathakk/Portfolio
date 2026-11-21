@@ -37,11 +37,10 @@ the site loads Google's own `gtag.js` with `next/script`.
 How it behaves:
 
 - Only runs in production builds (`next build` + `next start`, or on Vercel), never in `next dev`.
-- Nothing from Google loads until a visitor clicks **Allow** on the banner. "No thanks"
-  is remembered, and browsers sending Global Privacy Control never see the banner.
-- Google signals and ad personalisation are switched off. Visitors can change their
-  choice from "Analytics settings" in the footer.
+- Loads on every visit with no consent banner. Google signals and ad personalisation
+  are switched off. Browsers sending Global Privacy Control are not tracked.
 - The Content Security Policy in `next.config.ts` allows only the Google tag domains.
+- `src/components/AnalyticsSettingsLink.tsx` is unused for now; it belongs with a consent banner.
 
 Custom events sent (alongside GA's automatic page views, scrolls and outbound clicks):
 

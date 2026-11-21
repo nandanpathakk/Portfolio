@@ -1,7 +1,6 @@
 import type { CSSProperties } from "react";
 import { LINKS } from "@/components/config/links";
 import { profileData } from "@/data/profile";
-import AnalyticsSettingsLink from "@/components/AnalyticsSettingsLink";
 
 const marigold = { "--w-bg": "#ffb319", "--w-fg": "#121016", "--w-accent": "#121016" } as CSSProperties;
 
@@ -40,9 +39,8 @@ export default function Contact() {
                     </div>
                 </div>
 
-                <p className="mt-16 flex flex-wrap justify-between gap-2 border-t border-ink/25 pt-5 font-medium">
-                    <span>© {new Date().getFullYear()} Nandan Pathak</span>
-                    <AnalyticsSettingsLink />
+                <p className="mt-16 border-t border-ink/25 pt-5 font-medium">
+                    © {new Date().getFullYear()} Nandan Pathak
                 </p>
             </div>
         </section>
