@@ -6,6 +6,9 @@ const isDev = process.env.NODE_ENV === "development";
  * Content Security Policy.
  *
  * Fonts and images are same-origin, and the assistant calls /api/ai-about.
+ * Google Analytics (only loaded after a visitor consents, see
+ * src/components/Analytics.tsx) needs the Google tag domains Google lists for
+ * GA4 without Ads features: googletagmanager.com and *.google-analytics.com.
  * Product demos may embed YouTube's privacy-enhanced player; only that
  * external frame origin is allowed.
  *
@@ -19,7 +22,7 @@ const csp = [
   // <script> tags. Removing it requires a per-request nonce from middleware,
   // which would also make every page dynamic — see README notes before
   // trading a fully static site for it.
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline' https://www.googletagmanager.com${isDev ? " 'unsafe-eval'" : ""}`,
 
   // 'unsafe-inline': Framer Motion animates through inline style attributes,
   // and Tailwind injects a <style> block. Style injection cannot exfiltrate
@@ -28,11 +31,11 @@ const csp = [
 
   // data: is required — the grain texture in globals.css is a data: SVG, and
   // next/image blur placeholders are data: URIs.
-  "img-src 'self' blob: data:",
+  "img-src 'self' blob: data: https://www.googletagmanager.com https://*.google-analytics.com",
 
   "font-src 'self'",
   "media-src 'self'",
-  `connect-src 'self'${isDev ? " ws: wss:" : ""}`,
+  `connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com${isDev ? " ws: wss:" : ""}`,
   "worker-src 'self' blob:",
   "manifest-src 'self'",
 

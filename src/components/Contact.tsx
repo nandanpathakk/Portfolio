@@ -24,15 +24,17 @@ export default function Contact() {
                     <div className="md:col-span-6 md:text-right">
                         <a
                             href={`mailto:${LINKS.EMAIL}`}
+                            data-track="email_click"
+                            data-track-from="contact"
                             className="display link break-all"
                             style={{ fontSize: "clamp(1.2rem, 2.5vw, 2.5rem)" }}
                         >
                             {LINKS.EMAIL}
                         </a>
                         <div className="mt-5 flex flex-wrap gap-3 md:justify-end">
-                            <a href={LINKS.LINKEDIN} target="_blank" rel="noreferrer" className="btn btn-solid">LinkedIn</a>
-                            <a href={LINKS.GITHUB} target="_blank" rel="noreferrer" className="btn btn-line">GitHub</a>
-                            <a href={LINKS.RESUME} target="_blank" rel="noreferrer" className="btn btn-line">Résumé</a>
+                            <a href={LINKS.LINKEDIN} target="_blank" rel="noreferrer" className="btn btn-solid" data-track="profile_click" data-track-site="linkedin">LinkedIn</a>
+                            <a href={LINKS.GITHUB} target="_blank" rel="noreferrer" className="btn btn-line" data-track="profile_click" data-track-site="github">GitHub</a>
+                            <a href={LINKS.RESUME} target="_blank" rel="noreferrer" className="btn btn-line" data-track="resume_open" data-track-from="contact">Résumé</a>
                         </div>
                     </div>
                 </div>

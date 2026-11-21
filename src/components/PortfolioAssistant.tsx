@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { Sparkles, X, ArrowUpRight, ArrowDown } from "lucide-react";
 import { Markdown } from "@/components/ui/Markdown";
 import { assistantQuestions } from "@/data/assistant-questions";
+import { track } from "@/lib/analytics";
 
 type Role = "user" | "assistant";
 
@@ -512,6 +513,7 @@ export function PortfolioAssistant() {
   const handleSearchSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
+    track("assistant_question", { source: "typed" });
     if (!isOpen) setIsOpen(true);
     await sendMessage(input);
   };
@@ -519,6 +521,7 @@ export function PortfolioAssistant() {
   const handleChatSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
+    track("assistant_question", { source: "typed" });
     await sendMessage(input);
   };
 
@@ -710,6 +713,9 @@ export function PortfolioAssistant() {
               reducedMotion={reducedMotion}
               onHover={setActiveIndex}
               onPick={(value) => {
+                // Only which suggested question was picked; never the text of a typed one.
+                const picked = assistantQuestions.find((q) => q.question === value);
+                track("assistant_question", { source: "suggestion", question: picked?.id ?? "other" });
                 setIsOpen(true);
                 void sendMessage(value);
               }}

@@ -5,6 +5,7 @@ import { MediaItem, Project } from "@/types";
 import { LINKS } from "@/components/config/links";
 import { projectsData } from "@/data/projects";
 import CaseStudyNav, { Chapter } from "@/components/CaseStudyNav";
+import TrackInView from "@/components/TrackInView";
 
 const slugify = (value: string) =>
     value
@@ -220,6 +221,8 @@ export default function CaseStudy({ project }: { project: Project }) {
                             )}
                         </section>
                     ))}
+                    {/* Counts once when a reader reaches the end of the write-up. */}
+                    <TrackInView event="case_study_finished" params={{ project: project.slug ?? project.title }} />
                 </div>
 
                 <div className="xl:col-span-2 xl:col-start-11">
@@ -237,6 +240,9 @@ export default function CaseStudy({ project }: { project: Project }) {
                                 <a
                                     href={action.url}
                                     className="btn btn-solid"
+                                    data-track={project.download ? "apk_download" : "project_open"}
+                                    data-track-project={project.slug}
+                                    data-track-from="case_study"
                                     {...(action.external ? { target: "_blank", rel: "noreferrer" } : {})}
                                 >
                                     {action.label}
@@ -278,7 +284,13 @@ export default function CaseStudy({ project }: { project: Project }) {
                         <p className="aside mt-6 max-w-[30ch] text-2xl md:text-3xl">
                             I&apos;m happy to go through the code, or the decisions I&apos;d make differently now.
                         </p>
-                        <a href={`mailto:${LINKS.EMAIL}`} className="btn btn-solid mt-7">
+                        <a
+                            href={`mailto:${LINKS.EMAIL}`}
+                            className="btn btn-solid mt-7"
+                            data-track="email_click"
+                            data-track-from="case_study"
+                            data-track-project={project.slug}
+                        >
                             Email me
                         </a>
                     </div>

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { projectsData } from "@/data/projects";
 import { Project } from "@/types";
+import TrackInView from "@/components/TrackInView";
 
 const world = (project: Project) =>
     ({
@@ -64,7 +65,7 @@ function Shots({ project, priority }: { project: Project; priority?: boolean }) 
 
 /** One extra action beside "Read the story": whatever lets you try the thing fastest. */
 function quickLink(project: Project) {
-    if (project.download) return { href: project.download.url, label: "Get the APK", external: false };
+    if (project.download) return { href: project.download.url, label: "Get the APK", external: false, track: "apk_download" };
     if (project.tryIt && !project.demo) return { href: project.tryIt.url, label: project.tryIt.label, external: true };
     if (project.demo) return { href: project.demo.url, label: "Watch the demo", external: true };
     return null;
@@ -89,6 +90,8 @@ export default function Projects() {
                     <article key={project.slug} className="sheet world" style={{ ...world(project), zIndex: i + 1 }}>
                         <div className="wrap flex h-full flex-col gap-6 pb-0 pt-20 lg:grid lg:grid-cols-12 lg:items-center lg:gap-10 lg:pb-10 lg:pt-24">
                             <div className="lg:col-span-5">
+                                {/* Counts once when this project's panel is actually on screen. */}
+                                <TrackInView event="project_view" params={{ project: project.slug! }} />
                                 <p className="flex items-center gap-3 font-semibold">
                                     <span className="accent tabular-nums">
                                         {i + 1}/{featured.length}
@@ -118,6 +121,9 @@ export default function Projects() {
                                     <Link
                                         href={`/projects/${project.slug}`}
                                         className={`btn btn-solid ${i === 0 ? "ringed" : ""}`}
+                                        data-track="case_study_open"
+                                        data-track-project={project.slug}
+                                        data-track-from="home"
                                     >
                                         Read the story
                                     </Link>
@@ -125,6 +131,9 @@ export default function Projects() {
                                         <a
                                             href={quick.href}
                                             className="btn btn-line"
+                                            data-track={"track" in quick ? quick.track : undefined}
+                                            data-track-project={project.slug}
+                                            data-track-from="home"
                                             {...(quick.external ? { target: "_blank", rel: "noreferrer" } : {})}
                                         >
                                             {quick.label}
