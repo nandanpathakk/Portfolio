@@ -1,21 +1,22 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { LINKS } from "@/components/config/links";
 import { siteSections } from "@/data/sections";
-import { Menu, X } from "lucide-react";
-import { usePathname } from "next/navigation";
 
-// Derived from the same registry the assistant navigates by, so a new section
-// reaches the nav and the chat together.
-const navLinks = siteSections.map(({ id, label }) => ({
-    href: `/#${id}`,
-    label,
-}));
+// Same registry the assistant navigates by. Skills lives inside About now, so
+// it keeps its anchor but not its own nav entry.
+const navLinks = siteSections
+    .filter(({ id }) => id !== "skills")
+    .map(({ id, label }) => ({
+        href: `/#${id}`,
+        label: id === "projects" ? "Work" : label,
+    }));
 
+/** A floating pill, so it sits on any of the page's colours without needing to match them. */
 export default function Nav() {
-    const [visible, setVisible] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
     const pathname = usePathname();
 
@@ -30,100 +31,74 @@ export default function Nav() {
         return () => window.removeEventListener("keydown", closeOnEscape);
     }, [menuOpen]);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setVisible(window.scrollY > 80);
-        };
-        window.addEventListener("scroll", handleScroll, { passive: true });
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
-
     return (
-        <AnimatePresence>
-            {visible && (
-                <motion.nav
-                    initial={{ y: -64, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -64, opacity: 0 }}
-                    transition={{ duration: 0.35, ease: "easeOut" }}
-                    className="fixed top-0 left-0 right-0 z-50 bg-background/90 backdrop-blur-md border-b border-border"
-                >
-                    <div className="px-6 md:px-10 lg:px-16 h-14 flex items-center justify-between">
-                        {/* Logo */}
+        <header className="pointer-events-none fixed inset-x-0 top-3 z-50 px-[var(--gutter)] sm:top-4">
+            <div className="pointer-events-auto mx-auto w-full max-w-fit rounded-[1.75rem] bg-[#0b0a0e]/85 text-cream shadow-[0_10px_30px_-12px_rgb(0_0_0/0.7)] ring-1 ring-white/10 backdrop-blur-md max-md:max-w-none">
+                <div className="flex h-12 items-center justify-between gap-2 pl-5 pr-1.5">
+                    <Link href="/" className="mr-3 font-bold" style={{ fontStretch: "116%" }}>
+                        Nandan Pathak
+                    </Link>
+
+                    <nav aria-label="Main" className="hidden items-center md:flex">
+                        {navLinks.map((link) => (
+                            <a
+                                key={link.href}
+                                href={link.href}
+                                className="rounded-full px-3.5 py-2 font-medium text-cream/80 transition-colors hover:bg-white/10 hover:text-cream"
+                            >
+                                {link.label}
+                            </a>
+                        ))}
                         <a
-                            href="#"
-                            className="text-sm font-mono text-foreground hover:text-primary transition-colors duration-200"
+                            href={LINKS.RESUME}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-2 rounded-full bg-marigold px-4 py-2 font-bold text-ink transition-transform hover:-rotate-2"
                         >
-                            np.
+                            Résumé
                         </a>
+                    </nav>
 
-                        {/* Nav Links with animated amber underlines */}
-                        <div className="hidden lg:flex items-center gap-8">
+                    <button
+                        type="button"
+                        className="rounded-full bg-white/10 px-4 py-2 font-semibold md:hidden"
+                        aria-expanded={menuOpen}
+                        aria-controls="mobile-navigation"
+                        onClick={() => setMenuOpen((open) => !open)}
+                    >
+                        {menuOpen ? "Close" : "Menu"}
+                    </button>
+                </div>
+
+                {menuOpen && (
+                    <nav id="mobile-navigation" aria-label="Main" data-lenis-prevent className="px-2 pb-2 md:hidden">
+                        <ul>
                             {navLinks.map((link) => (
+                                <li key={link.href}>
+                                    <a
+                                        href={link.href}
+                                        onClick={() => setMenuOpen(false)}
+                                        className="display flex min-h-14 items-center rounded-2xl px-3 text-3xl active:bg-white/10"
+                                    >
+                                        {link.label}
+                                    </a>
+                                </li>
+                            ))}
+                            <li>
                                 <a
-                                    key={link.href}
-                                    href={link.href}
-                                    className="group relative text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground hover:text-foreground transition-colors duration-200"
+                                    href={LINKS.RESUME}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    onClick={() => setMenuOpen(false)}
+                                    className="display mt-1 flex min-h-14 items-center rounded-2xl bg-marigold px-3 text-3xl text-ink"
                                 >
-                                    {link.label}
-                                    <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-primary group-hover:w-full transition-all duration-300 ease-out" />
+                                    Résumé
                                 </a>
-                            ))}
-                        </div>
-
-                        {/* Social icon links */}
-                        <div className="flex items-center gap-5">
-                            <button
-                                type="button"
-                                className="lg:hidden inline-flex h-11 w-11 items-center justify-center text-muted-foreground"
-                                aria-label={menuOpen ? "Close navigation" : "Open navigation"}
-                                aria-expanded={menuOpen}
-                                aria-controls="mobile-navigation"
-                                onClick={() => setMenuOpen(open => !open)}
-                            >
-                                {menuOpen ? <X size={20} /> : <Menu size={20} />}
-                            </button>
-                            <a
-                                href={LINKS.RESUME}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="group relative hidden sm:flex items-center gap-1.5 px-3 py-1.5 overflow-hidden text-xs font-mono uppercase tracking-[0.1em] text-primary border border-primary/20 hover:border-primary/50 transition-colors duration-300 rounded-[2px]"
-                            >
-                                <span className="relative z-10 font-bold">Resume</span>
-                                <div className="absolute inset-0 bg-primary/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-                            </a>
-                            <a
-                                href={LINKS.GITHUB}
-                                target="_blank"
-                                rel="noreferrer"
-                                aria-label="GitHub Profile"
-                                className="text-xs font-mono text-muted-foreground hover:text-primary transition-colors duration-200"
-                            >
-                                GH
-                            </a>
-                            <a
-                                href={LINKS.LINKEDIN}
-                                target="_blank"
-                                rel="noreferrer"
-                                aria-label="LinkedIn Profile"
-                                className="text-xs font-mono text-muted-foreground hover:text-primary transition-colors duration-200"
-                            >
-                                LI
-                            </a>
-                        </div>
-                    </div>
-                    {menuOpen && (
-                        <div id="mobile-navigation" className="lg:hidden border-t border-border bg-background px-6 py-3 max-h-[70dvh] overflow-y-auto" data-lenis-prevent>
-                            {navLinks.map(link => (
-                                <a key={link.href} href={link.href} onClick={() => setMenuOpen(false)} className="flex min-h-11 items-center text-sm text-muted-foreground hover:text-primary">
-                                    {link.label}
-                                </a>
-                            ))}
-                            <a href={LINKS.RESUME} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)} className="flex min-h-11 items-center text-sm text-primary">Resume ↗</a>
-                        </div>
-                    )}
-                </motion.nav>
-            )}
-        </AnimatePresence>
+                            </li>
+                        </ul>
+                    </nav>
+                )}
+            </div>
+        </header>
     );
 }

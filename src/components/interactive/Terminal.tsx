@@ -278,7 +278,7 @@ export default function Terminal() {
             <div className="text-sm space-y-1.5 max-w-md">
                 <p className="text-foreground font-bold"># nandan-pathak</p>
                 <p className="text-muted-foreground">Developer. {profileData.summary}</p>
-                <p className="text-muted-foreground"><strong>Product &amp; UX:</strong> {skillsData["Product & UX"].join(" · ")}</p>
+                <p className="text-muted-foreground"><strong>Product &amp; UX:</strong> {skillsData.Product.join(" · ")}</p>
                 <p className="text-muted-foreground">{profileData.opportunityStatement}</p>
                 <p className="text-primary text-xs mt-1">See also: fetch, stack, projects</p>
             </div>

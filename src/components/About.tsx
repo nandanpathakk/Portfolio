@@ -1,196 +1,60 @@
-"use client";
+import Image from "next/image";
+import { skillsData } from "@/data/skills";
 
-import { useRef, useEffect, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
-import { aboutItems } from "@/data/about";
-import { LucideIcon } from "lucide-react";
-
-// ─── Card — hover effect applied either on mouse hover OR when scroll-focused ─
-
-const Card = ({
-    item,
-    index,
-    focused = false,
-    className = "",
-    cardRef,
-}: {
-    item: { title: string; description: string; icon: LucideIcon };
-    index: number;
-    focused?: boolean;
-    className?: string;
-    cardRef?: (el: HTMLDivElement | null) => void;
-}) => (
-    <div
-        ref={cardRef}
-        className={`relative overflow-hidden group p-6 md:p-8 bg-card/40 backdrop-blur-sm border transition-all duration-500 ${
-            focused ? "border-primary/25" : "border-border hover:border-primary/25"
-        } ${className}`}
-    >
-        {/* Amber left border — triggered by hover OR scroll focus */}
-        <div
-            className={`absolute left-0 top-0 bottom-0 w-0.5 bg-primary transform origin-bottom transition-transform duration-500 ${
-                focused ? "scale-y-100" : "scale-y-0 group-hover:scale-y-100"
-            }`}
-        />
-
-        {/* Index number — decorative background */}
-        <span className="absolute top-4 right-6 text-5xl font-bold text-border/60 font-display leading-none select-none pointer-events-none">
-            0{index + 1}
-        </span>
-
-        <div className="relative z-10">
-            {/* Icon */}
-            <div
-                className={`mb-5 p-3 rounded-lg w-fit transition-colors duration-300 ${
-                    focused ? "bg-primary/10" : "bg-white/5 group-hover:bg-primary/10"
-                }`}
-            >
-                <item.icon
-                    className={`h-5 w-5 transition-colors duration-300 ${
-                        focused ? "text-primary" : "text-muted-foreground group-hover:text-primary"
-                    }`}
-                />
-            </div>
-
-            <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3 leading-snug">
-                {item.title}
-            </h3>
-            <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
-                {item.description}
-            </p>
-        </div>
-    </div>
-);
-
-// ─── Mobile: horizontal scroll ────────────────────────────────────────────────
-
-function MobileAbout() {
+function Ticker({ items, reverse, speed }: { items: string[]; reverse?: boolean; speed: string }) {
+    // The list is doubled so the loop has no seam; the copy is hidden from screen readers.
     return (
-        <section className="py-16 bg-background">
-            <div className="px-6 md:px-10 mb-8">
-                <p className="section-label mb-4">About</p>
-                <h2 className="text-4xl sm:text-5xl font-normal mb-5 leading-tight" style={{ fontFamily: "var(--font-elegant), serif" }}>
-                    About<br /><em>Me.</em>
-                </h2>
-                <p className="text-base text-muted-foreground leading-relaxed font-light max-w-xl">
-                    I care about what a product helps people do, how it feels to use, and the code that makes it work.
-                </p>
-                <p className="text-xs text-muted-foreground/70 mt-5">Swipe to explore →</p>
-            </div>
-            <div
-                role="region"
-                aria-label="About Nandan — scroll horizontally for more cards"
-                tabIndex={0}
-                data-lenis-prevent
-                className="flex gap-3 overflow-x-auto snap-x snap-mandatory scroll-px-6 px-6 md:px-10 pb-4 overscroll-x-contain"
+        <div className="ticker-mask">
+            <ul
+                className="ticker gap-2 py-1"
+                data-reverse={reverse ? "" : undefined}
+                style={{ "--speed": speed } as React.CSSProperties}
             >
-                {aboutItems.map((item, i) => (
-                    <Card key={item.title} item={item} index={i} className="flex-none w-[82vw] sm:w-[60vw] snap-start" />
+                {[...items, ...items].map((item, i) => (
+                    <li key={i} aria-hidden={i >= items.length} className="chip !px-5 !py-2.5 !text-lg">
+                        {item}
+                    </li>
                 ))}
-            </div>
-        </section>
+            </ul>
+        </div>
     );
 }
-
-// ─── Desktop: sticky left + scroll-focused cards ──────────────────────────────
-
-function DesktopAbout({ reducedMotion }: { reducedMotion: boolean | null }) {
-    const [focusedIndex, setFocusedIndex] = useState(-1);
-    const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-    useEffect(() => {
-        if (reducedMotion) return;
-
-        const observers = cardRefs.current.map((ref, index) => {
-            if (!ref) return null;
-            const observer = new IntersectionObserver(
-                ([entry]) => {
-                    if (entry.isIntersecting) {
-                        setFocusedIndex(index);
-                    } else {
-                        // Un-focus this card only if it was the focused one
-                        setFocusedIndex((prev) => (prev === index ? -1 : prev));
-                    }
-                },
-                // Card is "focused" when it occupies the center 30% of the viewport
-                { rootMargin: "-35% 0px -35% 0px", threshold: 0 }
-            );
-            observer.observe(ref);
-            return observer;
-        });
-
-        return () => {
-            observers.forEach((obs) => obs?.disconnect());
-        };
-    }, [reducedMotion]);
-
-    return (
-        <section className="py-24">
-            <div className="px-6 md:px-10 lg:px-16">
-                <div className="grid grid-cols-2 gap-12 lg:gap-24 items-start">
-
-                    {/* Left: sticky heading */}
-                    <div className="sticky top-24">
-                        <motion.div
-                            initial={{ opacity: 0, y: reducedMotion ? 0 : 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: reducedMotion ? 0 : 0.6 }}
-                        >
-                            <p className="section-label mb-5">About</p>
-                            <h2
-                                className="text-5xl md:text-6xl lg:text-7xl font-normal leading-none mb-6"
-                                style={{ fontFamily: "var(--font-elegant), serif" }}
-                            >
-                                About<br /><em>Me.</em>
-                            </h2>
-                            <p className="text-base md:text-lg text-muted-foreground leading-relaxed font-light max-w-xs">
-                                I care about what a product helps people do, how it feels to use, and the code that makes it work.
-                            </p>
-                        </motion.div>
-                    </div>
-
-                    {/* Right: stacked cards with scroll-triggered focus */}
-                    <div className="flex flex-col gap-3">
-                        {aboutItems.map((item, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: reducedMotion ? 0 : 24 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: "-60px" }}
-                                transition={{ duration: reducedMotion ? 0 : 0.5, delay: reducedMotion ? 0 : i * 0.08 }}
-                            >
-                                <Card
-                                    item={item}
-                                    index={i}
-                                    focused={!reducedMotion && focusedIndex === i}
-                                    cardRef={(el) => { cardRefs.current[i] = el; }}
-                                />
-                            </motion.div>
-                        ))}
-                    </div>
-
-                </div>
-            </div>
-        </section>
-    );
-}
-
-// ─── Export ───────────────────────────────────────────────────────────────────
 
 export default function About() {
-    const reducedMotion = useReducedMotion();
+    const groups = Object.values(skillsData);
+    const build = [...groups[0], ...groups[1]];
+    const rest = groups.slice(2).flat();
 
     return (
-        <div id="about">
-            {/* Mobile only */}
-            <div className="block lg:hidden">
-                <MobileAbout />
+        <section id="about" className="relative z-10 bg-ink">
+            <div className="wrap flex flex-col gap-8 pt-10 pb-10 md:flex-row md:items-center md:justify-between md:gap-12 md:pt-16 md:pb-14">
+                {/* The source photo is 400px square, so it never renders wider than 17rem. */}
+                <div className="sticker relative w-36 shrink-0 rotate-3 sm:w-44 md:order-2 md:mr-[4%] md:w-64 lg:w-[17rem]">
+                    <div aria-hidden className="absolute inset-0 translate-x-2.5 translate-y-2.5 rounded-[1.75rem] bg-marigold md:translate-x-4 md:translate-y-4" />
+                    <Image
+                        src="/images/nandan.jpg"
+                        alt="Nandan Pathak, smiling, standing in front of green leaves"
+                        width={400}
+                        height={400}
+                        sizes="(min-width: 768px) 17rem, 11rem"
+                        className="relative aspect-square w-full rounded-[1.75rem] object-cover"
+                    />
+                </div>
+
+                <p
+                    className="aside max-w-[20ch] text-cream"
+                    style={{ fontSize: "clamp(2rem, 5.4vw, 5rem)", lineHeight: 1.06, fontWeight: 600 }}
+                >
+                    I write code for a living. The part I enjoy most is deciding{" "}
+                    <span className="accent">what&apos;s worth building.</span>
+                </p>
             </div>
-            {/* Desktop only */}
-            <div className="hidden lg:block">
-                <DesktopAbout reducedMotion={reducedMotion} />
+
+            {/* #skills stays as an anchor so old links and the assistant still land here. */}
+            <div id="skills" className="space-y-2 pb-16 md:pb-24" aria-label="What I work with">
+                <Ticker items={build} speed="55s" />
+                <Ticker items={rest} reverse speed="60s" />
             </div>
-        </div>
+        </section>
     );
 }

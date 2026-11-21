@@ -1,328 +1,183 @@
-"use client";
-
-import React, { useState } from "react";
-import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, Download, Github, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { projectsData } from "@/data/projects";
 import { Project } from "@/types";
-import { useSwipe } from "@/hooks/useSwipe";
 
-function ProjectMediaCarousel({ project }: { project: Project }) {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const media = project.media;
-    const reducedMotion = useReducedMotion();
-    const swipe = useSwipe(direction => {
-        if (media && media.length > 1) {
-            setCurrentIndex(index => (index + (direction === "left" ? 1 : -1) + media.length) % media.length);
-        }
-    });
+const world = (project: Project) =>
+    ({
+        "--w-bg": project.theme?.bg,
+        "--w-fg": project.theme?.fg,
+        "--w-accent": project.theme?.accent,
+    }) as CSSProperties;
 
-    if (!media || media.length === 0) {
-        if (!project.image) {
-            // Placeholder until real screenshots/demo are added
-            return (
-                <div className="h-44 sm:h-48 relative overflow-hidden bg-card z-10 flex items-center justify-center">
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.07] via-transparent to-transparent pointer-events-none" />
-                    <span
-                        className="text-4xl italic text-muted-foreground/40 group-hover:text-primary/50 transition-colors duration-500 select-none"
-                        style={{ fontFamily: "var(--font-elegant), serif" }}
-                    >
-                        {project.title}
-                    </span>
-                    <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent pointer-events-none" />
-                </div>
-            );
-        }
+// A little lean on each phone, so they read as objects and not a grid.
+const LEAN = ["rotate(-5deg) translateY(6%)", "rotate(1.5deg)", "rotate(6deg) translateY(9%)"];
+
+function Shots({ project, priority }: { project: Project; priority?: boolean }) {
+    const shots = project.homeShots;
+    if (!shots) return null;
+
+    if (shots.orientation === "landscape") {
         return (
-            <div className="h-44 sm:h-48 relative overflow-hidden bg-card z-10">
-                <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent pointer-events-none" />
+            <div className="tilt-group flex h-full items-start justify-center lg:items-center">
+                <div
+                    className="tilt relative aspect-[16/10] w-full max-w-[52rem] overflow-hidden rounded-xl shadow-[0_40px_70px_-30px_rgb(0_0_0/0.55)] ring-1 ring-black/10 lg:rounded-2xl"
+                    style={{ transform: "rotate(-2deg)" }}
+                >
+                    <Image
+                        src={shots.urls[0]}
+                        alt={`${project.title} screenshot`}
+                        fill
+                        priority={priority}
+                        sizes="(min-width: 1024px) 52vw, 100vw"
+                        className="object-cover object-top"
+                    />
+                </div>
             </div>
         );
     }
 
-    const next = (e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setCurrentIndex((prev) => (prev + 1) % media.length);
-    };
-
-    const prev = (e: React.MouseEvent) => {
-        e.preventDefault();
-        e.stopPropagation();
-        setCurrentIndex((prev) => (prev - 1 + media.length) % media.length);
-    };
+    const lean = shots.urls.length === 2 ? [LEAN[0], LEAN[2]] : LEAN;
 
     return (
-        <div
-            {...swipe}
-            role="region"
-            aria-roledescription="carousel"
-            aria-label={`${project.title} photos`}
-            className="project-carousel h-44 sm:h-48 relative bg-card z-10 group/carousel overflow-hidden rounded-t-xl"
-        >
-            <AnimatePresence mode="wait">
-                <motion.div
-                    key={currentIndex}
-                    initial={{ opacity: 0, scale: reducedMotion ? 1 : 1.05 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: reducedMotion ? 1 : 0.95 }}
-                    transition={{ duration: reducedMotion ? 0 : 0.4, ease: "easeOut" }}
-                    className="absolute inset-0 w-full h-full flex items-center justify-center bg-black/10"
+        <div className="tilt-group flex h-full items-start justify-center gap-[3%] pt-4 lg:items-center lg:pt-0">
+            {shots.urls.map((url, i) => (
+                <div
+                    key={url}
+                    className={`phone tilt aspect-[9/19] max-w-[17rem] ${shots.urls.length === 2 ? "w-[44%]" : "w-[36%]"} lg:w-[31%]`}
+                    style={{ transform: lean[i] }}
                 >
-                    {/* Blurred background for premium aspect ratio filling */}
-                    {media[currentIndex].type === 'video' ? (
-                        <video
-                            src={media[currentIndex].url}
-                            loop
-                            muted
-                            autoPlay
-                            playsInline
-                            className="absolute inset-0 object-cover w-full h-full blur-xl opacity-30 scale-110 pointer-events-none"
-                        />
-                    ) : (
-                        <Image
-                            src={media[currentIndex].url}
-                            alt=""
-                            fill
-                            className="absolute inset-0 object-cover blur-xl opacity-30 scale-110 pointer-events-none"
-                        />
-                    )}
-
-                    {/* Foreground contained asset */}
-                    <div className="absolute inset-0 z-10">
-                        {media[currentIndex].type === 'video' ? (
-                            <video
-                                src={media[currentIndex].url}
-                                loop
-                                muted
-                                autoPlay
-                                playsInline
-                                className="object-contain w-full h-full drop-shadow-2xl"
-                            />
-                        ) : (
-                            <Image
-                                src={media[currentIndex].url}
-                                alt={`${project.title} media ${currentIndex + 1}`}
-                                fill
-                                className="object-contain drop-shadow-2xl"
-                            />
-                        )}
-                    </div>
-                </motion.div>
-            </AnimatePresence>
-
-            {media.length > 1 && (
-                <>
-                    <button
-                        onClick={prev}
-                        className="carousel-arrow absolute left-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-black/40 text-white opacity-0 group-hover/carousel:opacity-100 transition-opacity z-20 hover:bg-black/80 backdrop-blur-sm"
-                        aria-label="Previous image"
-                    >
-                        <ChevronLeft className="w-5 h-5" />
-                    </button>
-                    <button
-                        onClick={next}
-                        className="carousel-arrow absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full bg-black/40 text-white opacity-0 group-hover/carousel:opacity-100 transition-opacity z-20 hover:bg-black/80 backdrop-blur-sm"
-                        aria-label="Next image"
-                    >
-                        <ChevronRight className="w-5 h-5" />
-                    </button>
-                    <div className="carousel-pagination absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
-                        {media.map((_, idx) => (
-                            <button
-                                type="button"
-                                aria-label={`Show ${project.title} photo ${idx + 1}`}
-                                aria-pressed={idx === currentIndex}
-                                key={idx}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    setCurrentIndex(idx);
-                                }}
-                                className={`w-1.5 h-1.5 rounded-full cursor-pointer transition-all duration-300 ${idx === currentIndex ? "bg-white w-3" : "bg-white/50"}`}
-                            />
-                        ))}
-                    </div>
-                </>
-            )}
-            {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent pointer-events-none z-10" />
+                    <Image
+                        src={url}
+                        alt={`${project.title} screen ${i + 1}`}
+                        fill
+                        priority={priority}
+                        sizes="(min-width: 1024px) 17rem, 44vw"
+                        className="object-cover object-top"
+                    />
+                </div>
+            ))}
         </div>
     );
 }
 
+/** One extra action beside "Read the story": whatever lets you try the thing fastest. */
+function quickLink(project: Project) {
+    if (project.download) return { href: project.download.url, label: "Get the APK", external: false };
+    if (project.tryIt && !project.demo) return { href: project.tryIt.url, label: project.tryIt.label, external: true };
+    if (project.demo) return { href: project.demo.url, label: "Watch the demo", external: true };
+    return null;
+}
+
+function repoLinks(project: Project) {
+    if (typeof project.github === "string") {
+        return project.github !== "#" ? [{ label: "Code", url: project.github }] : [];
+    }
+    return (project.github ?? []).map((g) => ({ label: `${g.label} code`, url: g.url }));
+}
+
 export default function Projects() {
-    const reducedMotion = useReducedMotion();
+    const featured = projectsData.filter((p) => p.slug && p.details && p.pitch);
+    const smaller = projectsData.filter((p) => !featured.includes(p));
 
     return (
-        <section id="projects" className="py-24">
-            <div className="px-6 md:px-10 lg:px-16">
-
-                {/* Section header */}
-                <motion.div
-                    initial={{ opacity: 0, y: reducedMotion ? 0 : 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: reducedMotion ? 0 : 0.6 }}
-                    className="mb-4"
-                >
-                    <p className="section-label mb-5">Work</p>
-                    <h2
-                        className="text-5xl md:text-6xl lg:text-7xl font-normal leading-none mb-4"
-                        style={{ fontFamily: "var(--font-elegant), serif" }}
-                    >
-                        Selected<br /><em>projects.</em>
-                    </h2>
-                    <p className="text-muted-foreground text-sm leading-relaxed max-w-2xl mb-16">
-                        A selection of things I&apos;ve built, the problems they address, and the decisions behind the experience.
-                    </p>
-                </motion.div>
-
-                {/* Project grid */}
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 max-w-6xl">
-                    {projectsData.map((project, i) => (
-                        <motion.div
-                            key={i}
-                            initial={{ opacity: 0, y: reducedMotion ? 0 : 24 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-40px" }}
-                            transition={{ duration: reducedMotion ? 0 : 0.5, delay: reducedMotion ? 0 : i * 0.08 }}
-                            className="group relative overflow-hidden bg-card/30 border border-border hover:border-primary/30 transition-colors duration-500 rounded-xl"
-                        >
-                            {/* Project number — large decorative */}
-                            <span
-                                className="absolute -top-3 right-4 text-[6rem] font-bold leading-none text-border/50 select-none pointer-events-none z-0"
-                                style={{ fontFamily: "var(--font-elegant), serif" }}
-                            >
-                                0{i + 1}
-                            </span>
-
-                            <ProjectMediaCarousel project={project} />
-
-                            {/* Content */}
-                            <div className="relative z-10 p-5 md:p-6">
-                                <div className="flex justify-between items-start mb-3 max-lg:flex-wrap max-lg:gap-3">
-                                    <div className="flex flex-col gap-1">
-                                        <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
-                                            {project.title}
-                                        </h3>
-                                        {project.comingSoon && (
-                                            <span className="inline-flex items-center px-2 py-0.5 text-[10px] font-mono uppercase tracking-[0.16em] rounded-full border border-amber-400/40 bg-amber-500/10 text-amber-200">
-                                                Coming soon
-                                            </span>
-                                        )}
-                                    </div>
-                                    {!project.comingSoon && (
-                                        <div className="project-actions flex gap-2 shrink-0 ml-2 relative z-20 max-lg:ml-0 max-lg:flex-wrap">
-                                            {/* Installable build — the one action a visitor
-                                                can take right now, so it leads. */}
-                                            {project.download && (
-                                                <a
-                                                    href={project.download.url}
-                                                    aria-label={`Download ${project.title}`}
-                                                    title={project.download.meta}
-                                                    className="flex items-center gap-1.5 py-2 px-1.5 text-primary/70 hover:text-primary transition-colors duration-200 group/dl"
-                                                >
-                                                    <Download className="w-4 h-4 group-hover/dl:translate-y-0.5 transition-transform duration-300" />
-                                                    <span className="text-[10px] uppercase font-mono tracking-wider opacity-70 group-hover/dl:opacity-100 transition-opacity">
-                                                        App
-                                                    </span>
-                                                </a>
-                                            )}
-
-                                            {/* Single Github Link */}
-                                            {typeof project.github === "string" && project.github !== "#" && (
-                                                <a
-                                                    href={project.github}
-                                                    target="_blank"
-                                                    aria-label="View source code"
-                                                    className="p-2 flex items-center text-muted-foreground hover:text-primary transition-colors duration-200"
-                                                >
-                                                    <Github className="w-4 h-4" />
-                                                </a>
-                                            )}
-
-                                            {/* Multiple Github Links */}
-                                            {Array.isArray(project.github) && project.github.map((gh, idx) => (
-                                                <a
-                                                    key={idx}
-                                                    href={gh.url}
-                                                    target="_blank"
-                                                    aria-label={`View ${gh.label} source code`}
-                                                    className="flex items-center gap-1.5 py-2 px-1.5 text-muted-foreground hover:text-primary transition-all duration-200 group/gh"
-                                                >
-                                                    <Github className="w-4 h-4" />
-                                                    <span className="text-[10px] uppercase font-mono tracking-wider opacity-60 group-hover/gh:opacity-100 transition-opacity">
-                                                        {gh.label}
-                                                    </span>
-                                                </a>
-                                            ))}
-
-                                            {project.link && project.link !== "#" && (
-                                                <a
-                                                    href={project.link}
-                                                    target="_blank"
-                                                    aria-label="View live project"
-                                                    className="p-2 ml-1 flex items-center text-muted-foreground hover:text-primary transition-colors duration-200"
-                                                >
-                                                    <ArrowUpRight className="w-4 h-4" />
-                                                </a>
-                                            )}
-                                        </div>
-                                    )}
-                                </div>
-
-                                <p className="text-muted-foreground text-sm leading-relaxed mb-5">
-                                    {project.description}
+        <section id="projects" aria-label="Work">
+            {featured.map((project, i) => {
+                const quick = quickLink(project);
+                return (
+                    <article key={project.slug} className="sheet world" style={{ ...world(project), zIndex: i + 1 }}>
+                        <div className="wrap flex h-full flex-col gap-6 pb-0 pt-20 lg:grid lg:grid-cols-12 lg:items-center lg:gap-10 lg:pb-10 lg:pt-24">
+                            <div className="lg:col-span-5">
+                                <p className="flex items-center gap-3 font-semibold">
+                                    <span className="accent tabular-nums">
+                                        {i + 1}/{featured.length}
+                                    </span>
+                                    <span className="opacity-70">{project.kind}</span>
                                 </p>
 
-                                <div className="flex flex-wrap gap-2">
-                                    {project.tags.map((tag) => (
-                                        <span
-                                            key={tag}
-                                            className="px-2.5 py-0.5 text-xs font-mono bg-primary/10 text-primary border border-primary/20"
-                                        >
-                                            {tag}
-                                        </span>
-                                    ))}
-                                </div>
+                                <h2
+                                    className="poster mt-3 -ml-[0.04em] text-[21vw] sm:text-[15vw] lg:text-[9.6vw] 2xl:text-[9.5rem]"
+                                >
+                                    <Link href={`/projects/${project.slug}`}>{project.title}</Link>
+                                </h2>
 
-                                {project.demo && (
-                                    <a
-                                        href={project.demo.url}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="relative z-20 mt-5 inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-primary hover:underline"
-                                    >
-                                        Watch demo <ArrowUpRight className="w-3.5 h-3.5" />
-                                    </a>
+                                <p className="aside mt-4 max-w-[24ch]" style={{ fontSize: "clamp(1.35rem, 2.4vw, 2.25rem)" }}>
+                                    {project.pitch}
+                                </p>
+
+                                {project.facts && (
+                                    <ul className="mt-5 hidden flex-wrap gap-2 sm:flex">
+                                        {project.facts.map((fact) => (
+                                            <li key={fact} className="chip">{fact}</li>
+                                        ))}
+                                    </ul>
                                 )}
 
-                                {project.slug && project.details && (
+                                <div className="mt-6 flex flex-wrap items-center gap-3">
                                     <Link
                                         href={`/projects/${project.slug}`}
-                                        className="group/cs relative z-20 mt-5 inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-primary"
+                                        className={`btn btn-solid ${i === 0 ? "ringed" : ""}`}
                                     >
-                                        <span className="relative">
-                                            Read case study
-                                            <span className="absolute -bottom-0.5 left-0 w-full h-px bg-primary/30 group-hover/cs:bg-primary transition-colors duration-300" />
-                                        </span>
-                                        <ArrowRight className="w-3.5 h-3.5 group-hover/cs:translate-x-1 transition-transform duration-300" />
+                                        Read the story
                                     </Link>
-                                )}
+                                    {quick && (
+                                        <a
+                                            href={quick.href}
+                                            className="btn btn-line"
+                                            {...(quick.external ? { target: "_blank", rel: "noreferrer" } : {})}
+                                        >
+                                            {quick.label}
+                                        </a>
+                                    )}
+                                </div>
                             </div>
-                        </motion.div>
-                    ))}
+
+                            <Link
+                                href={`/projects/${project.slug}`}
+                                aria-label={`Read the ${project.title} story`}
+                                tabIndex={-1}
+                                className="block min-h-[16rem] flex-1 lg:col-span-7 lg:h-[78svh] lg:min-h-0"
+                            >
+                                <Shots project={project} priority={i === 0} />
+                            </Link>
+                        </div>
+                    </article>
+                );
+            })}
+
+            {/* Everything after the sheets has to sit above them. */}
+            {smaller.length > 0 && (
+                <div className="sheet world !relative !h-auto" style={{ zIndex: featured.length + 1 }}>
+                    <div className="wrap py-16 md:py-24">
+                        <h2 className="display text-3xl sm:text-4xl">
+                            Also made <span className="aside accent">smaller things</span>
+                        </h2>
+                        <ul className="mt-8 grid gap-4 md:grid-cols-2">
+                            {smaller.map((project) => (
+                                <li key={project.title} className="rounded-3xl bg-coal p-6 sm:p-8">
+                                    <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                                        <h3 className="display text-3xl">{project.title}</h3>
+                                        <p className="text-muted-foreground">{project.kind}</p>
+                                    </div>
+                                    <p className="mt-3 max-w-[46ch] text-lg leading-snug text-cream/85">
+                                        {project.description}
+                                    </p>
+                                    {repoLinks(project).length > 0 && (
+                                        <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+                                            {repoLinks(project).map((repo) => (
+                                                <a key={repo.url} href={repo.url} target="_blank" rel="noreferrer" className="link">
+                                                    {repo.label}
+                                                </a>
+                                            ))}
+                                        </div>
+                                    )}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
-            </div>
+            )}
         </section>
     );
 }

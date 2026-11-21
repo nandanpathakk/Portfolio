@@ -2,6 +2,7 @@
 
 import { ReactLenis as Lenis } from "lenis/react";
 import { ReactNode } from "react";
+import { onVirtualScroll } from "@/lib/panelSnap";
 
 interface LenisProps {
     root?: boolean;
@@ -21,6 +22,8 @@ export function ReactLenis({ root, options, className, children }: LenisProps) {
                 lerp: 0.1,
                 duration: 1.5,
                 smoothWheel: true,
+                // Lets the home page step through the project panels one at a time.
+                virtualScroll: onVirtualScroll,
             }}
             className={className}
         >

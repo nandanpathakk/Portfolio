@@ -73,6 +73,16 @@ export interface Project {
     chatMedia?: ProjectChatMedia;
     comingSoon?: boolean;
     details?: ProjectDetails;
+    /** One plain line under the title on the home page, e.g. "Android app, 2026". */
+    kind?: string;
+    /** One sentence for the home page. The case study carries the rest. */
+    pitch?: string;
+    /** Three or four short facts shown as chips. */
+    facts?: string[];
+    /** The project's own colours: its panel on the home page and its case study header. */
+    theme?: { bg: string; fg: string; accent: string };
+    /** Screens shown on the home page. */
+    homeShots?: { urls: string[]; orientation: 'portrait' | 'landscape' };
 }
 
 /** A section of the single-page site the assistant can point a visitor at. */
@@ -95,6 +105,8 @@ export interface Experience {
     };
     description: string;
     bullets?: string[];
+    /** The two or three things worth saying on the home page. */
+    highlights?: string[];
     tech?: string[];
 }
 

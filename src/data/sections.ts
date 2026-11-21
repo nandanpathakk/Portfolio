@@ -22,12 +22,12 @@ export const siteSections: SiteSection[] = [
     {
         id: "about",
         label: "About",
-        hint: "who he is and how he approaches building useful products",
+        hint: "who he is, why he enjoys the product side, and what he works with",
     },
     {
         id: "skills",
         label: "Skills",
-        hint: "product and UX capabilities, languages, frameworks and tools, grouped",
+        hint: "the short list of languages, frameworks and tools, inside the About section",
     },
     {
         id: "contact",
