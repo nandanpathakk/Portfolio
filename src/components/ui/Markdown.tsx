@@ -239,7 +239,7 @@ export const Markdown = memo(function Markdown({ content }: { content: string })
                         return (
                             <p
                                 key={key}
-                                className={`${size} font-display font-normal text-foreground pt-1`}
+                                className={`${size} font-sans font-semibold text-foreground pt-1`}
                             >
                                 {renderInline(block.text, key)}
                             </p>

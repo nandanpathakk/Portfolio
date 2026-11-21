@@ -6,7 +6,9 @@ import { motion, useScroll } from "framer-motion";
 export type Chapter = { id: string; label: string };
 
 /**
- * A rail of the case study's sections, marking the one being read.
+ * A rail of the case study's sections, marking the one being read. It is a
+ * sticky column beside the text (placed by CaseStudy), not a fixed overlay, so
+ * it can never sit on top of the content.
  *
  * The links are plain anchors so <ScrollManager /> intercepts them and scrolls
  * through Lenis, exactly as the main nav does.
@@ -56,14 +58,14 @@ export default function CaseStudyNav({ chapters }: { chapters: Chapter[] }) {
             <motion.div
                 aria-hidden
                 style={{ scaleX: scrollYProgress }}
-                className="fixed inset-x-0 top-0 z-[60] h-[2px] origin-left bg-primary/70"
+                className="fixed inset-x-0 top-0 z-[60] h-[3px] origin-left bg-marigold"
             />
 
             <nav
                 aria-label="Case study sections"
-                className="hidden xl:block fixed right-8 top-1/2 -translate-y-1/2 z-30"
+                className="hidden xl:block sticky top-28 self-start"
             >
-                <ul className="space-y-3.5">
+                <ul className="space-y-2.5 border-l border-border">
                     {chapters.map((chapter) => {
                         const isActive = chapter.id === active;
 
@@ -72,22 +74,12 @@ export default function CaseStudyNav({ chapters }: { chapters: Chapter[] }) {
                                 <a
                                     href={`#${chapter.id}`}
                                     aria-current={isActive ? "true" : undefined}
-                                    className="group flex items-center justify-end gap-3"
+                                    className={`-ml-px block border-l-2 pl-4 leading-tight transition-colors duration-200 ${isActive
+                                        ? "border-marigold font-semibold text-cream"
+                                        : "border-transparent text-muted-foreground hover:text-cream"
+                                        }`}
                                 >
-                                    <span
-                                        className={`text-[10px] font-mono uppercase tracking-[0.18em] transition-colors duration-300 ${isActive
-                                            ? "text-primary"
-                                            : "text-muted-foreground/45 group-hover:text-muted-foreground"
-                                            }`}
-                                    >
-                                        {chapter.label}
-                                    </span>
-                                    <span
-                                        className={`block h-px transition-all duration-300 ${isActive
-                                            ? "w-8 bg-primary"
-                                            : "w-3.5 bg-border group-hover:w-6 group-hover:bg-muted-foreground/60"
-                                            }`}
-                                    />
+                                    {chapter.label}
                                 </a>
                             </li>
                         );

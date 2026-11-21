@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 export default function Error({
     error,
@@ -10,25 +10,18 @@ export default function Error({
     reset: () => void;
 }) {
     useEffect(() => {
-        // Log the error to an error reporting service
         console.error(error);
     }, [error]);
 
     return (
-        <div className="h-screen w-full flex flex-col items-center justify-center bg-background text-center px-4">
-            <h2 className="text-3xl font-bold mb-4">Something went wrong!</h2>
-            <p className="text-muted-foreground mb-8 max-w-md">
-                An unexpected error has occurred. We apologize for the inconvenience.
+        <main className="wrap flex min-h-dvh flex-col justify-center py-32">
+            <h1 className="display text-5xl sm:text-7xl">This page failed to load</h1>
+            <p className="reading mt-6 max-w-[44ch] text-muted-foreground">
+                Something broke while rendering it. Loading it again usually fixes it.
             </p>
-            <button
-                onClick={
-                    // Attempt to recover by trying to re-render the segment
-                    () => reset()
-                }
-                className="px-6 py-2 bg-white text-black rounded-full font-medium hover:bg-white/90 transition-colors"
-            >
-                Try again
-            </button>
-        </div>
+            <div className="mt-8">
+                <button onClick={() => reset()} className="btn btn-solid">Load it again</button>
+            </div>
+        </main>
     );
 }

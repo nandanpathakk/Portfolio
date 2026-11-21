@@ -1,6 +1,6 @@
 export const profileData = {
     summary:
-        "I build web and mobile products, with care for user needs, clear experiences, and the code that makes them work.",
+        "I build software, and I care a little too much about who it's for.",
     opportunityStatement:
-        "I'm open to developer and product management roles where I can help shape and build useful products.",
+        "I'm open to developer and product management roles. Email is the quickest way to reach me.",
 };

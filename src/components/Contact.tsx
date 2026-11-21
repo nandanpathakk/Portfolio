@@ -1,91 +1,45 @@
-"use client";
-
-import { motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import type { CSSProperties } from "react";
 import { LINKS } from "@/components/config/links";
 import { profileData } from "@/data/profile";
 
+const marigold = { "--w-bg": "#ffb319", "--w-fg": "#121016", "--w-accent": "#121016" } as CSSProperties;
+
 export default function Contact() {
-    const reducedMotion = useReducedMotion();
-
     return (
-        <section id="contact" className="py-24 md:py-32 relative overflow-hidden">
+        <section
+            id="contact"
+            className="world relative z-10 rounded-t-[clamp(1.5rem,4vw,3rem)]"
+            style={marigold}
+        >
+            <div className="wrap pt-16 pb-28 md:pt-24 md:pb-24">
+                <h2 className="poster -ml-[0.05em]" style={{ fontSize: "min(27vw, 22rem)" }}>
+                    Say hi
+                </h2>
 
-            {/* Giant ambient background text */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden -z-10">
-                <span
-                    className="font-normal leading-none text-border/20 opacity-60"
-                    style={{
-                        fontFamily: "var(--font-elegant), serif",
-                        fontSize: "clamp(6rem, 28vw, 28rem)",
-                    }}
-                >
-                    hello.
-                </span>
-            </div>
-
-            <div className="px-6 md:px-10 lg:px-16 relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, y: reducedMotion ? 0 : 24 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: reducedMotion ? 0 : 0.7 }}
-                >
-                    <p className="section-label mb-5">Contact</p>
-
-                    <h2
-                        className="text-5xl md:text-7xl lg:text-8xl font-normal leading-[1.0] mb-6 max-w-3xl"
-                        style={{ fontFamily: "var(--font-elegant), serif" }}
-                    >
-                        Let&apos;s build<br />
-                        something<br />
-                        <em>great.</em>
-                    </h2>
-
-                    <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-xl mb-10 md:mb-14">
+                <div className="mt-8 grid gap-8 md:mt-12 md:grid-cols-12 md:items-end">
+                    <p className="aside md:col-span-6" style={{ fontSize: "clamp(1.5rem, 2.6vw, 2.5rem)" }}>
                         {profileData.opportunityStatement}
                     </p>
 
-                    {/* Primary CTA — email as large text link */}
-                    <motion.a
-                        href={`mailto:${LINKS.EMAIL}`}
-                        initial={{ opacity: 0, x: reducedMotion ? 0 : -16 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: reducedMotion ? 0 : 0.6, delay: reducedMotion ? 0 : 0.15 }}
-                        className="group inline-flex max-w-full items-center gap-4 max-sm:gap-2 text-xl max-sm:text-base md:text-2xl lg:text-3xl text-muted-foreground hover:text-primary transition-colors duration-300 mb-12 md:mb-16"
-                    >
-                        <span className="min-w-0 max-lg:break-all border-b border-muted-foreground/30 group-hover:border-primary transition-colors duration-300 pb-1">
+                    <div className="md:col-span-6 md:text-right">
+                        <a
+                            href={`mailto:${LINKS.EMAIL}`}
+                            className="display link break-all"
+                            style={{ fontSize: "clamp(1.2rem, 2.5vw, 2.5rem)" }}
+                        >
                             {LINKS.EMAIL}
-                        </span>
-                        <ArrowUpRight
-                            size={24}
-                            className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-200 shrink-0"
-                        />
-                    </motion.a>
-
-                    {/* Secondary social links */}
-                    <div className="flex items-center gap-8 border-t border-border pt-8">
-                        <a
-                            href={LINKS.GITHUB}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="group flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors duration-200"
-                        >
-                            GitHub
-                            <ArrowUpRight size={11} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
                         </a>
-                        <a
-                            href={LINKS.LINKEDIN}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="group flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-muted-foreground hover:text-primary transition-colors duration-200"
-                        >
-                            LinkedIn
-                            <ArrowUpRight size={11} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
-                        </a>
+                        <div className="mt-5 flex flex-wrap gap-3 md:justify-end">
+                            <a href={LINKS.LINKEDIN} target="_blank" rel="noreferrer" className="btn btn-solid">LinkedIn</a>
+                            <a href={LINKS.GITHUB} target="_blank" rel="noreferrer" className="btn btn-line">GitHub</a>
+                            <a href={LINKS.RESUME} target="_blank" rel="noreferrer" className="btn btn-line">Résumé</a>
+                        </div>
                     </div>
-                </motion.div>
+                </div>
+
+                <p className="mt-16 border-t border-ink/25 pt-5 font-medium">
+                    © {new Date().getFullYear()} Nandan Pathak
+                </p>
             </div>
         </section>
     );

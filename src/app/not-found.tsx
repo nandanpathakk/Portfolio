@@ -1,28 +1,15 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 export default function NotFound() {
     return (
-        <div className="h-screen w-full flex flex-col items-center justify-center bg-black text-white relative overflow-hidden">
-            {/* Glitch Effect Number */}
-            <h1 className="text-[12rem] md:text-[20rem] font-bold text-white/5 font-mono select-none absolute z-0">
-                404
-            </h1>
-
-            <div className="z-10 text-center space-y-6 animate-in fade-in zoom-in duration-500">
-                <h2 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">
-                    Page Not Found
-                </h2>
-                <p className="text-muted-foreground text-lg max-w-md mx-auto">
-                    The page you are looking for does not exist or has been moved to another dimension.
-                </p>
-
-                <Link
-                    href="/"
-                    className="inline-block px-8 py-3 rounded-full bg-white text-black font-medium hover:scale-105 transition-transform"
-                >
-                    Return Home
-                </Link>
+        <main className="wrap flex min-h-dvh flex-col justify-center py-32">
+            <h1 className="poster text-marigold text-6xl sm:text-8xl">This page isn&apos;t here</h1>
+            <p className="reading mt-6 max-w-[44ch] text-muted-foreground">
+                The link may be old, or I may have moved something. Everything I&apos;ve made is on the home page.
+            </p>
+            <div className="mt-8">
+                <Link href="/" className="btn btn-solid">Go to the home page</Link>
             </div>
-        </div>
+        </main>
     );
 }

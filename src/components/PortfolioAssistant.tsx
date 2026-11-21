@@ -5,7 +5,7 @@ import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Search, Sparkles, X, ArrowUpRight, ArrowDown } from "lucide-react";
+import { Sparkles, X, ArrowUpRight, ArrowDown } from "lucide-react";
 import { Markdown } from "@/components/ui/Markdown";
 import { assistantQuestions } from "@/data/assistant-questions";
 
@@ -182,7 +182,7 @@ function SuggestionPanel({
             onMouseEnter={() => onHover(index)}
             onClick={() => onPick(suggestion)}
             className={`flex w-full items-center gap-2.5 rounded-xl border px-3.5 py-2.5 text-left text-xs sm:text-sm backdrop-blur-md transition-colors ${isActive
-              ? "border-primary/40 bg-primary/[0.09] text-foreground"
+              ? "border-primary/60 bg-secondary text-foreground"
               : "border-border bg-card/90 text-muted-foreground hover:text-foreground hover:border-primary/25"
               }`}
           >
@@ -728,12 +728,12 @@ export function PortfolioAssistant() {
             }
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ duration: reducedMotion ? 0 : 0.35, ease: "easeOut" }}
-            className="flex items-center gap-3 rounded-full bg-card/90 backdrop-blur-md border border-border px-4 py-2.5 shadow-lg"
+            className="assistant-bar flex items-center gap-3 rounded-full bg-card/95 backdrop-blur-md border border-border px-4 py-2.5 shadow-lg"
           >
-            <div className="flex items-center justify-center h-7 w-7 rounded-full bg-primary/15 text-primary">
-              <Search className="h-3.5 w-3.5" />
+            <div className="assistant-bar__icon flex shrink-0 items-center justify-center h-7 w-7 rounded-full bg-primary/15 text-primary">
+              <Sparkles className="h-4 w-4" />
             </div>
-            <div className="relative flex-1 min-w-0 flex items-center">
+            <div className="assistant-bar__field relative flex-1 min-w-0 flex items-center">
               <textarea
                 ref={searchInputRef}
                 value={input}

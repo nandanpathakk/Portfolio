@@ -59,6 +59,16 @@ export default function ScrollManager() {
             window.scrollTo(0, y);
         };
 
+        // A refresh starts at the top. Without this, a hash left in the URL by
+        // an earlier nav click (say #contact) sends every reload to the footer.
+        if (!handledFirstLoad) {
+            handledFirstLoad = true;
+            const [entry] = performance.getEntriesByType("navigation") as PerformanceNavigationTiming[];
+            if (entry?.type === "reload" && window.location.hash) {
+                window.history.replaceState(null, "", window.location.pathname + window.location.search);
+            }
+        }
+
         const hash = safeHash();
 
         if (hash) {
@@ -89,9 +99,9 @@ export default function ScrollManager() {
             };
 
             toTop();
-            // The terminal input uses autoFocus, which can yank the page down
+            // Anything that autofocuses on mount can yank the page down
             // after paint — re-assert the top over the next few ticks.
-            [0, 60, 200].forEach((d) => timers.push(setTimeout(toTop, d)));
+            [0, 60, 200, 500].forEach((d) => timers.push(setTimeout(toTop, d)));
         }
 
         return () => {
@@ -195,6 +205,8 @@ export default function ScrollManager() {
 
     return null;
 }
+
+let handledFirstLoad = false;
 
 function decodeHash(raw: string): string | null {
     let hash = raw;
